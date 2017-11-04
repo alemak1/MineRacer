@@ -7,15 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113A1FAC7046006D38FB /* exhaust.scnp */; };
+		BD2B113D1FAC7046006D38FB /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113B1FAC7046006D38FB /* smoke.png */; };
+		BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C651FAD90110059F4FA /* CompassDirection.swift */; };
+		BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C671FAD94910059F4FA /* BasicCharacter.swift */; };
+		BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD381DAD1FADBDEE008963A0 /* GameHelper.swift */; };
 		BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */; };
 		BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4217261FAC2F8300DB3E0F /* art.scnassets */; };
 		BD4217291FAC2F8300DB3E0F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217281FAC2F8300DB3E0F /* GameViewController.swift */; };
 		BD42172C1FAC2F8300DB3E0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD42172A1FAC2F8300DB3E0F /* Main.storyboard */; };
 		BD42172E1FAC2F8300DB3E0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD42172D1FAC2F8300DB3E0F /* Assets.xcassets */; };
 		BD4217311FAC2F8300DB3E0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD42172F1FAC2F8300DB3E0F /* LaunchScreen.storyboard */; };
+		BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BD2B113A1FAC7046006D38FB /* exhaust.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = exhaust.scnp; sourceTree = "<group>"; };
+		BD2B113B1FAC7046006D38FB /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
+		BD348C651FAD90110059F4FA /* CompassDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassDirection.swift; sourceTree = "<group>"; };
+		BD348C671FAD94910059F4FA /* BasicCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCharacter.swift; sourceTree = "<group>"; };
+		BD381DAD1FADBDEE008963A0 /* GameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
 		BD4217211FAC2F8300DB3E0F /* Mine Racer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mine Racer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD4217261FAC2F8300DB3E0F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -24,6 +35,7 @@
 		BD42172D1FAC2F8300DB3E0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD4217301FAC2F8300DB3E0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD4217321FAC2F8300DB3E0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionMask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +52,8 @@
 		BD4217181FAC2F8300DB3E0F = {
 			isa = PBXGroup;
 			children = (
+				BD2B113A1FAC7046006D38FB /* exhaust.scnp */,
+				BD2B113B1FAC7046006D38FB /* smoke.png */,
 				BD4217231FAC2F8300DB3E0F /* Mine Racer */,
 				BD4217221FAC2F8300DB3E0F /* Products */,
 			);
@@ -63,6 +77,10 @@
 				BD42172D1FAC2F8300DB3E0F /* Assets.xcassets */,
 				BD42172F1FAC2F8300DB3E0F /* LaunchScreen.storyboard */,
 				BD4217321FAC2F8300DB3E0F /* Info.plist */,
+				BD348C651FAD90110059F4FA /* CompassDirection.swift */,
+				BD348C671FAD94910059F4FA /* BasicCharacter.swift */,
+				BD381DAD1FADBDEE008963A0 /* GameHelper.swift */,
+				BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */,
 			);
 			path = "Mine Racer";
 			sourceTree = "<group>";
@@ -128,6 +146,8 @@
 			files = (
 				BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */,
 				BD4217311FAC2F8300DB3E0F /* LaunchScreen.storyboard in Resources */,
+				BD2B113D1FAC7046006D38FB /* smoke.png in Resources */,
+				BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */,
 				BD42172E1FAC2F8300DB3E0F /* Assets.xcassets in Resources */,
 				BD42172C1FAC2F8300DB3E0F /* Main.storyboard in Resources */,
 			);
@@ -140,7 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */,
+				BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */,
 				BD4217291FAC2F8300DB3E0F /* GameViewController.swift in Sources */,
+				BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */,
+				BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */,
 				BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
