@@ -2,6 +2,9 @@
 //practice animating object properties - like torus outer ring radius, using SCN.commit(), etc.
 //use  linked list to add a series of objects one after another - chian multiple functions together
 //possibly use physics joints to connect the contact geometr with the outer ring geometry
+//create a gameobject protocol for gameobjects (enemies, obstacles, and letters), whichc can be used in the encounter
+//set up predefined spawn points in the the scene, enemies can spawn randomly at these spawn points
+
 
 Level 1: Get through the letter rings, spell a word
 Level 2: expanding and contracting rings
