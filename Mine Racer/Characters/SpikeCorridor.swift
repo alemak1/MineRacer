@@ -1,5 +1,5 @@
 //
-//  Turret.swift
+//  SpikeCorridor.swift
 //  Mine Racer
 //
 //  Created by Aleksander Makedonski on 11/8/17.
@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 
-class Turret{
+class SpikeCorridor{
     
     var detectionNode: SCNNode!
     var mainNode: SCNNode!
@@ -49,9 +49,7 @@ class Turret{
         planeViewController.worldNode.addChildNode(mainNode)
         planeViewController.worldNode.addChildNode(detectionNode)
         
-        let constraint = SCNLookAtConstraint(target: planeViewController.player.node)
-        self.mainNode.constraints = [constraint]
-        
+       
         fadeIn()
         
     }

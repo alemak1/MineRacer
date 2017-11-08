@@ -11,6 +11,8 @@
 		BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */; };
 		BD0201E01FB2D0B6008E945D /* SpaceCraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */; };
 		BD0201E31FB2DA6B008E945D /* Turret.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201E21FB2DA6B008E945D /* Turret.swift */; };
+		BD0201E51FB2E38A008E945D /* SpikeBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201E41FB2E38A008E945D /* SpikeBall.swift */; };
+		BD0201E71FB2E39F008E945D /* SpikeCorridor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201E61FB2E39F008E945D /* SpikeCorridor.swift */; };
 		BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113A1FAC7046006D38FB /* exhaust.scnp */; };
 		BD2B113D1FAC7046006D38FB /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113B1FAC7046006D38FB /* smoke.png */; };
 		BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C651FAD90110059F4FA /* CompassDirection.swift */; };
@@ -45,6 +47,8 @@
 		BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterRingManager.swift; sourceTree = "<group>"; };
 		BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCraft.swift; sourceTree = "<group>"; };
 		BD0201E21FB2DA6B008E945D /* Turret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Turret.swift; sourceTree = "<group>"; };
+		BD0201E41FB2E38A008E945D /* SpikeBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpikeBall.swift; sourceTree = "<group>"; };
+		BD0201E61FB2E39F008E945D /* SpikeCorridor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpikeCorridor.swift; sourceTree = "<group>"; };
 		BD2B113A1FAC7046006D38FB /* exhaust.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = exhaust.scnp; sourceTree = "<group>"; };
 		BD2B113B1FAC7046006D38FB /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
 		BD348C651FAD90110059F4FA /* CompassDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassDirection.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				BD348C671FAD94910059F4FA /* BasicCharacter.swift */,
 				BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */,
 				BD0201E21FB2DA6B008E945D /* Turret.swift */,
+				BD0201E41FB2E38A008E945D /* SpikeBall.swift */,
+				BD0201E61FB2E39F008E945D /* SpikeCorridor.swift */,
 			);
 			path = Characters;
 			sourceTree = "<group>";
@@ -282,6 +288,7 @@
 				BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */,
 				BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */,
 				BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */,
+				BD0201E71FB2E39F008E945D /* SpikeCorridor.swift in Sources */,
 				BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */,
 				BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */,
 				BD45D5DB1FAE9EE10045BCA3 /* PointOfView.swift in Sources */,
@@ -289,6 +296,7 @@
 				BD45D5E91FAEBEAE0045BCA3 /* RingGenerator.swift in Sources */,
 				BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */,
 				BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */,
+				BD0201E51FB2E38A008E945D /* SpikeBall.swift in Sources */,
 				BD45D5E11FAEAF380045BCA3 /* LetterBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
