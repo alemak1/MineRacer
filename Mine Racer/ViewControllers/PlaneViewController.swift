@@ -31,6 +31,9 @@ class PlaneViewController: UIViewController{
     
     
     var letterRingManager: LetterRingManager!
+    var spaceCraftManager: SpaceCraftManager!
+    
+    var spawnPoints: [[SCNVector3]]?
     
     var lastUpdatedTime: TimeInterval = 0.00
     var frameCount: TimeInterval = 0.00
@@ -40,6 +43,8 @@ class PlaneViewController: UIViewController{
         super.viewDidLoad()
         
         loadLetterRingManager()
+        
+        loadSpaceCraftManager()
         
         loadScene()
         
@@ -64,40 +69,82 @@ class PlaneViewController: UIViewController{
         
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_F)
          **/
+        
+        loadSpawnPoints()
 
         let point1 = SCNVector3(0.0, 10.0, -340.0)
-        let velocity1 = SCNVector3(self.player.node.presentation.position.x, self.player.node.presentation.position.y, 2.0)
-        
+        let unitVec1 = point1.getDifference(withVector: self.player.node.presentation.position)
+        let velocity1 = unitVec1.multiplyByScalar(scalar: 0.03)
         let spaceCraft1 = SpaceCraft(spaceCraftType: .SpaceCraft1, spawnPoint: point1, velocity: velocity1)
         
         spaceCraft1.addTo(planeViewController: self)
+        spaceCraftManager.addSpaceCraft(spaceCraft: spaceCraft1)
         
         let point2 = SCNVector3(10.0, -10.0, -310.0)
-        let velocity2 = SCNVector3(self.player.node.presentation.position.x, self.player.node.presentation.position.y, 1.0)
-        
+        let unitVec2 = point2.getDifference(withVector: self.player.node.presentation.position)
+        let velocity2 = unitVec2.multiplyByScalar(scalar: 0.03)
         let spaceCraft2 = SpaceCraft(spaceCraftType: .SpaceCraft2, spawnPoint: point2, velocity: velocity2)
         
         spaceCraft2.addTo(planeViewController: self)
+        spaceCraftManager.addSpaceCraft(spaceCraft: spaceCraft2)
         
         
-        
-        let spikeTunnel = EnemyGenerator.sharedInstance.getSpikeTunnel()
-        
-        worldNode.addChildNode(spikeTunnel)
-        
-        spikeTunnel.position = SCNVector3(0.0, 5.00, -10.0)
-        
-        let spikeBall1 = EnemyGenerator.sharedInstance.getSpikeBall1()
-        
-        worldNode.addChildNode(spikeBall1)
-        
-        spikeBall1.position = SCNVector3(10.0, -5.00, -5.0)
+     
 
-        //let ringNode = RingGenerator.GenerateRingNode(ofLetterType: .letter_A, ofLetterStyle: .Blue, ringRadius: 6.0, pipeRadius: 2.0)
+    }
+    
+    
+    
+    func getRandomSpawnPoint() -> SCNVector3{
         
-       // scnScene.rootNode.addChildNode(ringNode)
+        let numberOfGroups = spawnPoints!.count
+        let groupIdx = Int(arc4random_uniform(UInt32(numberOfGroups)))
         
-       // ringNode.position = SCNVector3(player.node.position.x, player.node.position.y, player.node.position.z - 10)
+        let groupSpawnPoints = self.spawnPoints![groupIdx]
+        
+        let numberOfPoints = groupSpawnPoints.count
+        let pointIdx = Int(arc4random_uniform(UInt32(numberOfPoints)))
+        
+        return groupSpawnPoints[pointIdx]
+    }
+    
+    func loadSpawnPoints(){
+        
+        print("Loading spawn points....")
+        
+        spawnPoints = [[SCNVector3]]()
+        
+        for node in scnScene.rootNode.childNodes{
+            if node.name != nil && node.name!.contains("SpawnPointGroup"){
+                
+                let spawnPointGroup = node.childNodes.filter({$0.name == "SpawnPoint"}).map({$0.position})
+                
+                spawnPoints!.append(spawnPointGroup)
+           
+                
+            }
+        }
+        
+    
+        spawnPoints!.forEach({
+            
+           spawnGroup in
+            
+            var i = 0
+
+            print("Showing inform for spawn point group \(i+1)")
+            
+            spawnGroup.forEach({
+                spawnPoint in
+                
+                
+                print("Spawn point group \(i+1) located at x: \(spawnPoint.x), y: \(spawnPoint.y), z: \(spawnPoint.z)")
+                
+            })
+           
+            i += 1
+            
+        })
     }
     
     func loadScene(){
@@ -105,6 +152,10 @@ class PlaneViewController: UIViewController{
         
         scnScene.physicsWorld.contactDelegate = self
         
+    }
+    
+    func loadSpaceCraftManager(){
+        spaceCraftManager = SpaceCraftManager(with: self)
     }
     
     func loadLetterRingManager(){
@@ -291,6 +342,7 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             
             
             letterRingManager.update(with: time)
+            spaceCraftManager.update(with: time)
             
             updateCameraPositions()
 
@@ -349,7 +401,17 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
                 let letterName = contactNode.name
                 print("Player contacted a letter: \(letterName)...")
                 break
-            default:
+        case CollisionMask.DetectionNode.rawValue:
+            print("Player has been detected by the space craft")
+            print("The contactNode name is \(contactNode.name!)")
+            if(contactNode.name != nil && contactNode.name!.contains("SpaceCraft")){
+                print("Sending notificaiton...")
+                NotificationCenter.default.post(name: Notification.WasDetectedBySpaceCraftNotification, object: self, userInfo: [
+                    "nodeName":contactNode.name!
+                    ])
+            }
+            break
+        default:
                 print("No contact logic implemented, contactNode info - category mask: \(contactNode.physicsBody!.categoryBitMask), contact mask: \(contactNode.physicsBody!.contactTestBitMask)")
         }
         

@@ -22,6 +22,10 @@
 		BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F15C1FB1C36800750CDD /* RingCreator.swift */; };
 		BD34F15F1FB1C63F00750CDD /* Encounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F15E1FB1C63F00750CDD /* Encounter.swift */; };
 		BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD381DAD1FADBDEE008963A0 /* GameHelper.swift */; };
+		BD39E2D81FB3160D00FD031C /* EnemyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD39E2D71FB3160D00FD031C /* EnemyManager.swift */; };
+		BD39E2DA1FB3199700FD031C /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD39E2D91FB3199700FD031C /* NotificationNames.swift */; };
+		BD39E2DC1FB320D700FD031C /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD39E2DB1FB320D700FD031C /* GameObject.swift */; };
+		BD3BD6301FB308FB00346B37 /* SCNVector3+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */; };
 		BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */; };
 		BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4217261FAC2F8300DB3E0F /* art.scnassets */; };
 		BD4217291FAC2F8300DB3E0F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217281FAC2F8300DB3E0F /* GameViewController.swift */; };
@@ -58,6 +62,10 @@
 		BD34F15C1FB1C36800750CDD /* RingCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingCreator.swift; sourceTree = "<group>"; };
 		BD34F15E1FB1C63F00750CDD /* Encounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encounter.swift; sourceTree = "<group>"; };
 		BD381DAD1FADBDEE008963A0 /* GameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
+		BD39E2D71FB3160D00FD031C /* EnemyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyManager.swift; sourceTree = "<group>"; };
+		BD39E2D91FB3199700FD031C /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		BD39E2DB1FB320D700FD031C /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
+		BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extension.swift"; sourceTree = "<group>"; };
 		BD4217211FAC2F8300DB3E0F /* Mine Racer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mine Racer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD4217261FAC2F8300DB3E0F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -95,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */,
+				BD39E2D71FB3160D00FD031C /* EnemyManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -102,6 +111,7 @@
 		BD0201E11FB2D271008E945D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				BD39E2DB1FB320D700FD031C /* GameObject.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -169,6 +179,8 @@
 				BD45D5DA1FAE9EE10045BCA3 /* PointOfView.swift */,
 				BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */,
 				BD34F15A1FB1C34600750CDD /* LBPConfiguration.swift */,
+				BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */,
+				BD39E2D91FB3199700FD031C /* NotificationNames.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -284,10 +296,13 @@
 				BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */,
 				BD4217291FAC2F8300DB3E0F /* GameViewController.swift in Sources */,
 				BD45D5D91FAE9D900045BCA3 /* PlaneViewController.swift in Sources */,
+				BD39E2D81FB3160D00FD031C /* EnemyManager.swift in Sources */,
 				BD34F15B1FB1C34600750CDD /* LBPConfiguration.swift in Sources */,
 				BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */,
+				BD39E2DA1FB3199700FD031C /* NotificationNames.swift in Sources */,
 				BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */,
 				BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */,
+				BD39E2DC1FB320D700FD031C /* GameObject.swift in Sources */,
 				BD0201E71FB2E39F008E945D /* SpikeCorridor.swift in Sources */,
 				BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */,
 				BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */,
@@ -297,6 +312,7 @@
 				BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */,
 				BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */,
 				BD0201E51FB2E38A008E945D /* SpikeBall.swift in Sources */,
+				BD3BD6301FB308FB00346B37 /* SCNVector3+Extension.swift in Sources */,
 				BD45D5E11FAEAF380045BCA3 /* LetterBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

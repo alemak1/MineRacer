@@ -20,5 +20,7 @@ enum CollisionMask: UInt32{
     case Fuel = 32
     case PowerUp = 64
     case Obstacle = 128
-    case Other = 256
+    case Bullet = 256
+    case DetectionNode = 512
+    
 }
