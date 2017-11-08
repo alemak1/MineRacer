@@ -1,5 +1,5 @@
 //
-//  SpaceCraft.swift
+//  Turret.swift
 //  Mine Racer
 //
 //  Created by Aleksander Makedonski on 11/8/17.
@@ -9,7 +9,8 @@
 import Foundation
 import SceneKit
 
-class SpaceCraft{
+
+class Turret{
     
     var detectionNode: SCNNode!
     var mainNode: SCNNode!
@@ -18,35 +19,15 @@ class SpaceCraft{
     var frameCount: TimeInterval = 0.00
     var ringExpansionInterval: TimeInterval = 4.00
     
-    
-    init(spaceCraftType: EnemyGenerator.SpaceCraftType, spawnPoint: SCNVector3, velocity: SCNVector3){
-        
-        self.mainNode = EnemyGenerator.sharedInstance.getSpaceCraftNode(of: spaceCraftType)
-        
-        self.mainNode.position = spawnPoint
-        
-        self.mainNode.physicsBody?.velocity = velocity
-        
-        self.mainNode.opacity = 0.00
-        
-        configureAuxiliaryGeometries()
-    }
-    
     init(referenceNode: SCNNode) {
         self.mainNode = referenceNode
-     
-        
-        /** Configure the Portal Geometry in the middle of the ring **/
-        configureAuxiliaryGeometries()
-        
-    }
-    
-    
-    func configureAuxiliaryGeometries(){
-        
         
         self.detectionNode = SCNNode()
         self.detectionNode.opacity = 0.00
+        
+        /** Configure the Portal Geometry in the middle of the ring **/
+        
+        
     }
     
     func addTo(planeViewController: PlaneViewController){

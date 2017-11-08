@@ -55,6 +55,7 @@ class PlaneViewController: UIViewController{
         
         
         
+        /**Test Code:
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_A)
         
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_B)
@@ -62,9 +63,23 @@ class PlaneViewController: UIViewController{
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_D)
         
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_F)
+         **/
 
-
-
+        let point1 = SCNVector3(0.0, 10.0, -340.0)
+        let velocity1 = SCNVector3(self.player.node.presentation.position.x, self.player.node.presentation.position.y, 2.0)
+        
+        let spaceCraft1 = SpaceCraft(spaceCraftType: .SpaceCraft1, spawnPoint: point1, velocity: velocity1)
+        
+        spaceCraft1.addTo(planeViewController: self)
+        
+        let point2 = SCNVector3(10.0, -10.0, -310.0)
+        let velocity2 = SCNVector3(self.player.node.presentation.position.x, self.player.node.presentation.position.y, 1.0)
+        
+        let spaceCraft2 = SpaceCraft(spaceCraftType: .SpaceCraft2, spawnPoint: point2, velocity: velocity2)
+        
+        spaceCraft2.addTo(planeViewController: self)
+        
+        
         
         let spikeTunnel = EnemyGenerator.sharedInstance.getSpikeTunnel()
         

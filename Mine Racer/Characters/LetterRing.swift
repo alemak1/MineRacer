@@ -19,10 +19,29 @@ class LetterRing{
     var frameCount: TimeInterval = 0.00
     var ringExpansionInterval: TimeInterval = 4.00
     
+    init(letterStyle: LetterStyle, letterType: LetterType, spawnPoint: SCNVector3, velocity: SCNVector3){
+        
+        self.ringNode = RingCreator.sharedInstance.getModifiedRingCopyFor(letterStyle: letterStyle, letterType: letterType)
+        
+        self.ringNode.presentation.position = spawnPoint
+        
+        self.ringNode.physicsBody?.velocity = velocity
+        
+        self.ringNode.opacity = 0.00
+
+        configurePortalNode()
+    }
+    
     init(referenceNode: SCNNode) {
         self.ringNode = referenceNode
         
         self.ringNode.opacity = 0.00
+        
+        configurePortalNode()
+        
+    }
+    
+    func configurePortalNode(){
         
         /** Configure the Portal Geometry in the middle of the ring **/
         
@@ -38,7 +57,7 @@ class LetterRing{
         self.portalNode.physicsBody?.categoryBitMask = Int(CollisionMask.PortalCenter.rawValue)
         self.portalNode.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
         self.portalNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
-        
+
     }
     
     func addTo(planeViewController: PlaneViewController){

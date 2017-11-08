@@ -217,6 +217,7 @@ class GameViewController: UIViewController {
         setupActions()
         setupGestureRecognizers()
         
+        
         scnView.pointOfView = self.portraitCamera
         
         self.gameHelper.state = .Playing

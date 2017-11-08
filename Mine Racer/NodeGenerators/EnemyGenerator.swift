@@ -52,11 +52,25 @@ class EnemyGenerator{
     }
     
     
+    
+    func getSpaceCraftNodeOf(type: SpaceCraftType) -> SCNNode{
+        
+        print("Generating ring node...")
+        
+        let originalNode = getSpaceCraftNode(of: type)!
+        
+        let spaceCraftNode = originalNode.copy() as! SCNNode
+        
+        return spaceCraftNode
+    }
+    
     func getMovingSpaceCraftOf(type: SpaceCraftType, spawnPoint: SCNVector3, velocity: SCNVector3) -> SpaceCraft{
         
         print("Generating ring node...")
         
-        let spaceCraftNode = getSpaceCraftNode(of: type)!
+        let originalNode = getSpaceCraftNode(of: type)!
+        
+        let spaceCraftNode = originalNode.copy() as! SCNNode
         
         let spaceCraft = SpaceCraft(referenceNode: spaceCraftNode)
         

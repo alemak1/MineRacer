@@ -4,6 +4,7 @@
 //possibly use physics joints to connect the contact geometr with the outer ring geometry
 //create a gameobject protocol for gameobjects (enemies, obstacles, and letters), whichc can be used in the encounter
 //set up predefined spawn points in the the scene, enemies can spawn randomly at these spawn points
+//practice animating field of view changes and point of view changes with the camera
 
 
 Level 1: Get through the letter rings, spell a word

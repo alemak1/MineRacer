@@ -13,6 +13,7 @@ class RingCreator{
     
     static let sharedInstance = RingCreator()
     
+
     
     func getMovingRingFor(letterStyle: LetterStyle, letterType: LetterType, spawnPoint: SCNVector3, velocity: SCNVector3) -> LetterRing{
         

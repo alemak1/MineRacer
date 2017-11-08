@@ -56,7 +56,7 @@ class LetterRingManager{
         
         print("Getting randomized moving ring based on player's current position...")
         
-        let (xTarget, yTarget, zTarget) = (Int(planeViewController.player.node.position.x),Int(planeViewController.player.node.position.y),Int(planeViewController.player.node.position.z))
+        let (xTarget, yTarget, zTarget) = (Int(planeViewController.player.node.presentation.position.x),Int(planeViewController.player.node.presentation.position.y),Int(planeViewController.player.node.presentation.position.z))
         
         print("Getting spawn point...")
         
