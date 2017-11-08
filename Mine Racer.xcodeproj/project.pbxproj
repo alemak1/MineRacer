@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD0201DB1FB2B4A8008E945D /* LetterRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201DA1FB2B4A8008E945D /* LetterRing.swift */; };
+		BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */; };
+		BD0201E01FB2D0B6008E945D /* SpaceCraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */; };
 		BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113A1FAC7046006D38FB /* exhaust.scnp */; };
 		BD2B113D1FAC7046006D38FB /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113B1FAC7046006D38FB /* smoke.png */; };
 		BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C651FAD90110059F4FA /* CompassDirection.swift */; };
 		BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C671FAD94910059F4FA /* BasicCharacter.swift */; };
+		BD34F1591FB1A62900750CDD /* BoundaryPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */; };
+		BD34F15B1FB1C34600750CDD /* LBPConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F15A1FB1C34600750CDD /* LBPConfiguration.swift */; };
+		BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F15C1FB1C36800750CDD /* RingCreator.swift */; };
+		BD34F15F1FB1C63F00750CDD /* Encounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F15E1FB1C63F00750CDD /* Encounter.swift */; };
 		BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD381DAD1FADBDEE008963A0 /* GameHelper.swift */; };
 		BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */; };
 		BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4217261FAC2F8300DB3E0F /* art.scnassets */; };
@@ -23,18 +30,27 @@
 		BD45D5DF1FAEA0250045BCA3 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5DE1FAEA0250045BCA3 /* Plane.swift */; };
 		BD45D5E11FAEAF380045BCA3 /* LetterBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5E01FAEAF380045BCA3 /* LetterBox.swift */; };
 		BD45D5E31FAEAF4E0045BCA3 /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5E21FAEAF4E0045BCA3 /* Cloud.swift */; };
-		BD45D5E51FAEB5F90045BCA3 /* Structures.scn in Resources */ = {isa = PBXBuildFile; fileRef = BD45D5E41FAEB5F90045BCA3 /* Structures.scn */; };
 		BD45D5E91FAEBEAE0045BCA3 /* RingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5E81FAEBEAE0045BCA3 /* RingGenerator.swift */; };
 		BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */; };
 		BD45D5F11FAEC6050045BCA3 /* LetterRings.scn in Resources */ = {isa = PBXBuildFile; fileRef = BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */; };
+		BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */; };
 		BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */; };
+		BDE690041FB0C100002655BB /* Structures2.scn in Resources */ = {isa = PBXBuildFile; fileRef = BDE690031FB0C100002655BB /* Structures2.scn */; };
+		BDE690061FB0CD25002655BB /* Plan in Resources */ = {isa = PBXBuildFile; fileRef = BDE690051FB0CD25002655BB /* Plan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BD0201DA1FB2B4A8008E945D /* LetterRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterRing.swift; sourceTree = "<group>"; };
+		BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterRingManager.swift; sourceTree = "<group>"; };
+		BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCraft.swift; sourceTree = "<group>"; };
 		BD2B113A1FAC7046006D38FB /* exhaust.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = exhaust.scnp; sourceTree = "<group>"; };
 		BD2B113B1FAC7046006D38FB /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
 		BD348C651FAD90110059F4FA /* CompassDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassDirection.swift; sourceTree = "<group>"; };
 		BD348C671FAD94910059F4FA /* BasicCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCharacter.swift; sourceTree = "<group>"; };
+		BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryPoints.swift; sourceTree = "<group>"; };
+		BD34F15A1FB1C34600750CDD /* LBPConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBPConfiguration.swift; sourceTree = "<group>"; };
+		BD34F15C1FB1C36800750CDD /* RingCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingCreator.swift; sourceTree = "<group>"; };
+		BD34F15E1FB1C63F00750CDD /* Encounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encounter.swift; sourceTree = "<group>"; };
 		BD381DAD1FADBDEE008963A0 /* GameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
 		BD4217211FAC2F8300DB3E0F /* Mine Racer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mine Racer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,11 +65,13 @@
 		BD45D5DE1FAEA0250045BCA3 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		BD45D5E01FAEAF380045BCA3 /* LetterBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBox.swift; sourceTree = "<group>"; };
 		BD45D5E21FAEAF4E0045BCA3 /* Cloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
-		BD45D5E41FAEB5F90045BCA3 /* Structures.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Structures.scn; sourceTree = "<group>"; };
 		BD45D5E81FAEBEAE0045BCA3 /* RingGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingGenerator.swift; sourceTree = "<group>"; };
 		BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterEnum.swift; sourceTree = "<group>"; };
 		BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = LetterRings.scn; sourceTree = "<group>"; };
+		BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
 		BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionMask.swift; sourceTree = "<group>"; };
+		BDE690031FB0C100002655BB /* Structures2.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Structures2.scn; sourceTree = "<group>"; };
+		BDE690051FB0CD25002655BB /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +85,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD0201DC1FB2BB1F008E945D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		BD0201E11FB2D271008E945D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		BD4217181FAC2F8300DB3E0F = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +121,8 @@
 		BD4217231FAC2F8300DB3E0F /* Mine Racer */ = {
 			isa = PBXGroup;
 			children = (
+				BD0201E11FB2D271008E945D /* Protocols */,
+				BD0201DC1FB2BB1F008E945D /* Managers */,
 				BD45D5EF1FAEC3DF0045BCA3 /* ViewControllers */,
 				BD45D5EE1FAEC3C90045BCA3 /* Characters */,
 				BD45D5ED1FAEC3B30045BCA3 /* GameUtils */,
@@ -98,8 +133,10 @@
 				BD42172D1FAC2F8300DB3E0F /* Assets.xcassets */,
 				BD42172F1FAC2F8300DB3E0F /* LaunchScreen.storyboard */,
 				BD4217321FAC2F8300DB3E0F /* Info.plist */,
-				BD45D5E41FAEB5F90045BCA3 /* Structures.scn */,
 				BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */,
+				BDE690031FB0C100002655BB /* Structures2.scn */,
+				BDE690051FB0CD25002655BB /* Plan */,
+				BD34F15E1FB1C63F00750CDD /* Encounter.swift */,
 			);
 			path = "Mine Racer";
 			sourceTree = "<group>";
@@ -111,6 +148,8 @@
 				BD45D5E21FAEAF4E0045BCA3 /* Cloud.swift */,
 				BD45D5E01FAEAF380045BCA3 /* LetterBox.swift */,
 				BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */,
+				BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */,
+				BD34F15C1FB1C36800750CDD /* RingCreator.swift */,
 			);
 			path = NodeGenerators;
 			sourceTree = "<group>";
@@ -122,6 +161,8 @@
 				BD348C651FAD90110059F4FA /* CompassDirection.swift */,
 				BD381DAD1FADBDEE008963A0 /* GameHelper.swift */,
 				BD45D5DA1FAE9EE10045BCA3 /* PointOfView.swift */,
+				BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */,
+				BD34F15A1FB1C34600750CDD /* LBPConfiguration.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -129,8 +170,10 @@
 		BD45D5EE1FAEC3C90045BCA3 /* Characters */ = {
 			isa = PBXGroup;
 			children = (
+				BD0201DA1FB2B4A8008E945D /* LetterRing.swift */,
 				BD45D5DE1FAEA0250045BCA3 /* Plane.swift */,
 				BD348C671FAD94910059F4FA /* BasicCharacter.swift */,
+				BD0201DF1FB2D0B6008E945D /* SpaceCraft.swift */,
 			);
 			path = Characters;
 			sourceTree = "<group>";
@@ -204,13 +247,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */,
-				BD45D5E51FAEB5F90045BCA3 /* Structures.scn in Resources */,
 				BD4217311FAC2F8300DB3E0F /* LaunchScreen.storyboard in Resources */,
 				BD2B113D1FAC7046006D38FB /* smoke.png in Resources */,
 				BD45D5F11FAEC6050045BCA3 /* LetterRings.scn in Resources */,
 				BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */,
 				BD42172E1FAC2F8300DB3E0F /* Assets.xcassets in Resources */,
 				BD42172C1FAC2F8300DB3E0F /* Main.storyboard in Resources */,
+				BDE690061FB0CD25002655BB /* Plan in Resources */,
+				BDE690041FB0C100002655BB /* Structures2.scn in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,13 +266,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */,
+				BD34F15F1FB1C63F00750CDD /* Encounter.swift in Sources */,
+				BD34F1591FB1A62900750CDD /* BoundaryPoints.swift in Sources */,
 				BD45D5DF1FAEA0250045BCA3 /* Plane.swift in Sources */,
+				BD0201E01FB2D0B6008E945D /* SpaceCraft.swift in Sources */,
+				BD0201DB1FB2B4A8008E945D /* LetterRing.swift in Sources */,
 				BD45D5E31FAEAF4E0045BCA3 /* Cloud.swift in Sources */,
 				BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */,
 				BD4217291FAC2F8300DB3E0F /* GameViewController.swift in Sources */,
 				BD45D5D91FAE9D900045BCA3 /* PlaneViewController.swift in Sources */,
+				BD34F15B1FB1C34600750CDD /* LBPConfiguration.swift in Sources */,
 				BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */,
 				BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */,
+				BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */,
+				BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */,
+				BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */,
 				BD45D5DB1FAE9EE10045BCA3 /* PointOfView.swift in Sources */,
 				BD45D5E91FAEBEAE0045BCA3 /* RingGenerator.swift in Sources */,
 				BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */,

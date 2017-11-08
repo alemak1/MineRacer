@@ -16,6 +16,7 @@ class PlaneViewController: UIViewController{
     var scnView: SCNView!
     var scnScene: SCNScene!
     
+    var lastContactNode: SCNNode!
     
     var gameHelper = GameHelper.sharedInstance
     
@@ -29,9 +30,16 @@ class PlaneViewController: UIViewController{
     var landscapeCamera: SCNNode!
     
     
+    var letterRingManager: LetterRingManager!
+    
+    var lastUpdatedTime: TimeInterval = 0.00
+    var frameCount: TimeInterval = 0.00
+    var ringExpansionInterval = 4.00
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadLetterRingManager()
         
         loadScene()
         
@@ -45,6 +53,31 @@ class PlaneViewController: UIViewController{
         
         gameHelper.state = .Playing
         
+        
+        
+        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_A)
+        
+        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_B)
+        
+        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_D)
+        
+        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_F)
+
+
+
+        
+        let spikeTunnel = EnemyGenerator.sharedInstance.getSpikeTunnel()
+        
+        worldNode.addChildNode(spikeTunnel)
+        
+        spikeTunnel.position = SCNVector3(0.0, 5.00, -10.0)
+        
+        let spikeBall1 = EnemyGenerator.sharedInstance.getSpikeBall1()
+        
+        worldNode.addChildNode(spikeBall1)
+        
+        spikeBall1.position = SCNVector3(10.0, -5.00, -5.0)
+
         //let ringNode = RingGenerator.GenerateRingNode(ofLetterType: .letter_A, ofLetterStyle: .Blue, ringRadius: 6.0, pipeRadius: 2.0)
         
        // scnScene.rootNode.addChildNode(ringNode)
@@ -53,7 +86,14 @@ class PlaneViewController: UIViewController{
     }
     
     func loadScene(){
-       scnScene = SCNScene(named: "art.scnassets/scenes/Level3.scn")
+        scnScene = SCNScene(named: "art.scnassets/scenes/Level3.scn")
+        
+        scnScene.physicsWorld.contactDelegate = self
+        
+    }
+    
+    func loadLetterRingManager(){
+        letterRingManager = LetterRingManager(with: self)
     }
     
     func setupView(){
@@ -112,10 +152,10 @@ class PlaneViewController: UIViewController{
         worldNode = SCNNode()
         scnScene.rootNode.addChildNode(worldNode)
         
-        let cube = SCNBox(width: 5.0, height: 5.0, length: 5.0, chamferRadius: 0.0)
-        let cubeNode = SCNNode(geometry: cube)
-        cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        cubeNode.physicsBody?.isAffectedByGravity = false
+       // let cube = SCNBox(width: 5.0, height: 5.0, length: 5.0, chamferRadius: 0.0)
+       // let cubeNode = SCNNode(geometry: cube)
+       // cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+       // cubeNode.physicsBody?.isAffectedByGravity = false
         /**
         cubeNode.physicsBody?.friction = 0.00
         cubeNode.physicsBody?.rollingFriction = 0.00
@@ -123,8 +163,8 @@ class PlaneViewController: UIViewController{
         cubeNode.physicsBody?.allowsResting = false
         **/
         
-        worldNode.addChildNode(cubeNode)
-        cubeNode.position  = SCNVector3(0.0, 3.0, -20.0)
+       // worldNode.addChildNode(cubeNode)
+       // cubeNode.position  = SCNVector3(0.0, 3.0, -20.0)
         //cubeNode.physicsBody?.velocity =  SCNVector3(0.0, 0.0, 1.0)
     
        
@@ -226,26 +266,33 @@ extension PlaneViewController: SCNSceneRendererDelegate{
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
-        print("Updating game objects...")
+        if(time == 0){
+            lastUpdatedTime = 0
+        }
+        
+        
         
         if(gameHelper.state == .Playing){
             
-            print("About to propel the plane forward...")
             
-            player.propelForward()
+            letterRingManager.update(with: time)
             
             updateCameraPositions()
 
         }
         
+        lastUpdatedTime = time
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didApplyAnimationsAtTime time: TimeInterval) {
         
+     
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
         
+       
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didApplyConstraintsAtTime time: TimeInterval) {
@@ -257,6 +304,50 @@ extension PlaneViewController: SCNSceneRendererDelegate{
     }
     
     func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        
+    }
+    
+    
+}
+
+extension PlaneViewController: SCNPhysicsContactDelegate{
+    
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        
+        
+        var contactNode: SCNNode!
+        
+        if contact.nodeA.name == "player"{
+            contactNode = contact.nodeB
+        } else {
+            contactNode = contact.nodeA
+        }
+        
+        
+        if lastContactNode != nil && lastContactNode == contactNode{
+            return
+        }
+        
+        switch UInt32(contactNode.physicsBody!.categoryBitMask){
+            case CollisionMask.PortalCenter.rawValue:
+                let letterName = contactNode.name
+                print("Player contacted a letter: \(letterName)...")
+                break
+            default:
+                print("No contact logic implemented, contactNode info - category mask: \(contactNode.physicsBody!.categoryBitMask), contact mask: \(contactNode.physicsBody!.contactTestBitMask)")
+        }
+        
+        //TODO: implement contact logic here
+        
+        lastContactNode = contactNode
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+        
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
         
     }
     

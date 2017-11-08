@@ -11,6 +11,21 @@ import SceneKit
 
 class RingGenerator{
     
+    static let StandardRingRadius: CGFloat = 11.0
+    static let StandardPipeRadius: CGFloat = 3.0
+    
+    
+    
+    static func GenerateStandardBlueRingNode(ofLetterType letterType: LetterType) -> SCNNode{
+        
+        return RingGenerator.GenerateBlueRingNode(ofLetterType: letterType, ringRadius: RingGenerator.StandardRingRadius, pipeRadius: RingGenerator.StandardPipeRadius)
+    }
+    
+    
+    static func GenerateBlueRingNode(ofLetterType letterType: LetterType, ringRadius: CGFloat, pipeRadius: CGFloat) -> SCNNode{
+        
+        return RingGenerator.GenerateRingNode(ofLetterType: letterType, ofLetterStyle: .Blue, ringRadius: ringRadius, pipeRadius: pipeRadius)
+    }
     
     static func GenerateRingNode(ofLetterType letterType: LetterType,ofLetterStyle letterStyle: LetterStyle, ringRadius: CGFloat, pipeRadius: CGFloat) -> SCNNode{
     

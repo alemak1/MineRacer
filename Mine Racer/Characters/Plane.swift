@@ -43,6 +43,10 @@ class Plane{
         node.physicsBody!.allowsResting = false
         node.physicsBody?.damping = 0.00
         node.physicsBody?.friction = 0.00
+        
+        node.physicsBody?.categoryBitMask = Int(CollisionMask.Player.rawValue)
+        node.physicsBody?.collisionBitMask = Int(CollisionMask.Obstacle.rawValue | CollisionMask.Barrier.rawValue)
+        node.physicsBody?.contactTestBitMask = Int(CollisionMask.PortalCenter.rawValue)
     }
     
     //MARK:  *********** Configure Character Actions

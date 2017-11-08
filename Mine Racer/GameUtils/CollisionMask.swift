@@ -11,6 +11,7 @@ import SceneKit
 
 
 enum CollisionMask: UInt32{
+    case None = 0
     case Player = 1
     case Enemy = 2
     case Barrier = 4

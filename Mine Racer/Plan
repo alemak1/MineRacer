@@ -1,0 +1,12 @@
+
+//practice animating object properties - like torus outer ring radius, using SCN.commit(), etc.
+//use  linked list to add a series of objects one after another - chian multiple functions together
+//possibly use physics joints to connect the contact geometr with the outer ring geometry
+
+Level 1: Get through the letter rings, spell a word
+Level 2: expanding and contracting rings
+Level 2: go through a spike corridor to get through a letter ring
+Level 3: avoid spikeballs, get through the rings
+Level 4: avoid gun turrets, get through the rings
+Level 5: avoid enemy ships, get through the rings
+
