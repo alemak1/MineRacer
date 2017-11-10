@@ -138,7 +138,7 @@ extension EncounterSeries{
         
         let getMaxWaitTime = {
             
-            return Double(5.00 + Double(arc4random_uniform(UInt32(maxWaitTime))))
+            return Double(4.00 + Double(arc4random_uniform(UInt32(maxWaitTime))))
 
         }
         

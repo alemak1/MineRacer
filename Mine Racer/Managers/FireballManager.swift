@@ -111,7 +111,11 @@ class FireballManager{
     
     func addFireball(fireBall: SCNNode){
         
+        fireBall.opacity = 0.00
+        
        planeViewController.worldNode.addChildNode(fireBall)
+        
+        fireBall.runAction(SCNAction.fadeIn(duration: 0.50))
         
         fireballManager.append(fireBall)
         
@@ -159,6 +163,7 @@ class FireballManager{
         
         let spawnPoint = SCNVector3(xTarget + spawnPointX, yTarget + spawnPointY, zTarget + spawnPointZ)
         
+        print("Spawn point is x: \(spawnPoint.x), y: \(spawnPoint.y), z: \(spawnPoint.z)")
         
         let velocity = configuration.getRandomVelocityVector()
         
@@ -166,7 +171,7 @@ class FireballManager{
         let fireball = EnemyGenerator.sharedInstance.getFireBall()
         
         fireball.physicsBody?.velocity = velocity
-        fireball.presentation.position = spawnPoint
+        fireball.position = spawnPoint
         
         return fireball
         
@@ -186,8 +191,9 @@ class FireballManager{
             
             fireball in
             
-            if(fireball.presentation.position.z > 20){
+            if(fireball.position.z >= 0){
                 fireball.removeFromParentNode()
+                print("Fireballs removed...number of fireballs remaining is ... \(fireballManager.count)")
             }
         })
     }

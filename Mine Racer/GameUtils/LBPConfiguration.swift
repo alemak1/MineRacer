@@ -103,15 +103,15 @@ struct LBPConfiguration{
     
     static let DefaultLBPConfiguration = LBPConfiguration(leftBoundaryDistance: -50, rightBoundaryDistance: 50, topBoundaryDistance: 50, floorBoundaryDistance: -50, nearZBoundaryDistance: -300, farZBoundaryDistance: -400)
     
-    static let SpikeBallDefaultConfiguration = LBPConfiguration(leftBoundaryDistance: -20, rightBoundaryDistance: 20, topBoundaryDistance: 20, floorBoundaryDistance: -20, nearZBoundaryDistance: -100, farZBoundaryDistance: -200, minVelocity: 6, maxVelocity: 12)
+    static let SpikeBallDefaultConfiguration = LBPConfiguration(leftBoundaryDistance: -20, rightBoundaryDistance: 20, topBoundaryDistance: 20, floorBoundaryDistance: -20, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 6, maxVelocity: 12)
     
-    static let HighVelocityNarrowHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -5, rightBoundaryDistance: 5, topBoundaryDistance: 5, floorBoundaryDistance: -5, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 10, maxVelocity: 20)
+    static let HighVelocityNarrowHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -20, rightBoundaryDistance: 20, topBoundaryDistance: 20, floorBoundaryDistance: -20, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 20, maxVelocity: 36)
     
-    static let LowVelocityNarrowHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -5, rightBoundaryDistance: 5, topBoundaryDistance: 5, floorBoundaryDistance: -5, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 5, maxVelocity: 10)
+    static let LowVelocityNarrowHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -20, rightBoundaryDistance: 20, topBoundaryDistance: 20, floorBoundaryDistance: -20, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 6, maxVelocity: 12)
     
-    static let LowVelocityLargeHeightAndLargeWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -100, rightBoundaryDistance: 100, topBoundaryDistance: 100, floorBoundaryDistance: -100, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 5, maxVelocity: 10)
+    static let LowVelocityLargeHeightAndLargeWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -50, rightBoundaryDistance: 50, topBoundaryDistance: 50, floorBoundaryDistance: -50, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 5, maxVelocity: 10)
     
-    static let HighVelocityLargeHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -300, rightBoundaryDistance: 300, topBoundaryDistance: 300, floorBoundaryDistance: -300, nearZBoundaryDistance: -400, farZBoundaryDistance: -500, minVelocity: 5, maxVelocity: 10)
+    static let HighVelocityLargeHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -50, rightBoundaryDistance: 50, topBoundaryDistance: 50, floorBoundaryDistance: -50, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 22, maxVelocity: 36)
     
     
     static func GetDefaultBoundaryDistance(flightBoundaryPoint: FlightBoundaryPoint) -> Int{

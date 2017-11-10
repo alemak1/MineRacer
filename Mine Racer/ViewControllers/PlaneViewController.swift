@@ -85,7 +85,7 @@ class PlaneViewController: UIViewController{
         
         loadSpawnPoints()
         
-         let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 10, withMaxFireballs: 6, withMaxWaitTime: 3)
+         let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 30, withMaxFireballs: 10, withMaxWaitTime: 3)
         
         encounterSeries.start()
 
