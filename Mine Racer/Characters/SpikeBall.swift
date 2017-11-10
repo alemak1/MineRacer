@@ -19,9 +19,9 @@ class SpikeBall{
     var ringExpansionInterval: TimeInterval = 4.00
     
     
-    init(turretType: EnemyGenerator.TurretType, spawnPoint: SCNVector3, velocity: SCNVector3){
+    init(spikeBallType: EnemyGenerator.SpikeBallType, spawnPoint: SCNVector3, velocity: SCNVector3){
         
-        self.mainNode = EnemyGenerator.sharedInstance.getTurretNodeOf(type: turretType)
+        self.mainNode = EnemyGenerator.sharedInstance.getSpikeballNodeOf(type: spikeBallType)
         
         self.mainNode.position = spawnPoint
         

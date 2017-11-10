@@ -11,19 +11,52 @@ import SceneKit
 
 class SpaceCraft{
     
+    /** SpaceCraft has a main node for the spacecraft itself, and another for creating a detection area that can be used to detect enemies; An optional target node is set when the detection node contacts the player **/
+    
     var detectionNode: SCNNode!
     var mainNode: SCNNode!
+    
+    var targetNode: SCNNode?
+
+    /** Timing variables **/
     
     var lastUpdateTime: TimeInterval = 0.00
     var frameCount: TimeInterval = 0.00
     var shootingInterval: TimeInterval = 1.00
     
-    var targetNode: SCNNode?
+    var velocityFrameCount = 0.00
+    var velocityUpdateInterval = 2.00
+    
+    /** Other configurable parameters **/
+    
+    var canFire: Bool = false
+    var canUpdateVelocity: Bool = false
+    
     
     init(spaceCraftType: EnemyGenerator.SpaceCraftType, spawnPoint: SCNVector3, velocity: SCNVector3){
         
         self.mainNode = EnemyGenerator.sharedInstance.getSpaceCraftNode(of: spaceCraftType)
+
+        configureMainNodeName()
+        configureSpaceCraft(withPosition: spawnPoint, withVelocity: velocity)
+        configureAuxiliaryGeometries()
+    }
+    
+
+    
+    
+    func configureSpaceCraft(withPosition position: SCNVector3, withVelocity velocity: SCNVector3, withOpacity opacity: CGFloat = 0.00){
         
+        self.mainNode.position = position
+        
+        self.mainNode.physicsBody?.velocity = velocity
+        
+        self.mainNode.opacity = opacity
+
+        
+    }
+    
+    func configureMainNodeName(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
@@ -31,13 +64,7 @@ class SpaceCraft{
         
         self.mainNode.name = "SpaceCraft\(dateString)"
         
-        self.mainNode.position = spawnPoint
         
-        self.mainNode.physicsBody?.velocity = velocity
-        
-        self.mainNode.opacity = 0.00
-        
-        configureAuxiliaryGeometries()
     }
     
     init(referenceNode: SCNNode) {
@@ -79,7 +106,7 @@ class SpaceCraft{
     
     @objc func setTarget(notification: Notification?){
         
-        print("Setting the target of the spacecraft to the player....")
+       // print("Setting the target of the spacecraft to the player....")
         
         guard let nodeName = notification?.userInfo?["nodeName"] as? String else {
             print("Error: No node name associated with the contact node for this notification")
@@ -94,12 +121,20 @@ class SpaceCraft{
         if let planeViewController = notification?.object as? PlaneViewController{
             self.targetNode = planeViewController.player.node.presentation
             
+//            let targetPos = self.targetNode!.presentation.position
+//            let (x,y,z) = (CGFloat(targetPos.x),CGFloat(targetPos.y),CGFloat(targetPos.z))
+//
+//            self.mainNode.runAction(SCNAction.rotateTo(x: x, y: y, z: z, duration: 0.10))
+//
             let constraint = SCNLookAtConstraint(target: planeViewController.player.node)
             self.mainNode.constraints = [constraint]
             
             
 
         }
+        
+        canFire = true
+        canUpdateVelocity = true
 
         
     
@@ -138,31 +173,41 @@ class SpaceCraft{
         
     }
     
-
+    
+    func updateVelocityToReachTarget(){
+        
+        if self.targetNode != nil && canUpdateVelocity{
+            
+            
+            let targetPos = self.targetNode!.position
+            let currentPos = self.mainNode.presentation.position
+            
+            let rawVector = currentPos.getDifference(withVector: targetPos)
+            
+            let adjustedVelocityVector = rawVector.multiplyByScalar(scalar: 0.01)
+            
+            
+            self.mainNode.physicsBody?.applyForce(adjustedVelocityVector, asImpulse: true)
+        }
+    }
+    
+    func fireBulletAtTargetNode(){
+        if targetNode != nil{
+            fireBullet(atTarget: self.targetNode!.presentation.position, withVelocityFactor: 0.10)
+        }
+    }
+    
+   
     func fireBullet(atTarget targetPos: SCNVector3, withVelocityFactor velocityFactor: Float){
         
-        print("Firing bullet at target position: \(targetPos)")
-        
-        let capsule = SCNCapsule(capRadius: 5.0, height: 30.0)
-        let bulletNode = SCNNode(geometry: capsule)
-        
+      
+        let bulletNode = generateBullet()
+    
         /** Spawn the bullet at the middle of the spacecraft **/
         
         self.mainNode.addChildNode(bulletNode)
         bulletNode.position = SCNVector3.init(0.0, 0.0, 0.0)
         
-    
-        bulletNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        
-        bulletNode.physicsBody?.isAffectedByGravity = false
-        bulletNode.physicsBody?.damping = 0.0
-        bulletNode.physicsBody?.friction = 0.0
-        
-        bulletNode.physicsBody?.categoryBitMask = Int(CollisionMask.Bullet.rawValue)
-        bulletNode.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
-        bulletNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
-        
-       
         let bulletVector = targetPos.getDifference(withVector: self.mainNode.presentation.position)
         let bulletVelocity = bulletVector.multiplyByScalar(scalar: velocityFactor)
         
@@ -178,15 +223,20 @@ class SpaceCraft{
         
         
         frameCount += time - lastUpdateTime
+        velocityFrameCount += time - lastUpdateTime
         
         if(frameCount > shootingInterval){
-            print("Shooting interval elapsed...time to shoot...checking for target node....")
+            //print("Shooting interval elapsed...time to shoot...checking for target node....")
             
-            if targetNode != nil{
-                fireBullet(atTarget: self.targetNode!.presentation.position, withVelocityFactor: 0.10)
-            }
+            fireBulletAtTargetNode()
             
             frameCount = 0
+        }
+        
+        if(velocityFrameCount > velocityUpdateInterval){
+           updateVelocityToReachTarget()
+            
+            velocityFrameCount = 0
         }
         
         lastUpdateTime = time
@@ -217,4 +267,47 @@ class SpaceCraft{
         self.detectionNode.position = self.mainNode.position
     }
     
+    
+    
+    /** Helper function for generating bullet nodes **/
+    
+    func generateBullet() -> SCNNode{
+        
+        /** Configure geometry and physics properties for the bullet **/
+
+        let capsule = SCNCapsule(capRadius: 1.0, height: 5.0)
+        
+        capsule.materials.first?.diffuse.contents = "art.scnassets/textures/TexturesCom_AluminiumSheetMaterial_S.png"
+        
+        
+        let bulletNode = SCNNode(geometry: capsule)
+    
+        /** Add constraints so that the bullet is oriented towards the player **/
+        
+        if(self.targetNode != nil){
+            
+            let targetPos = self.targetNode!.presentation.position
+            
+            bulletNode.runAction(SCNAction.rotateTo(x:CGFloat(targetPos.x), y: CGFloat(targetPos.y), z: CGFloat(targetPos.z), duration: 0.10))
+          
+            
+        }
+        
+        
+        /** Configure physics body for bullet **/
+
+        bulletNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        
+        bulletNode.physicsBody?.isAffectedByGravity = false
+        bulletNode.physicsBody?.damping = 0.0
+        bulletNode.physicsBody?.friction = 0.0
+        
+        bulletNode.physicsBody?.categoryBitMask = Int(CollisionMask.Bullet.rawValue)
+        bulletNode.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
+        bulletNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
+        
+        
+        return bulletNode
+    }
+
 }

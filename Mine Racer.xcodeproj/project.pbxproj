@@ -15,6 +15,9 @@
 		BD0201E71FB2E39F008E945D /* SpikeCorridor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0201E61FB2E39F008E945D /* SpikeCorridor.swift */; };
 		BD2B113C1FAC7046006D38FB /* exhaust.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113A1FAC7046006D38FB /* exhaust.scnp */; };
 		BD2B113D1FAC7046006D38FB /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2B113B1FAC7046006D38FB /* smoke.png */; };
+		BD3169CC1FB59121007BD8D3 /* fireball.scnp in Resources */ = {isa = PBXBuildFile; fileRef = BD3169CA1FB59121007BD8D3 /* fireball.scnp */; };
+		BD3169CD1FB59121007BD8D3 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = BD3169CB1FB59121007BD8D3 /* spark.png */; };
+		BD3169D31FB59CCB007BD8D3 /* FireballManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3169D21FB59CCB007BD8D3 /* FireballManager.swift */; };
 		BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C651FAD90110059F4FA /* CompassDirection.swift */; };
 		BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD348C671FAD94910059F4FA /* BasicCharacter.swift */; };
 		BD34F1591FB1A62900750CDD /* BoundaryPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */; };
@@ -41,6 +44,7 @@
 		BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */; };
 		BD45D5F11FAEC6050045BCA3 /* LetterRings.scn in Resources */ = {isa = PBXBuildFile; fileRef = BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */; };
 		BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */; };
+		BD9ED0861FB4A9AB002F6997 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */; };
 		BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */; };
 		BDE690041FB0C100002655BB /* Structures2.scn in Resources */ = {isa = PBXBuildFile; fileRef = BDE690031FB0C100002655BB /* Structures2.scn */; };
 		BDE690061FB0CD25002655BB /* Plan in Resources */ = {isa = PBXBuildFile; fileRef = BDE690051FB0CD25002655BB /* Plan */; };
@@ -55,6 +59,9 @@
 		BD0201E61FB2E39F008E945D /* SpikeCorridor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpikeCorridor.swift; sourceTree = "<group>"; };
 		BD2B113A1FAC7046006D38FB /* exhaust.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = exhaust.scnp; sourceTree = "<group>"; };
 		BD2B113B1FAC7046006D38FB /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
+		BD3169CA1FB59121007BD8D3 /* fireball.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = fireball.scnp; sourceTree = "<group>"; };
+		BD3169CB1FB59121007BD8D3 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		BD3169D21FB59CCB007BD8D3 /* FireballManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireballManager.swift; sourceTree = "<group>"; };
 		BD348C651FAD90110059F4FA /* CompassDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassDirection.swift; sourceTree = "<group>"; };
 		BD348C671FAD94910059F4FA /* BasicCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCharacter.swift; sourceTree = "<group>"; };
 		BD34F1581FB1A62900750CDD /* BoundaryPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryPoints.swift; sourceTree = "<group>"; };
@@ -83,6 +90,7 @@
 		BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterEnum.swift; sourceTree = "<group>"; };
 		BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = LetterRings.scn; sourceTree = "<group>"; };
 		BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
+		BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionMask.swift; sourceTree = "<group>"; };
 		BDE690031FB0C100002655BB /* Structures2.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Structures2.scn; sourceTree = "<group>"; };
 		BDE690051FB0CD25002655BB /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
@@ -104,6 +112,7 @@
 			children = (
 				BD0201DD1FB2BB2C008E945D /* LetterRingManager.swift */,
 				BD39E2D71FB3160D00FD031C /* EnemyManager.swift */,
+				BD3169D21FB59CCB007BD8D3 /* FireballManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -152,7 +161,8 @@
 				BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */,
 				BDE690031FB0C100002655BB /* Structures2.scn */,
 				BDE690051FB0CD25002655BB /* Plan */,
-				BD34F15E1FB1C63F00750CDD /* Encounter.swift */,
+				BD3169CA1FB59121007BD8D3 /* fireball.scnp */,
+				BD3169CB1FB59121007BD8D3 /* spark.png */,
 			);
 			path = "Mine Racer";
 			sourceTree = "<group>";
@@ -173,6 +183,7 @@
 		BD45D5ED1FAEC3B30045BCA3 /* GameUtils */ = {
 			isa = PBXGroup;
 			children = (
+				BD34F15E1FB1C63F00750CDD /* Encounter.swift */,
 				BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */,
 				BD348C651FAD90110059F4FA /* CompassDirection.swift */,
 				BD381DAD1FADBDEE008963A0 /* GameHelper.swift */,
@@ -181,6 +192,7 @@
 				BD34F15A1FB1C34600750CDD /* LBPConfiguration.swift */,
 				BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */,
 				BD39E2D91FB3199700FD031C /* NotificationNames.swift */,
+				BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -267,6 +279,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD3169CD1FB59121007BD8D3 /* spark.png in Resources */,
+				BD3169CC1FB59121007BD8D3 /* fireball.scnp in Resources */,
 				BD4217271FAC2F8300DB3E0F /* art.scnassets in Resources */,
 				BD4217311FAC2F8300DB3E0F /* LaunchScreen.storyboard in Resources */,
 				BD2B113D1FAC7046006D38FB /* smoke.png in Resources */,
@@ -300,6 +314,7 @@
 				BD34F15B1FB1C34600750CDD /* LBPConfiguration.swift in Sources */,
 				BD348C661FAD90110059F4FA /* CompassDirection.swift in Sources */,
 				BD39E2DA1FB3199700FD031C /* NotificationNames.swift in Sources */,
+				BD3169D31FB59CCB007BD8D3 /* FireballManager.swift in Sources */,
 				BD348C681FAD94910059F4FA /* BasicCharacter.swift in Sources */,
 				BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */,
 				BD39E2DC1FB320D700FD031C /* GameObject.swift in Sources */,
@@ -313,6 +328,7 @@
 				BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */,
 				BD0201E51FB2E38A008E945D /* SpikeBall.swift in Sources */,
 				BD3BD6301FB308FB00346B37 /* SCNVector3+Extension.swift in Sources */,
+				BD9ED0861FB4A9AB002F6997 /* String+Extension.swift in Sources */,
 				BD45D5E11FAEAF380045BCA3 /* LetterBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

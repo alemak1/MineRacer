@@ -32,6 +32,8 @@ class PlaneViewController: UIViewController{
     
     var letterRingManager: LetterRingManager!
     var spaceCraftManager: SpaceCraftManager!
+    var spikeBallManager: SpikeBallManager!
+    var fireballManager: FireballManager!
     
     var spawnPoints: [[SCNVector3]]?
     
@@ -41,6 +43,10 @@ class PlaneViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadFireballManager()
+        
+        loadSpikeBallManager()
         
         loadLetterRingManager()
         
@@ -59,6 +65,13 @@ class PlaneViewController: UIViewController{
         gameHelper.state = .Playing
         
         
+       // let tunnel2 = EnemyGenerator.sharedInstance.getSpikeTunnel(of: .ST2)
+       // worldNode.addChildNode(tunnel2)
+       // tunnel2.position = SCNVector3(x: -10.0, y: 5.0, z: -100)
+        
+      //  let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self,withNumberOfEncounters: 10, withMaxWaitTime: 6)
+        
+       // encounterSeries.start()
         
         /**Test Code:
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_A)
@@ -71,7 +84,18 @@ class PlaneViewController: UIViewController{
          **/
         
         loadSpawnPoints()
+        
+         let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 10, withMaxFireballs: 6, withMaxWaitTime: 3)
+        
+        encounterSeries.start()
 
+      
+
+        
+      //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft1)
+      //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft2)
+        
+        /**
         let point1 = SCNVector3(0.0, 10.0, -340.0)
         let unitVec1 = point1.getDifference(withVector: self.player.node.presentation.position)
         let velocity1 = unitVec1.multiplyByScalar(scalar: 0.03)
@@ -88,11 +112,19 @@ class PlaneViewController: UIViewController{
         spaceCraft2.addTo(planeViewController: self)
         spaceCraftManager.addSpaceCraft(spaceCraft: spaceCraft2)
         
-        
+        **/
      
 
     }
     
+    
+    func spawnNextGameObject(){
+        
+        
+        
+    }
+    
+
     
     
     func getRandomSpawnPoint() -> SCNVector3{
@@ -152,6 +184,17 @@ class PlaneViewController: UIViewController{
         
         scnScene.physicsWorld.contactDelegate = self
         
+    }
+    
+    
+    func loadFireballManager(){
+        fireballManager = FireballManager(with: self)
+    }
+    
+    func loadSpikeBallManager(){
+    
+        spikeBallManager = SpikeBallManager(with: self)
+    
     }
     
     func loadSpaceCraftManager(){
@@ -344,6 +387,7 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             letterRingManager.update(with: time)
             spaceCraftManager.update(with: time)
             
+            fireballManager.update(with: time)
             updateCameraPositions()
 
         }

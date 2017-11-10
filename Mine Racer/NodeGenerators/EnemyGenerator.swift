@@ -14,7 +14,17 @@ class EnemyGenerator{
     
     
     enum SpikeBallType: Int{
-        case SpikeBall1
+        case SpikeBall1,SpikeBall2,SpikeBall3,SpikeBall4,SpikeBall5,SpikeBall6
+        
+        static let allSpikeBallTypes: [SpikeBallType] = [.SpikeBall1, .SpikeBall2,.SpikeBall3,.SpikeBall4,.SpikeBall5,.SpikeBall6]
+        
+        static func GetRandomSpikeBallType() -> SpikeBallType{
+            
+            let randomIdx = Int(arc4random_uniform(UInt32(SpikeBallType.allSpikeBallTypes.count)))
+            
+            return SpikeBallType.allSpikeBallTypes[randomIdx]
+            
+        }
     }
     
     enum SpikeTunnelType: Int{
@@ -42,16 +52,34 @@ class EnemyGenerator{
     /** Deadly Obstacles **/
     
     var spikeBall1: SCNNode!
+    var spikeBall2: SCNNode!
+    var spikeBall3: SCNNode!
+    var spikeBall4: SCNNode!
+    var spikeBall5: SCNNode!
+    var spikeBall6: SCNNode!
+
+    
     var spikeTunnel1: SCNNode!
+    var spikeTunnel2: SCNNode!
+    var spikeTunnel3: SCNNode!
+    var spikeTunnel4: SCNNode!
+    var spikeTunnel5: SCNNode!
+    var spikeTunnel6: SCNNode!
+    var spikeTunnel7: SCNNode!
+    var spikeTunnel8: SCNNode!
+    var spikeTunnel9: SCNNode!
+
     
     /** Turrets **/
     
     var turret1: SCNNode!
     var turret2: SCNNode!
     
+    /** Other Enemies **/
+    var fireball: SCNParticleSystem!
+    
     /** Functions for generating copies of the reference node **/
     
-
     
     func getSpikeTunnelNodeOf(type: SpikeTunnelType) -> SCNNode{
         
@@ -117,9 +145,20 @@ class EnemyGenerator{
     
     func getMovingSpikeBallOf(type: SpikeBallType, spawnPoint: SCNVector3, velocity: SCNVector3) -> SpikeBall{
         
+        print("Generating moving spike ball...")
+        
         let originalNode = getSpikeballNodeOf(type: type)
         
         let spikeBallNode = originalNode.copy() as! SCNNode
+        
+        print("The number of child nodes in the original is \(originalNode.childNodes.count)")
+        print("The number of child nodes in the copy is \(spikeBallNode.childNodes.count)")
+        
+        for spike in originalNode.childNodes{
+            print("Copying the child nodes for the spikeball")
+            let spikeCopy = spike.copy() as! SCNNode
+            spikeBallNode.addChildNode(spikeCopy)
+        }
         
         let spikeBall = SpikeBall(referenceNode: spikeBallNode)
         
@@ -169,17 +208,41 @@ class EnemyGenerator{
         switch spikeTunnelType {
         case .ST1:
             return self.spikeTunnel1
-        default:
-            return self.spikeTunnel1
+        case .ST2:
+            return self.spikeTunnel2
+        case .ST3:
+            return self.spikeTunnel3
+        case .ST4:
+            return self.spikeTunnel4
+        case .ST5:
+            return self.spikeTunnel5
+        case .ST6:
+            return self.spikeTunnel6
+        case .ST7:
+            return self.spikeTunnel7
+        case .ST8:
+            return self.spikeTunnel8
+        case .ST9:
+            return self.spikeTunnel9
+    
             
         }
     }
     
     func getSpikeBallNode(of spikeBallType: SpikeBallType) -> SCNNode{
         switch spikeBallType {
-        case .SpikeBall1:
-            return self.spikeBall1
-            
+            case .SpikeBall1:
+                return self.spikeBall1
+            case .SpikeBall2:
+                return self.spikeBall2
+            case .SpikeBall3:
+                return self.spikeBall3
+            case .SpikeBall4:
+                return self.spikeBall4
+            case .SpikeBall5:
+                return self.spikeBall5
+            case .SpikeBall6:
+                return self.spikeBall6
         }
     }
     
@@ -210,6 +273,41 @@ class EnemyGenerator{
                 return self.spaceCraft6
         }
     }
+    
+    
+    func getFireBall(withPosition position: SCNVector3 = SCNVector3(0.0, 10.0, -150), andWithVelocity velocity: SCNVector3 = SCNVector3(0.0, 0.0, 2.0)) -> SCNNode{
+        
+        /** Configure sphere geometry for fireball **/
+        let sphereGeometry = SCNSphere(radius: 4.86)
+        
+        /** Configure materials for fireball surface **/
+        
+        let material = SCNMaterial()
+        material.diffuse.contents = "art.scnassets/textures/TexturesCom_RocksArid0143_2_seamless_S.jpg"
+        sphereGeometry.materials = [material]
+        
+        /** Create fireball node to hold particle system **/
+        let fireballNode = SCNNode(geometry: sphereGeometry)
+        
+        let fireballCopy = self.fireball.copy() as! SCNParticleSystem
+        fireballNode.addParticleSystem(fireballCopy)
+        
+        /** Configure physics body for fireball **/
+        
+        let physicsShape = SCNPhysicsShape(geometry: sphereGeometry, options: nil)
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: physicsShape)
+        physicsBody.friction = 0.00
+        physicsBody.damping = 0.00
+        physicsBody.isAffectedByGravity = false
+        fireballNode.physicsBody = physicsBody
+        
+        fireballNode.position = position
+        
+        fireballNode.physicsBody?.velocity = velocity
+        
+        return fireballNode
+        
+    }
 
     private init(){
         
@@ -225,7 +323,40 @@ class EnemyGenerator{
         
         /** Load obstacles (e.g. spike tunnels, spike balls, etc. )**/
         spikeBall1 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall1", recursively: true)!
+        
+        spikeBall2 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall2", recursively: true)!
+        
+        spikeBall3 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall3", recursively: true)!
+        
+        spikeBall4 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall4", recursively: true)!
+        
+        spikeBall5 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall5", recursively: true)!
+        
+        spikeBall6 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "SpikeBall6", recursively: true)!
+        
+        
+        
+        
+        
         spikeTunnel1 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle1", recursively: true)!
+        
+        spikeTunnel2 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle2", recursively: true)!
+        
+        spikeTunnel3 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle3", recursively: true)!
+        
+        spikeTunnel4 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle4", recursively: true)!
+        
+        spikeTunnel5 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle5", recursively: true)!
+        
+        spikeTunnel6 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle6", recursively: true)!
+        
+        spikeTunnel7 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle7", recursively: true)!
+        
+        spikeTunnel8 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle8", recursively: true)!
+        
+        spikeTunnel9 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle9", recursively: true)!
+
+
 
         /** Load turrets **/
         
@@ -234,6 +365,9 @@ class EnemyGenerator{
         turret2 = SCNScene(named: "art.scnassets/turrets/turretDouble_exclusive.scn")?.rootNode.childNode(withName: "turret", recursively: true)!
 
 
+        /** Load other enemies **/
+        
+        self.fireball = SCNParticleSystem(named: "fireball", inDirectory: nil)!
     }
 }
 

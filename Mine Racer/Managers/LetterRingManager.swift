@@ -21,8 +21,17 @@ class LetterRingManager{
     
    
     
+    func addRandomizedMovingRing(fromWord word: String){
+        
+            let randomLetterType = word.getRandomLetterType()
+            addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: randomLetterType)
+        
+    }
+    
     /** Adds a moving ring with a specified letter and letter style to the plane view controller scene **/
     func addRandomizedMovingRing(withLetterStyle letterStyle: LetterStyle, withLetterType letterType: LetterType){
+        
+       
         
         let movingRing = generateRandomizedMovingRingFor(letterStyle: letterStyle, letterType: letterType)
         
@@ -51,6 +60,25 @@ class LetterRingManager{
         
     }
     
+    
+    func generateRandomizedMovingRingGroup(numberOfRings: Int, fromWord word: String?) -> [LetterRing]{
+        
+        var letterRings = [LetterRing]()
+        
+
+        for _ in 1...numberOfRings{
+            
+            let randomLetterType = word?.getRandomLetterType() ?? LetterType.GetRandomLetterType()
+            
+            let randomLetterStyle = LetterStyle.Blue
+            
+            let newLetterRing = generateRandomizedMovingRingFor(letterStyle: randomLetterStyle, letterType: randomLetterType)
+            letterRings.append(newLetterRing)
+        }
+        
+        return letterRings
+    }
+    
  
     func generateRandomizedMovingRingFor(letterStyle: LetterStyle, letterType: LetterType) -> LetterRing{
         
@@ -69,6 +97,19 @@ class LetterRingManager{
         let velocity = SCNVector3(0.0, 0.0,3.0)
         
         print("Getting letter ring node...")
+        
+        let movingRing = generateRingFor(letterStyle: letterStyle, letterType: letterType, velocity: velocity, spawnPoint: spawnPoint)
+        
+        
+        return movingRing
+        
+    }
+    
+    
+    /** Wrapper function for the singleton letter generator **/
+    
+    func generateRingFor(letterStyle: LetterStyle, letterType: LetterType, velocity: SCNVector3, spawnPoint: SCNVector3) -> LetterRing{
+        
         
         let movingRing = RingCreator.sharedInstance.getMovingRingFor(letterStyle: letterStyle, letterType: letterType, spawnPoint: spawnPoint, velocity: velocity)
         
