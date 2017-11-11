@@ -11,22 +11,7 @@ import SceneKit
 
 class FireballManager{
     
-    enum FireBallType{
-        case LowVelocityNHNW, HighVelocityNHNW, LowVelocityLHLW, HighVelocityLHLW
-        
-        static let allFireballTypes: [FireBallType]  = [.LowVelocityNHNW,.HighVelocityNHNW,.LowVelocityLHLW,.HighVelocityLHLW]
-        
-        static func getRandomFireballType() -> FireBallType{
-            
-            let totalFireballs = FireBallType.allFireballTypes.count
-            let randomIdx = Int(arc4random_uniform(UInt32(totalFireballs)))
-            
-            //return FireBallType.allFireballTypes[randomIdx]
-            
-            return .HighVelocityLHLW
-            
-        }
-    }
+    
     
     var fireballManager = [SCNNode]()
     
@@ -46,9 +31,9 @@ class FireballManager{
         }
         
         for _ in 1...number{
-            let randomFireballType = FireBallType.getRandomFireballType()
+            let randomVelocityType = VelocityType.getDefaultVelocityType()
             
-            switch randomFireballType{
+            switch randomVelocityType{
             case .HighVelocityNHNW:
                 addHighVelocityNHNWFireball()
                 break

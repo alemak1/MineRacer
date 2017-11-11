@@ -20,7 +20,7 @@ class Plane{
     var pitchDuration = 0.70
     var moveDuration = 0.70
     var restoreDuration = 0.20
-    var movementDistance: CGFloat = 5.00
+    var movementDistance: CGFloat = 15.00
     
     var forwardMovementDistance: CGFloat{
             return forwardSpeed*CGFloat(forwardMovementDuration)

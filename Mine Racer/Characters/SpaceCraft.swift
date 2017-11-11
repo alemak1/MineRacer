@@ -25,7 +25,7 @@ class SpaceCraft{
     var shootingInterval: TimeInterval = 1.00
     
     var velocityFrameCount = 0.00
-    var velocityUpdateInterval = 2.00
+    var velocityUpdateInterval = 0.50
     
     /** Other configurable parameters **/
     
@@ -39,11 +39,22 @@ class SpaceCraft{
 
         configureMainNodeName()
         configureSpaceCraft(withPosition: spawnPoint, withVelocity: velocity)
+        configureDefaultLookAtConstraint(forSpawnPoint: spawnPoint)
         configureAuxiliaryGeometries()
+        
+      
     }
     
 
     
+
+    func configureDefaultLookAtConstraint(forSpawnPoint spawnPoint: SCNVector3){
+        let lookAtNode = SCNNode()
+        lookAtNode.position = SCNVector3.init(spawnPoint.x, spawnPoint.y, 0.0)
+        let lookAtConstraint = SCNLookAtConstraint(target: lookAtNode)
+        self.mainNode.constraints = [lookAtConstraint]
+        
+    }
     
     func configureSpaceCraft(withPosition position: SCNVector3, withVelocity velocity: SCNVector3, withOpacity opacity: CGFloat = 0.00){
         
@@ -67,11 +78,13 @@ class SpaceCraft{
         
     }
     
-    init(referenceNode: SCNNode) {
-        self.mainNode = referenceNode
-     
+    init(referenceNode: SCNNode, withSpawnPoint spawnPoint: SCNVector3, withVelocity velocity: SCNVector3) {
         
-        /** Configure the Portal Geometry in the middle of the ring **/
+        self.mainNode = referenceNode
+        
+        configureSpaceCraft(withPosition: spawnPoint, withVelocity: velocity)
+        configureDefaultLookAtConstraint(forSpawnPoint: spawnPoint)
+        configureAuxiliaryGeometries()
         configureAuxiliaryGeometries()
         
     }

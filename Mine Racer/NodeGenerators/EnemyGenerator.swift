@@ -33,6 +33,16 @@ class EnemyGenerator{
     
     enum SpaceCraftType: Int{
         case SpaceCraft1 = 1, SpaceCraft2, SpaceCraft3, SpaceCraft4, SpaceCraft5, SpaceCraft6
+        
+        static let allSpaceCraft: [SpaceCraftType] = [.SpaceCraft1, .SpaceCraft2,.SpaceCraft3,.SpaceCraft4,.SpaceCraft5,.SpaceCraft6]
+        
+        static func GetRandomSpaceCraftType() -> SpaceCraftType{
+            
+            let randomIdx = Int(arc4random_uniform(UInt32(SpaceCraftType.allSpaceCraft.count)))
+            
+            return SpaceCraftType.allSpaceCraft[randomIdx]
+            
+        }
     }
     
     enum TurretType: Int{
@@ -99,6 +109,11 @@ class EnemyGenerator{
         let originalNode = getSpikeBallNode(of: type)
         
         let spikeBallNode = originalNode.copy() as! SCNNode
+        
+        for child in originalNode.childNodes{
+            let childCopy = child.copy() as! SCNNode
+            spikeBallNode.addChildNode(childCopy)
+        }
         
         return spikeBallNode
     }
@@ -193,12 +208,9 @@ class EnemyGenerator{
         
         let spaceCraftNode = originalNode.copy() as! SCNNode
         
-        let spaceCraft = SpaceCraft(referenceNode: spaceCraftNode)
+        let spaceCraft = SpaceCraft(referenceNode: spaceCraftNode, withSpawnPoint: spawnPoint, withVelocity: velocity)
         
-        
-        spaceCraft.setPosition(position: spawnPoint)
-        spaceCraft.setVelocity(velocity: velocity)
-        
+    
         return spaceCraft
     }
     

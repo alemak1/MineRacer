@@ -35,6 +35,8 @@ class PlaneViewController: UIViewController{
     var spikeBallManager: SpikeBallManager!
     var fireballManager: FireballManager!
     
+    var currentWord: String?
+    
     var spawnPoints: [[SCNVector3]]?
     
     var lastUpdatedTime: TimeInterval = 0.00
@@ -69,9 +71,14 @@ class PlaneViewController: UIViewController{
        // worldNode.addChildNode(tunnel2)
        // tunnel2.position = SCNVector3(x: -10.0, y: 5.0, z: -100)
         
-      //  let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self,withNumberOfEncounters: 10, withMaxWaitTime: 6)
         
-       // encounterSeries.start()
+        setCurrentWord(with: "love")
+        
+        letterRingManager.addRandomizedMovingRing(with: 5, fromWord: self.currentWord)
+       
+       let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 3, withMaxWaitTime: 4)
+        
+       encounterSeries.start()
         
         /**Test Code:
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_A)
@@ -83,15 +90,20 @@ class PlaneViewController: UIViewController{
         letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_F)
          **/
         
-        loadSpawnPoints()
         
-         let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 30, withMaxFireballs: 10, withMaxWaitTime: 3)
+      //  spikeBallManager.addRandomSpikeBalls(number: 4)
+        spaceCraftManager.addRandomSpaceCraft(number: 6)
+
+       // let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 200, withMaxFireballs: 10, withMaxSpikeBalls: 10, withMaxWaitTime: 3)
         
-        encounterSeries.start()
+         //let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 200, withMaxFireballs: 10, withMaxWaitTime: 3)
+        
+       // encounterSeries.start()
 
       
-
+       
         
+      
       //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft1)
       //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft2)
         
@@ -117,6 +129,11 @@ class PlaneViewController: UIViewController{
 
     }
     
+    
+    func setCurrentWord(with word: String){
+        
+        self.currentWord = word.uppercased()
+    }
     
     func spawnNextGameObject(){
         

@@ -11,7 +11,6 @@ import GameplayKit
 
 
 
-
 class EncounterSeries{
     
     var firstEncounter: Encounter
@@ -93,16 +92,17 @@ class EncounterSeries{
     }
     
     private func addGameObjects(){
-        if let obstacles = self.currentEncounter!.obstacles{
-            
+        if let numberOfSpikeBalls = self.currentEncounter!.numberOfSpikeBalls{
+            planeViewController.spikeBallManager.addRandomSpikeBalls(number: numberOfSpikeBalls)
         }
         
-        if let enemies = self.currentEncounter!.enemies{
-            
+        if let numberOfSpaceCraft = self.currentEncounter!.numberOfSpaceCraft{
+            planeViewController.spaceCraftManager.addRandomSpaceCraft(number: numberOfSpaceCraft)
         }
         
-        if let letterRings = self.currentEncounter!.letterRings{
-            planeViewController.letterRingManager.addLetterRings(letterRings: letterRings)
+        if let numberOfLetters = self.currentEncounter!.numberOfLetters{
+            
+            planeViewController.letterRingManager.addRandomizedMovingRing(with: numberOfLetters, fromWord: planeViewController.currentWord)
         }
         
         if let numberOfFireballs = self.currentEncounter!.numberOfFireballs{
@@ -116,21 +116,21 @@ class EncounterSeries{
 extension EncounterSeries{
     static func GetFireballSeries1(planeViewController: PlaneViewController) -> EncounterSeries{
     
-        let firstEncounter = Encounter(waitTime: 3.00, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: 2)
+        let firstEncounter = Encounter(waitTime: 3.00, numberOfSpikeBalls: nil, numberOfSpaceCraft: nil, numberOfLetters: 4, numberOfFireballs: 5)
         
         
-        let secondEncounter = firstEncounter.setNextEncounter(waitTime: 2.00, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: 4)
+        let secondEncounter = firstEncounter.setNextEncounter(waitTime: 4.00, numberOfSpikeBalls: 1, numberOfSpaceCraft: 0, numberOfLetters: 5, numberOfFireballs: 5)
         
 
-        let thirdEncounter = secondEncounter.setNextEncounter(waitTime: 4.0, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: 5)
+        let thirdEncounter = secondEncounter.setNextEncounter(waitTime: 3.00, numberOfSpikeBalls: 0, numberOfSpaceCraft: 0, numberOfLetters: 3, numberOfFireballs: 6)
         
         
-        _ = thirdEncounter.setNextEncounter(waitTime: 4.00, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: 6)
+        _ = thirdEncounter.setNextEncounter(waitTime: 3.00, numberOfSpikeBalls: 0, numberOfSpaceCraft: 0, numberOfLetters: 4, numberOfFireballs: 5)
         
         return EncounterSeries(planeViewController: planeViewController, firstEncounter: firstEncounter)
     }
     
-    static func GenerateFireballEncounterSeries(forPlaneViewController planeViewController: PlaneViewController,withNumberOfEncounters numberOfEncounters: Int, withMaxFireballs maxFireballs: Int, withMaxWaitTime maxWaitTime: Int) -> EncounterSeries{
+    static func GenerateEncounterSeries(forPlaneViewController planeViewController: PlaneViewController,withMaxLetter maxLetters: Int, withNumberOfEncounters numberOfEncounters: Int, withMaxFireballs maxFireballs: Int, withMaxSpikeBalls maxSpikeBalls: Int, withMaxSpaceCraft maxSpaceCraft: Int, withMaxWaitTime maxWaitTime: Int) -> EncounterSeries{
         
         if(numberOfEncounters < 2){
             fatalError("Error: there must be at least two encounters minimum in order for an encounter series to be generated")
@@ -146,28 +146,49 @@ extension EncounterSeries{
         
         let getRandomNumberOfFireballs: ()->Int = {
             
-            let maximumNum = maxFireballs <= 0 ? 3: maxFireballs
+            let maximumNum = maxFireballs <= 0 ? 0: maxFireballs
             
             return Int(arc4random_uniform(UInt32(maximumNum)))
             
         }
         
-        let firstWaitTime = getMaxWaitTime()
-        let fireballNum1 = getRandomNumberOfFireballs()
+        let getRandomNumberOfSpikeBalls: ()->Int = {
+            
+            let maximumNum = maxSpikeBalls <= 0 ? 0: maxSpikeBalls
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+            
+        }
         
-        let firstEncounter = Encounter(waitTime: firstWaitTime, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: fireballNum1)
+        let getRandomNumberOfSpaceCraft: ()->Int = {
+            
+            let maximumNum = maxSpaceCraft <= 0 ? 0: maxSpaceCraft
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+            
+        }
         
-        let secondWaitTime = getMaxWaitTime()
-        let fireballNum2 = getRandomNumberOfFireballs()
-    
-        var nextEncounter = firstEncounter.setNextEncounter(waitTime: secondWaitTime, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: fireballNum2)
+        let getRandomNumberOfLetters: ()->Int = {
+            
+            let maximumNum = maxLetters <= 0 ? 0: maxLetters
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+            
+        }
+        
+        let (firstWaitTime,fireballNum1,spikeBallNum1,spaceCraftNum1,letterNum1) = (getMaxWaitTime(),getRandomNumberOfFireballs(),getRandomNumberOfSpikeBalls(),getRandomNumberOfSpaceCraft(),getRandomNumberOfLetters())
+       
+        let firstEncounter = Encounter(waitTime: firstWaitTime, numberOfSpikeBalls: spikeBallNum1, numberOfSpaceCraft: spaceCraftNum1, numberOfLetters: letterNum1, numberOfFireballs: fireballNum1)
+        
+        let (secondWaitTime,fireballNum2,spikeBallNum2,spaceCraftNum2,letterNum2) = (getMaxWaitTime(),getRandomNumberOfFireballs(),getRandomNumberOfSpikeBalls(),getRandomNumberOfSpaceCraft(),getRandomNumberOfLetters())
+        
+        var nextEncounter = firstEncounter.setNextEncounter(waitTime: secondWaitTime, numberOfSpikeBalls: spikeBallNum2, numberOfSpaceCraft: spaceCraftNum2, numberOfLetters: letterNum2, numberOfFireballs: fireballNum2)
         
         for _ in 1..<numberOfEncounters-2{
             
-            let nextWaitTime = getMaxWaitTime()
-            let nextFireballNum = getRandomNumberOfFireballs()
+            let (nextWaitTime,nextFireballNum,nextSpikeBallNum,nextSpaceCraftNum,nextNumberOfLetters) = (getMaxWaitTime(),getRandomNumberOfFireballs(),getRandomNumberOfSpikeBalls(),getRandomNumberOfSpaceCraft(),getRandomNumberOfLetters())
             
-            nextEncounter = nextEncounter.setNextEncounter(waitTime: nextWaitTime, obstacles: nil, enemies: nil, letterRings: nil, numberOfFireballs: nextFireballNum)
+            nextEncounter = nextEncounter.setNextEncounter(waitTime: nextWaitTime, numberOfSpikeBalls: nextSpikeBallNum, numberOfSpaceCraft: nextSpaceCraftNum, numberOfLetters: nextNumberOfLetters, numberOfFireballs: nextFireballNum)
             
         }
         
@@ -181,26 +202,26 @@ class Encounter{
     
     var waitTime: Double = 5.00
     
-    var obstacles: [SCNNode]?
-    var enemies: [SCNNode]?
-    var letterRings: [LetterRing]?
+    var numberOfSpikeBalls: Int?
+    var numberOfLetters: Int?
     var numberOfFireballs: Int?
+    var numberOfSpaceCraft: Int?
     
 
-    init(waitTime: Double, obstacles: [SCNNode]?, enemies: [SCNNode]?, letterRings: [LetterRing]?, numberOfFireballs: Int?){
+    init(waitTime: Double, numberOfSpikeBalls: Int?, numberOfSpaceCraft: Int?, numberOfLetters: Int?, numberOfFireballs: Int?){
         
         self.waitTime = waitTime
-        self.obstacles = obstacles
-        self.enemies = enemies
-        self.letterRings = letterRings
+        self.numberOfSpikeBalls = numberOfSpikeBalls
+        self.numberOfSpaceCraft = numberOfSpaceCraft
+        self.numberOfLetters = numberOfLetters
         self.numberOfFireballs = numberOfFireballs
         
         nextEncounter = nil
     }
     
-    func setNextEncounter(waitTime: Double, obstacles: [SCNNode]?, enemies: [SCNNode]?, letterRings: [LetterRing]?, numberOfFireballs: Int?) -> Encounter{
+    func setNextEncounter(waitTime: Double, numberOfSpikeBalls: Int?, numberOfSpaceCraft: Int?, numberOfLetters: Int?, numberOfFireballs: Int?) -> Encounter{
         
-        self.nextEncounter = Encounter(waitTime: waitTime, obstacles: obstacles, enemies: enemies, letterRings: letterRings, numberOfFireballs: numberOfFireballs)
+        self.nextEncounter = Encounter(waitTime: waitTime, numberOfSpikeBalls: numberOfSpikeBalls, numberOfSpaceCraft: numberOfSpaceCraft, numberOfLetters: numberOfLetters, numberOfFireballs: numberOfFireballs)
         
         return self.nextEncounter!
     }

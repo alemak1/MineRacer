@@ -21,24 +21,67 @@ class SpikeBallManager{
         self.planeViewController = planeViewController
     }
     
+    func addRandomSpikeBalls(number: Int){
+        
+        if(number <= 0){
+            return
+        }
+        
+        for _ in 1...number{
+            let randomVelocityType = VelocityType.getDefaultVelocityType()
+            
+            switch randomVelocityType{
+            case .HighVelocityNHNW:
+                addHighVelocityNHNWSpikeBall()
+                break
+            case .HighVelocityLHLW:
+                addHighVelocityLHLWSpikeBall()
+                break
+            case .LowVelocityLHLW:
+                addLowVelocityLHLWSpikeBall()
+                break
+            case .LowVelocityNHNW:
+                addLowVelocityNHNWSpikeBall()
+                break
+            }
+        }
+    }
     
-    func addRandomizedSpikeBall(){
+    func addHighVelocityNHNWSpikeBall(){
+        
+        addRandomizedSpikeBall(withConfigurationType: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+
+    }
+
+    func addHighVelocityLHLWSpikeBall(){
+        
+        addRandomizedSpikeBall(withConfigurationType: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
+
+    }
+
+    func addLowVelocityLHLWSpikeBall(){
+        
+        addRandomizedSpikeBall(withConfigurationType: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+
+    }
+
+    
+    func addLowVelocityNHNWSpikeBall(){
+        
+        addRandomizedSpikeBall(withConfigurationType: LBPConfiguration.LowVelocityNarrowHeightAndWidthConfiguration)
+    }
+    
+    func addRandomizedSpikeBall(withConfigurationType configuration: LBPConfiguration){
         
         let randomSpikeBallType = EnemyGenerator.SpikeBallType.GetRandomSpikeBallType()
         
-        addRandomizedSpikeBall(withSpikeBallType: randomSpikeBallType)
-    }
-    
-    func addRandomizedSpikeBall(withSpikeBallType spikeBallType: EnemyGenerator.SpikeBallType){
-        
-        let movingSpikeBall = generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.SpikeBallDefaultConfiguration)
-        
+        let movingSpikeBall = generateRandomizedMovingSpikeBallFor(spikeBallType: randomSpikeBallType, withLBPConfiguration: configuration)
+
         addSpikeBall(spikeBall: movingSpikeBall)
-        
-        
+
         
     }
-    
+
     
     /** Helper functions for adding spacecraft individually and in bulk, without configuring the velocity or spawn point **/
     
@@ -63,7 +106,31 @@ class SpikeBallManager{
     
     /** Generates a moving spacecraft whose spawn point and velocity are randomized based on a hard-coded default configuration object **/
     
-    func generateDefaultRandomizedMovingSpaceCraftFor(spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
+    func generateLowVelocityLGLWSpikeball(forSpikeBallType spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
+        
+        return generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+    }
+    
+    
+    
+    func generateLowVelocityNHNWSpikeball(forSpikeBallType spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
+        
+        return generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.LowVelocityNarrowHeightAndWidthConfiguration)
+    }
+    
+    
+    func generateHighVelocityNHNWSpikeball(forSpikeBallType spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
+        
+        return generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+    }
+    
+    func generateHighVelocityLGLWSpikeBall(forSpikeBallType spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
+        
+        return generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
+
+    }
+    
+    func generateDefaultRandomizedMovingSpikeBallFor(spikeBallType: EnemyGenerator.SpikeBallType) -> SpikeBall{
         
         return generateRandomizedMovingSpikeBallFor(spikeBallType: spikeBallType, withLBPConfiguration: LBPConfiguration.DefaultLBPConfiguration)
         
@@ -117,13 +184,45 @@ class SpaceCraftManager{
     
     /** Adds a moving ring with a specified letter and letter style to the plane view controller scene; the velocity and spawn point are randomized based on a hard-coded configuration object  **/
     
-    func addRandomizedSpaceCraft(withSpaceCraftType spaceCraftType: EnemyGenerator.SpaceCraftType){
+    
+    
+    func addRandomSpaceCraft(number: Int){
         
-        let movingSpaceCraft = generateDefaultRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType)
+        if(number <= 0){
+            return
+        }
         
-        addSpaceCraft(spaceCraft: movingSpaceCraft)
+        for _ in 1...number{
+            addRandomizedSpaceCraft()
+        }
+    }
+    
+
+    func addRandomizedSpaceCraft(){
+        let randomSpaceCraftType = EnemyGenerator.SpaceCraftType.GetRandomSpaceCraftType()
+        let randomVelocityType = VelocityType.getDefaultVelocityType()
+        
+        var spaceCraft: SpaceCraft!
+        
+        switch randomVelocityType {
+        case .HighVelocityLHLW:
+            spaceCraft = generateHighVelocityLHLWRandomSpaceCraftFor(spaceCraftType: randomSpaceCraftType)
+            break
+        case .HighVelocityNHNW:
+            spaceCraft = generateHighVelocityNHNWRandomSpaceCraftFor(spaceCraftType: randomSpaceCraftType)
+            break
+        case .LowVelocityLHLW:
+            spaceCraft = generateLowVelocityLHLWRandomSpaceCraftFor(spaceCraftType: randomSpaceCraftType)
+            break
+        case .LowVelocityNHNW:
+            spaceCraft = generateLowVelocityNHNWRandomSpaceCraftFor(spaceCraftType: randomSpaceCraftType)
+
+            break
+        }
         
         
+        
+        addSpaceCraft(spaceCraft: spaceCraft)
         
     }
 
@@ -149,11 +248,32 @@ class SpaceCraftManager{
     
    
     
+    
     /** Generates a moving spacecraft whose spawn point and velocity are randomized based on a hard-coded default configuration object **/
     
-    func generateDefaultRandomizedMovingSpaceCraftFor(spaceCraftType: EnemyGenerator.SpaceCraftType) -> SpaceCraft{
+    
+    func generateLowVelocityNHNWRandomSpaceCraftFor(spaceCraftType: EnemyGenerator.SpaceCraftType) -> SpaceCraft{
         
-        return generateRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType, withLBPConfiguration: LBPConfiguration.DefaultLBPConfiguration)
+        return generateRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType, withLBPConfiguration: LBPConfiguration.LowVelocityNarrowHeightAndWidthConfiguration)
+        
+    }
+
+    func generateLowVelocityLHLWRandomSpaceCraftFor(spaceCraftType: EnemyGenerator.SpaceCraftType) -> SpaceCraft{
+        
+        return generateRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType, withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+        
+    }
+    
+    
+    func generateHighVelocityNHNWRandomSpaceCraftFor(spaceCraftType: EnemyGenerator.SpaceCraftType) -> SpaceCraft{
+        
+        return generateRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        
+    }
+    
+    func generateHighVelocityLHLWRandomSpaceCraftFor(spaceCraftType: EnemyGenerator.SpaceCraftType) -> SpaceCraft{
+        
+        return generateRandomizedMovingSpaceCraftFor(spaceCraftType: spaceCraftType, withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
         
     }
     

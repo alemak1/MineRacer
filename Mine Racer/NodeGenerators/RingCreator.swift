@@ -54,8 +54,8 @@ class RingCreator{
         physicsBody1.allowsResting = true
         physicsBody1.damping = 0.0
         physicsBody1.friction = 0.0
-        physicsBody1.collisionBitMask = Int(CollisionMask.Player.rawValue)
-        physicsBody1.categoryBitMask = Int(CollisionMask.Obstacle.rawValue)
+        physicsBody1.collisionBitMask = Int(CollisionMask.None.rawValue)
+        physicsBody1.categoryBitMask = Int(CollisionMask.PortalCenter.rawValue)
         physicsBody1.contactTestBitMask = Int(CollisionMask.Player.rawValue)
         letter.physicsBody = physicsBody1
         

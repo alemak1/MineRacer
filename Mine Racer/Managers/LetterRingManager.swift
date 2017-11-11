@@ -21,26 +21,47 @@ class LetterRingManager{
     
    
     
-    func addRandomizedMovingRing(fromWord word: String){
+    func addRandomizedMovingRing(with numberOfLetterRings: Int, fromWord word: String?){
         
-            let randomLetterType = word.getRandomLetterType()
-            addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: randomLetterType)
+        for _ in 0...numberOfLetterRings{
+
+            addRandomizedMovingRing(usingWord: word)
+            
+        }
+        
         
     }
     
     /** Adds a moving ring with a specified letter and letter style to the plane view controller scene **/
-    func addRandomizedMovingRing(withLetterStyle letterStyle: LetterStyle, withLetterType letterType: LetterType){
+    func addRandomizedMovingRing(usingWord word: String?){
         
-       
+        let randomLetterType = word?.getRandomLetterType() ?? LetterType.GetRandomLetterType()
         
-        let movingRing = generateRandomizedMovingRingFor(letterStyle: letterStyle, letterType: letterType)
+        let newLetterRing = generateRandomizedMovingRingFor(letterType: randomLetterType, withConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
         
-        movingRing.addTo(planeViewController: planeViewController)
+        addLetterRing(letterRing: newLetterRing)
         
-        self.ringManager.append(movingRing)
         
         
     }
+    
+    func generateRandomizedMovingRingGroup(numberOfRings: Int, fromWord word: String?) -> [LetterRing]{
+        
+        var letterRings = [LetterRing]()
+        
+        
+        for _ in 1...numberOfRings{
+            
+            let randomLetterType = word?.getRandomLetterType() ?? LetterType.GetRandomLetterType()
+            
+            let newLetterRing = generateRandomizedMovingRingFor(letterType: randomLetterType, withConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+            
+            letterRings.append(newLetterRing)
+        }
+        
+        return letterRings
+    }
+
     
     
     func addLetterRings(letterRings: [LetterRing]){
@@ -61,26 +82,9 @@ class LetterRingManager{
     }
     
     
-    func generateRandomizedMovingRingGroup(numberOfRings: Int, fromWord word: String?) -> [LetterRing]{
-        
-        var letterRings = [LetterRing]()
-        
-
-        for _ in 1...numberOfRings{
-            
-            let randomLetterType = word?.getRandomLetterType() ?? LetterType.GetRandomLetterType()
-            
-            let randomLetterStyle = LetterStyle.Blue
-            
-            let newLetterRing = generateRandomizedMovingRingFor(letterStyle: randomLetterStyle, letterType: randomLetterType)
-            letterRings.append(newLetterRing)
-        }
-        
-        return letterRings
-    }
     
  
-    func generateRandomizedMovingRingFor(letterStyle: LetterStyle, letterType: LetterType) -> LetterRing{
+    func generateRandomizedMovingRingFor(letterType: LetterType, withConfiguration configuration: LBPConfiguration) -> LetterRing{
         
         print("Getting randomized moving ring based on player's current position...")
         
@@ -88,17 +92,17 @@ class LetterRingManager{
         
         print("Getting spawn point...")
         
-        let (spawnPointX,spawnPointY,spawnPointZ) = LBPConfiguration.DefaultLBPConfiguration.getRandomSpawnPoint()
+        let (spawnPointX,spawnPointY,spawnPointZ) = configuration.getRandomSpawnPoint()
         
         let spawnPoint = SCNVector3(xTarget + spawnPointX, yTarget + spawnPointY, zTarget + spawnPointZ)
         
         print("Getting velocity...")
         
-        let velocity = SCNVector3(0.0, 0.0,3.0)
+        let velocity = configuration.getRandomVelocityVector()
         
         print("Getting letter ring node...")
         
-        let movingRing = generateRingFor(letterStyle: letterStyle, letterType: letterType, velocity: velocity, spawnPoint: spawnPoint)
+        let movingRing = generateRingFor(letterStyle: .Blue, letterType: letterType, velocity: velocity, spawnPoint: spawnPoint)
         
         
         return movingRing

@@ -47,7 +47,7 @@ class LetterRing{
         
         let geometry = SCNBox(width: 10.0, height: 10.0, length: 2.0, chamferRadius: 0.0)
         self.portalNode = SCNNode(geometry: geometry)
-        self.portalNode.opacity = 0.50
+        self.portalNode.opacity = 0.00
         self.portalNode.position = self.ringNode.position
         portalNode.eulerAngles.z = -90
         
