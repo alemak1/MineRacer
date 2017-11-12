@@ -19,6 +19,11 @@ class PlaneViewController: UIViewController{
     var lastContactNode: SCNNode!
     
     var gameHelper = GameHelper.sharedInstance
+    var hud: HUD!
+    
+    var mainHUDnode: SCNNode{
+        return hud.hudNode
+    }
     
     var player: Plane!
     var worldNode: SCNNode!
@@ -29,13 +34,13 @@ class PlaneViewController: UIViewController{
     var portraitCamera: SCNNode!
     var landscapeCamera: SCNNode!
     
-    
     var letterRingManager: LetterRingManager!
     var spaceCraftManager: SpaceCraftManager!
     var spikeBallManager: SpikeBallManager!
     var fireballManager: FireballManager!
     
     var currentWord: String?
+    var wordInProgress: String?
     
     var spawnPoints: [[SCNVector3]]?
     
@@ -43,9 +48,22 @@ class PlaneViewController: UIViewController{
     var frameCount: TimeInterval = 0.00
     var ringExpansionInterval = 4.00
     
+    var currentEncounterSeries: EncounterSeries?
+    var encounterIsFinished: Bool = false{
+        didSet{
+            if(encounterIsFinished == true){
+                gameHelper.state == .GameOver
+                print("Encounter is finished...Game over")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        setCurrentWord(with: "love")
+
         loadFireballManager()
         
         loadSpikeBallManager()
@@ -60,6 +78,11 @@ class PlaneViewController: UIViewController{
         
         setupNodes()
         
+        setupCameras()
+        
+        setupHUD()
+
+        
         setupGestureRecognizers()
         
         changePointOfView(to: .Portrait)
@@ -72,63 +95,34 @@ class PlaneViewController: UIViewController{
        // tunnel2.position = SCNVector3(x: -10.0, y: 5.0, z: -100)
         
         
-        setCurrentWord(with: "love")
         
-        letterRingManager.addRandomizedMovingRing(with: 5, fromWord: self.currentWord)
        
-       let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 3, withMaxWaitTime: 4)
+        loadEncounterSeries()
         
-       encounterSeries.start()
-        
-        /**Test Code:
-        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_A)
-        
-        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_B)
-        
-        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_D)
-        
-        letterRingManager.addRandomizedMovingRing(withLetterStyle: .Blue, withLetterType: .letter_F)
-         **/
-        
-        
-      //  spikeBallManager.addRandomSpikeBalls(number: 4)
-        spaceCraftManager.addRandomSpaceCraft(number: 6)
-
-       // let encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 200, withMaxFireballs: 10, withMaxSpikeBalls: 10, withMaxWaitTime: 3)
-        
-         //let encounterSeries = EncounterSeries.GenerateFireballEncounterSeries(forPlaneViewController: self, withNumberOfEncounters: 200, withMaxFireballs: 10, withMaxWaitTime: 3)
-        
-       // encounterSeries.start()
-
-      
-       
-        
-      
-      //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft1)
-      //  spaceCraftManager.addRandomizedSpaceCraft(withSpaceCraftType: .SpaceCraft2)
-        
-        /**
-        let point1 = SCNVector3(0.0, 10.0, -340.0)
-        let unitVec1 = point1.getDifference(withVector: self.player.node.presentation.position)
-        let velocity1 = unitVec1.multiplyByScalar(scalar: 0.03)
-        let spaceCraft1 = SpaceCraft(spaceCraftType: .SpaceCraft1, spawnPoint: point1, velocity: velocity1)
-        
-        spaceCraft1.addTo(planeViewController: self)
-        spaceCraftManager.addSpaceCraft(spaceCraft: spaceCraft1)
-        
-        let point2 = SCNVector3(10.0, -10.0, -310.0)
-        let unitVec2 = point2.getDifference(withVector: self.player.node.presentation.position)
-        let velocity2 = unitVec2.multiplyByScalar(scalar: 0.03)
-        let spaceCraft2 = SpaceCraft(spaceCraftType: .SpaceCraft2, spawnPoint: point2, velocity: velocity2)
-        
-        spaceCraft2.addTo(planeViewController: self)
-        spaceCraftManager.addSpaceCraft(spaceCraft: spaceCraft2)
-        
-        **/
-     
+        startEncounterSeries()
 
     }
     
+    func loadEncounterSeries(){
+        
+        self.currentEncounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 5, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 10, withMaxWaitTime: 3)
+    }
+    
+    func startEncounterSeries(){
+        if(self.currentEncounterSeries != nil){
+            self.currentEncounterSeries!.start()
+
+        }
+
+    }
+    
+    func setupHUD(){
+        self.hud = HUD(withPlaneViewController: self)
+        self.portraitCamera.addChildNode(self.hud.hudNode)
+        self.hud.hudNode.position = SCNVector3.init(0.0, 45.00, -100.00)
+        self.hud.updateHUD()
+    
+    }
     
     func setCurrentWord(with word: String){
         
@@ -303,7 +297,7 @@ class PlaneViewController: UIViewController{
         
         portraitCamera = scnScene.rootNode.childNode(withName: "portraitCamera", recursively: true)!
         landscapeCamera = scnScene.rootNode.childNode(withName: "landscapeCamera", recursively: true)!
- 
+    
      
         
         /**
@@ -360,6 +354,13 @@ class PlaneViewController: UIViewController{
     
     func changePointOfView(to pointOfView: PointOfView){
         
+        /** Remove HUD node from previous camera node **/
+        if let currentCamera = scnView.pointOfView{
+            if let hudNode = currentCamera.childNode(withName: "hud", recursively: true){
+                hudNode.removeFromParentNode()
+            }
+        }
+        
         switch pointOfView {
         case .SideView:
             break
@@ -373,6 +374,13 @@ class PlaneViewController: UIViewController{
             break
         case .FirstPerson:
             break
+            
+        }
+        
+        /** Add HUD node to new camera node **/
+        
+        if let currentCamera = scnView.pointOfView{
+                currentCamera.addChildNode(mainHUDnode)
             
         }
     }
@@ -396,21 +404,36 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             lastUpdatedTime = 0
         }
         
+        if(player.health <= 0){
+            gameHelper.state == .GameOver
+        }
         
         
         if(gameHelper.state == .Playing){
             
-            
+            print("Total nodes (pre-cleanup)are: \(worldNode.childNodes.count)")
+
             letterRingManager.update(with: time)
             spaceCraftManager.update(with: time)
-            
             fireballManager.update(with: time)
+            cleanExcessNodes()
+            
             updateCameraPositions()
-
+            
+            print("Total nodes (post-cleanup) are: \(worldNode.childNodes.count)")
         }
         
         lastUpdatedTime = time
         
+    }
+    
+    func cleanExcessNodes(){
+        
+        for node in worldNode.childNodes{
+            if node.position.z > 30{
+                node.removeFromParentNode()
+            }
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didApplyAnimationsAtTime time: TimeInterval) {
@@ -472,6 +495,27 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
                     ])
             }
             break
+        case CollisionMask.Bullet.rawValue:
+            print("Player has been hit by a bullet")
+            player.takeDamage(by: 1)
+            hud.updateHUD()
+
+            print("Current player's health is: \(self.player.health)")
+            break
+        case CollisionMask.Enemy.rawValue:
+            print("Player has been hit by an enemy")
+            player.takeDamage(by: 1)
+            hud.updateHUD()
+
+            print("Current player's health is: \(self.player.health)")
+            break
+        case CollisionMask.Obstacle.rawValue:
+            print("Player has been hit by obstacle")
+            player.takeDamage(by: 1)
+            hud.updateHUD()
+
+            print("Current player's health is: \(self.player.health)")
+            break 
         default:
                 print("No contact logic implemented, contactNode info - category mask: \(contactNode.physicsBody!.categoryBitMask), contact mask: \(contactNode.physicsBody!.contactTestBitMask)")
         }

@@ -30,6 +30,7 @@ class LetterRing{
         self.ringNode.opacity = 0.00
 
         configurePortalNode()
+        removeLetterNode()
     }
     
     init(referenceNode: SCNNode) {
@@ -38,9 +39,19 @@ class LetterRing{
         self.ringNode.opacity = 0.00
         
         configurePortalNode()
+        removeLetterNode()
         
     }
     
+    func removeLetterNode(){
+        let removeAction = SCNAction.sequence([
+            SCNAction.wait(duration: 8.00),
+            SCNAction.removeFromParentNode()
+            ])
+        self.ringNode.runAction(removeAction)
+        self.portalNode.runAction(removeAction)
+        
+    }
     func configurePortalNode(){
         
         /** Configure the Portal Geometry in the middle of the ring **/

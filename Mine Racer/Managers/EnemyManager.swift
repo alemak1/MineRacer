@@ -320,7 +320,7 @@ class SpaceCraftManager{
             
             spaceCraft in
             
-            if(spaceCraft.mainNode.presentation.position.z > 30){
+            if(spaceCraft.mainNode.presentation.position.z > 0){
                 spaceCraft.remove()
             }
         })

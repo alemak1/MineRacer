@@ -22,10 +22,10 @@ class SpaceCraft{
     
     var lastUpdateTime: TimeInterval = 0.00
     var frameCount: TimeInterval = 0.00
-    var shootingInterval: TimeInterval = 1.00
+    var shootingInterval: TimeInterval = 0.50
     
     var velocityFrameCount = 0.00
-    var velocityUpdateInterval = 0.50
+    var velocityUpdateInterval = 0.30
     
     /** Other configurable parameters **/
     
@@ -41,11 +41,21 @@ class SpaceCraft{
         configureSpaceCraft(withPosition: spawnPoint, withVelocity: velocity)
         configureDefaultLookAtConstraint(forSpawnPoint: spawnPoint)
         configureAuxiliaryGeometries()
+        configurePhysics()
         
-      
+        removeSpaceCraft()
     }
     
 
+    func removeSpaceCraft(){
+        let removeAction = SCNAction.sequence([
+            SCNAction.wait(duration: 3.00),
+            SCNAction.removeFromParentNode()
+            ])
+        self.mainNode.runAction(removeAction)
+        self.detectionNode.runAction(removeAction)
+        
+    }
     
 
     func configureDefaultLookAtConstraint(forSpawnPoint spawnPoint: SCNVector3){
@@ -82,14 +92,19 @@ class SpaceCraft{
         
         self.mainNode = referenceNode
         
+    
         configureSpaceCraft(withPosition: spawnPoint, withVelocity: velocity)
         configureDefaultLookAtConstraint(forSpawnPoint: spawnPoint)
         configureAuxiliaryGeometries()
-        configureAuxiliaryGeometries()
-        
+        configurePhysics()
     }
     
     
+    func configurePhysics(){
+        self.mainNode.physicsBody?.categoryBitMask = Int(CollisionMask.Enemy.rawValue)
+        self.mainNode.physicsBody?.collisionBitMask = Int(CollisionMask.Player.rawValue)
+        self.mainNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
+    }
     
     func configureAuxiliaryGeometries(){
         
@@ -197,7 +212,7 @@ class SpaceCraft{
             
             let rawVector = currentPos.getDifference(withVector: targetPos)
             
-            let adjustedVelocityVector = rawVector.multiplyByScalar(scalar: 0.01)
+            let adjustedVelocityVector = rawVector.multiplyByScalar(scalar: 0.02)
             
             
             self.mainNode.physicsBody?.applyForce(adjustedVelocityVector, asImpulse: true)
@@ -206,7 +221,7 @@ class SpaceCraft{
     
     func fireBulletAtTargetNode(){
         if targetNode != nil{
-            fireBullet(atTarget: self.targetNode!.presentation.position, withVelocityFactor: 0.10)
+            fireBullet(atTarget: self.targetNode!.presentation.position, withVelocityFactor: 0.05)
         }
     }
     
@@ -221,10 +236,25 @@ class SpaceCraft{
         self.mainNode.addChildNode(bulletNode)
         bulletNode.position = SCNVector3.init(0.0, 0.0, 0.0)
         
-        let bulletVector = targetPos.getDifference(withVector: self.mainNode.presentation.position)
+        let getAdjustmentFactor = { return (Int(arc4random_uniform(UInt32(40))) - 20) }
+       
+        let xAdj = Float(getAdjustmentFactor())
+        let yAdj = Float(getAdjustmentFactor())
+        let zAdj = Float(getAdjustmentFactor())
+        
+        var bulletVector = targetPos.getDifference(withVector: self.mainNode.position)
+        bulletVector = SCNVector3.init(bulletVector.x + xAdj, bulletVector.y + yAdj, bulletVector.z + zAdj)
         let bulletVelocity = bulletVector.multiplyByScalar(scalar: velocityFactor)
         
+        
         bulletNode.physicsBody?.applyForce(bulletVelocity, asImpulse: true)
+       
+        let removeBulletAction = SCNAction.sequence([ SCNAction.wait(duration: 0.50), SCNAction.run({_ in
+            
+            bulletNode.removeFromParentNode()
+        })])
+        
+        bulletNode.runAction(removeBulletAction)
         
     }
     
@@ -288,7 +318,7 @@ class SpaceCraft{
         
         /** Configure geometry and physics properties for the bullet **/
 
-        let capsule = SCNCapsule(capRadius: 1.0, height: 5.0)
+        let capsule = SCNCapsule(capRadius: 0.5, height: 2.0)
         
         capsule.materials.first?.diffuse.contents = "art.scnassets/textures/TexturesCom_AluminiumSheetMaterial_S.png"
         
@@ -299,7 +329,7 @@ class SpaceCraft{
         
         if(self.targetNode != nil){
             
-            let targetPos = self.targetNode!.presentation.position
+            let targetPos = self.targetNode!.position
             
             bulletNode.runAction(SCNAction.rotateTo(x:CGFloat(targetPos.x), y: CGFloat(targetPos.y), z: CGFloat(targetPos.z), duration: 0.10))
           

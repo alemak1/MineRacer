@@ -86,6 +86,7 @@ class EncounterSeries{
         
             } else {
                 print("No more encounters in series...")
+                self.planeViewController.encounterIsFinished = true
             }
             
         })

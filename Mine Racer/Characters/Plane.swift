@@ -13,6 +13,14 @@ class Plane{
     
     var node: SCNNode!
     
+    
+    //MARK: ********** Character Properties
+    
+    var health: Int = 6
+    
+    func takeDamage(by damageAmount: Int){
+        health -= damageAmount
+    }
    
     //MARK: ************* Parameters for Configuring Character Actions
     
