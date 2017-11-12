@@ -24,5 +24,24 @@ class GameHelper{
     
     }
     
+    enum LevelTrack{
+        case SpaceShips
+        case SpikeBalls
+        case FireBalls
+        case Turrets
+        
+    }
+    
+    enum Difficulty{
+        case Easy
+        case Medium
+        case Hard
+        
+    }
+
+
+    
     var state: GameState = .TapToPlay
+    var difficulty: Difficulty = .Medium
+    var levelTrack: LevelTrack = .SpaceShips
 }

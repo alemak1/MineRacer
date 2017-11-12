@@ -13,8 +13,36 @@ import SceneKit
 
 class PlaneViewController: UIViewController{
     
+    
+
+    //MARK: SCNView
+    
     var scnView: SCNView!
+    
+    //MARK: ******** Scenes
+
     var scnScene: SCNScene!
+    var preambleScene: SCNScene!
+    
+    //MARK: ******** Preamble Reference Nodes
+    
+    var startMenu: SCNNode!
+    var gameOptionsMenu: SCNNode!
+    var levelTrackMenu: SCNNode!
+    
+    var startGameOption: SCNNode!
+    var gameDifficultyOption: SCNNode!
+    var levelTracksOption: SCNNode!
+    
+    var hardOption: SCNNode!
+    var mediumOption: SCNNode!
+    var easyOption: SCNNode!
+    
+    var spaceShipsOption: SCNNode!
+    var fireballsOption: SCNNode!
+    var turretsOption: SCNNode!
+    var spikeBallsOption: SCNNode!
+    
     
     var lastContactNode: SCNNode!
     
@@ -321,6 +349,77 @@ class PlaneViewController: UIViewController{
         
     }
     
+    func setupPreambleNodes(){
+        
+        
+        /** Option Menus **/
+        
+        self.startMenu = preambleScene.rootNode.childNode(withName: "StartMenu", recursively: true)!
+        self.gameOptionsMenu = preambleScene.rootNode.childNode(withName: "GameOptions", recursively: true)!
+        self.levelTrackMenu = preambleScene.rootNode.childNode(withName: "LevelTracks", recursively: true)!
+        
+        /** Start Menu Options **/
+        
+        self.startGameOption = self.startMenu.childNode(withName: "StartGame", recursively: true)!
+        self.gameDifficultyOption = self.startMenu.childNode(withName: "GameOptions", recursively: true)!
+        self.levelTracksOption = self.startMenu.childNode(withName: "LevelTracks", recursively: true)!
+        
+        
+        /** Game Difficulty Options **/
+        
+        self.hardOption = self.gameOptionsMenu.childNode(withName: "Hard", recursively: true)!
+        self.mediumOption = self.gameOptionsMenu.childNode(withName: "Medium", recursively: true)!
+        self.easyOption = self.gameOptionsMenu.childNode(withName: "Easy", recursively: true)!
+
+        /** Game Level Track Options  **/
+
+        self.spaceShipsOption = self.levelTrackMenu.childNode(withName: "SpaceShips", recursively: true)!
+        self.turretsOption = self.levelTrackMenu.childNode(withName: "Turrets", recursively: true)!
+        self.fireballsOption = self.levelTrackMenu.childNode(withName: "Fireballs", recursively: true)!
+        self.spikeBallsOption = self.levelTrackMenu.childNode(withName: "SpikeBalls", recursively: true)!
+
+    }
+    
+    func setupPreambleScene(){
+        
+        preambleScene = SCNScene(named: "art.scnassets/scenes/SplashScene.scn")
+
+    }
+    
+    func positionGameOptionsMenu(isShowing: Bool){
+        
+        if(isShowing){
+            /** Move menu into position, have each button individually rotate into view **/
+            
+        } else{
+            
+            /** Have individual buttons rotate out of view, move men out of position **/
+
+        }
+    }
+    
+    func positionStartMenu(isShowing: Bool){
+        
+        if(isShowing){
+            /** Move menu into position, have each button individually rotate into view **/
+
+        } else{
+            /** Have individual buttons rotate out of view, move men out of position **/
+
+        }
+    }
+    
+    func positionLevelTracksMenu(isShowing: Bool){
+        
+        if(isShowing){
+            /** Move menu into position, have each button individually rotate into view **/
+
+        } else{
+            /** Have individual buttons rotate out of view, move men out of position **/
+
+        }
+    }
+    
     
     func loadFireballManager(){
         fireballManager = FireballManager(with: self)
@@ -446,6 +545,44 @@ class PlaneViewController: UIViewController{
         let hitResults = scnView.hitTest(location, options: nil)
         
         if let node = hitResults.first?.node{
+            
+            
+            if(gameHelper.state == .TapToPlay){
+                
+                if(node.name == nil){
+                    return
+                }
+                
+                switch node.name!{
+                    case "StartGameMenu":
+                        break
+                    case "GameOptionsMenu":
+                        break
+                    case "LevelTracksMenu":
+                        break
+                    case "Hard":
+                        break
+                    case "Medium":
+                        break
+                    case "Easy":
+                        break
+                    case "LevelTracks":
+                        break
+                    case "SpaceShips":
+                        break
+                    case "SpikeBalls":
+                        break
+                     case "FireBalls":
+                        break
+                    case "Turrets":
+                        break
+                    default:
+                        print("No logic implemented for this node")
+                        break
+
+                }
+
+            }
             
             if(gameHelper.state == .Playing){
                 
