@@ -25,9 +25,15 @@ class PlaneViewController: UIViewController{
         return hud.hudNode
     }
     
+    
     var player: Plane!
+    
     var worldNode: SCNNode!
-  
+    var menuNode: SCNNode!
+    var pauseMenu: SCNNode!
+    var gameOverMenu: SCNNode!
+    var gameWinMenu: SCNNode!
+    
     var followPortraitCameraNode: SCNNode!
     var followLandscapeCameraNode: SCNNode!
     
@@ -53,6 +59,8 @@ class PlaneViewController: UIViewController{
         didSet{
             if(encounterIsFinished == true){
                 gameHelper.state == .GameOver
+             
+                showGameLossMenu(withReason: "Time Up!")
                 print("Encounter is finished...Game over")
             }
         }
@@ -82,6 +90,7 @@ class PlaneViewController: UIViewController{
         
         setupHUD()
 
+        loadMenuNode()
         
         setupGestureRecognizers()
         
@@ -101,6 +110,121 @@ class PlaneViewController: UIViewController{
         
         startEncounterSeries()
 
+    }
+    
+    func showGameLossMenu(withReason reasonText: String){
+        
+        self.gameOverMenu = SCNNode()
+        
+        let reasonButton = getMenuButton(withName: reasonText, andPosition: .upper2)
+        self.gameOverMenu.addChildNode(reasonButton)
+
+        let restartButton = getMenuButton(withName: "Restart Level", andPosition: .upper1)
+        self.gameOverMenu.addChildNode(restartButton)
+
+        let backToMainMenu = getMenuButton(withName: "Back To Main Menu", andPosition: .lower1)
+        self.gameOverMenu.addChildNode(backToMainMenu)
+
+        self.menuNode.addChildNode(self.gameOverMenu)
+        self.gameOverMenu.position = MenuPosition.GameOver.getPosition()
+        
+        worldNode.isPaused = true
+        self.scnScene.isPaused = true
+
+    }
+    
+    func showGameWinMenu(){
+        
+        self.gameWinMenu = SCNNode()
+        
+        let backToMenuButton = getMenuButton(withName: "Back to Main Menu", andPosition: .upper1)
+        self.gameWinMenu.addChildNode(backToMenuButton)
+        
+        let nextLevelButton = getMenuButton(withName: "Next Level", andPosition: .lower1)
+        self.gameWinMenu.addChildNode(nextLevelButton)
+        
+        
+        self.menuNode.addChildNode(self.gameWinMenu)
+        self.gameWinMenu.position = MenuPosition.GameWin.getPosition()
+        
+        worldNode.isPaused = true
+        self.scnScene.isPaused = true
+    }
+    
+    func setupGamePauseMenu(){
+        
+        self.pauseMenu = SCNNode()
+        
+        let restartButton = getMenuButton(withName: "Restart Level", andPosition: .upper1)
+        self.pauseMenu.addChildNode(restartButton)
+        
+        let backToMainMenuButton = getMenuButton(withName: "Back To Main Menu", andPosition: .lower1)
+        self.pauseMenu.addChildNode(backToMainMenuButton)
+        
+        self.menuNode.addChildNode(self.pauseMenu)
+        self.pauseMenu.position = MenuPosition.PauseMenu.getPosition()
+        
+        worldNode.isPaused = true
+        self.scnScene.isPaused = true
+        
+    }
+    
+    func getMenuButton(withName name: String, andPosition menuPosition: MenuPosition) -> SCNNode{
+        
+        let text = SCNText(string: name, extrusionDepth: 0.10)
+        text.font = UIFont.init(name: "Avenir", size: 1.0)
+        let button = SCNNode(geometry: text)
+        button.name = name
+        button.position = menuPosition.getPosition()
+        return button
+    }
+    
+    
+    func removeGamePauseMenu(){
+        if(self.pauseMenu == nil){
+            return
+        }
+        
+        self.pauseMenu.removeFromParentNode()
+        
+        worldNode.isPaused = false
+        self.scnScene.isPaused = false
+    }
+    
+    func removeGameOverMenu(){
+        if(self.gameOverMenu == nil){
+            return
+        }
+        
+        self.gameOverMenu.removeFromParentNode()
+    }
+    
+    func removeGameWinMenu(){
+        if(self.gameWinMenu == nil){
+            return
+        }
+        
+        self.gameWinMenu.removeFromParentNode()
+    
+    }
+    
+    func loadMenuNode(){
+        
+        self.menuNode = SCNNode()
+        
+        let pauseText = SCNText(string: "Pause Game", extrusionDepth: 0.1)
+        pauseText.chamferRadius = 0.00
+        pauseText.font = UIFont.init(name: "Avenir", size: 0.7)
+        pauseText.isWrapped = true
+        pauseText.alignmentMode = kCAAlignmentLeft
+        pauseText.truncationMode = kCATruncationNone
+        let pauseButton = SCNNode(geometry: pauseText)
+        pauseButton.name = "pauseButton"
+        
+        self.menuNode.addChildNode(pauseButton)
+        
+        self.portraitCamera.addChildNode(self.menuNode)
+        self.menuNode.position = SCNVector3.init(0.8, -7.5, -12)
     }
     
     func loadEncounterSeries(){
@@ -325,6 +449,18 @@ class PlaneViewController: UIViewController{
             
             if(gameHelper.state == .Playing){
                 
+                if node.name == "pauseButton"{
+                    
+                    if(self.scnScene.isPaused){
+                        self.removeGamePauseMenu()
+                    } else{
+                        self.setupGamePauseMenu()
+                    }
+                    
+                    
+                    print("Game has been paused")
+                    return
+                }
                 
                 if(node.name == "biplane_blue"){
                     print("Touched the plane, will jjump button")
@@ -406,10 +542,15 @@ extension PlaneViewController: SCNSceneRendererDelegate{
         
         if(player.health <= 0){
             gameHelper.state == .GameOver
+            showGameLossMenu(withReason: "Out of Lives!")
         }
         
         
         if(gameHelper.state == .Playing){
+            
+            if(self.scnScene.isPaused || self.worldNode.isPaused){
+                return
+            }
             
             print("Total nodes (pre-cleanup)are: \(worldNode.childNodes.count)")
 

@@ -45,6 +45,7 @@
 		BD45D5F11FAEC6050045BCA3 /* LetterRings.scn in Resources */ = {isa = PBXBuildFile; fileRef = BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */; };
 		BD4650BB1FB695D6002B95F5 /* VelocityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4650BA1FB695D6002B95F5 /* VelocityType.swift */; };
 		BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */; };
+		BD4992B61FB84C75006297BF /* MenuPositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4992B51FB84C75006297BF /* MenuPositions.swift */; };
 		BD98A4351FB733310096231E /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD98A4341FB733310096231E /* HUD.swift */; };
 		BD9ED0861FB4A9AB002F6997 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */; };
 		BDD98E101FADC0F9007F71AF /* CollisionMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */; };
@@ -93,6 +94,7 @@
 		BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = LetterRings.scn; sourceTree = "<group>"; };
 		BD4650BA1FB695D6002B95F5 /* VelocityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityType.swift; sourceTree = "<group>"; };
 		BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
+		BD4992B51FB84C75006297BF /* MenuPositions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPositions.swift; sourceTree = "<group>"; };
 		BD98A4341FB733310096231E /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BDD98E0F1FADC0F9007F71AF /* CollisionMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionMask.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */,
 				BD39E2D91FB3199700FD031C /* NotificationNames.swift */,
 				BD9ED0851FB4A9AB002F6997 /* String+Extension.swift */,
+				BD4992B51FB84C75006297BF /* MenuPositions.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				BD45D5DF1FAEA0250045BCA3 /* Plane.swift in Sources */,
 				BD98A4351FB733310096231E /* HUD.swift in Sources */,
 				BD0201E01FB2D0B6008E945D /* SpaceCraft.swift in Sources */,
+				BD4992B61FB84C75006297BF /* MenuPositions.swift in Sources */,
 				BD0201DB1FB2B4A8008E945D /* LetterRing.swift in Sources */,
 				BD45D5E31FAEAF4E0045BCA3 /* Cloud.swift in Sources */,
 				BD381DAE1FADBDEE008963A0 /* GameHelper.swift in Sources */,
