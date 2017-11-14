@@ -32,7 +32,7 @@ class GameHelper{
         
     }
     
-    enum Difficulty{
+    enum Difficulty: String{
         case Easy
         case Medium
         case Hard
@@ -44,4 +44,6 @@ class GameHelper{
     var state: GameState = .TapToPlay
     var difficulty: Difficulty = .Medium
     var levelTrack: LevelTrack = .SpaceShips
+    var level: Int = 1
+    
 }

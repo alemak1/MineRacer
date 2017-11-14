@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Hard</key>
+	<array>
+		<string>Stupendous</string>
+		<string>Awesome</string>
+		<string>Fabulous</string>
+		<string>Excellent</string>
+		<string>Wonderful</string>
+		<string>Fantastic</string>
+		<string>Incredible</string>
+		<string>Sensational</string>
+	</array>
+	<key>Medium</key>
+	<array>
+		<string>Unfair</string>
+		<string>Nasty</string>
+		<string>Great</string>
+		<string>Perfect</string>
+		<string>Super</string>
+	</array>
+	<key>Easy</key>
+	<array>
+		<string>Small</string>
+		<string>Big</string>
+		<string>Bad</string>
+		<string>Fun</string>
+		<string>Nice</string>
+		<string>Good</string>
+	</array>
+</dict>
+</plist>

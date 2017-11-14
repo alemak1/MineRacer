@@ -9,7 +9,7 @@
 import Foundation
 import QuartzCore
 import SceneKit
-
+import SpriteKit
 
 class PlaneViewController: UIViewController{
     
@@ -94,12 +94,38 @@ class PlaneViewController: UIViewController{
         }
     }
     
+    //MAKR:     Word Arrays
+    
+    var easyWords: [String]?
+    var mediumWords: [String]?
+    var hardWords: [String]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        setupView()
         
+        setupPreambleScene()
         
-        setCurrentWord(with: "love")
-
+        setupPreambleNodes()
+        
+        loadPreambleScene()
+    }
+    
+    
+    
+    func loadPreambleScene(){
+        
+        scnView.scene = self.preambleScene
+        
+    }
+    
+    func loadGame(){
+        
+        preloadTargetWordArray()
+        
+        configureDifficultyAdjustedWord()
+        
         loadFireballManager()
         
         loadSpikeBallManager()
@@ -110,14 +136,12 @@ class PlaneViewController: UIViewController{
         
         loadScene()
         
-        setupView()
-        
         setupNodes()
         
         setupCameras()
         
         setupHUD()
-
+        
         loadMenuNode()
         
         setupGestureRecognizers()
@@ -126,18 +150,59 @@ class PlaneViewController: UIViewController{
         
         gameHelper.state = .Playing
         
-        
-       // let tunnel2 = EnemyGenerator.sharedInstance.getSpikeTunnel(of: .ST2)
-       // worldNode.addChildNode(tunnel2)
-       // tunnel2.position = SCNVector3(x: -10.0, y: 5.0, z: -100)
-        
-        
-        
-       
         loadEncounterSeries()
         
         startEncounterSeries()
+        
+    }
+    
+    func preloadTargetWordArray(){
+        
+        self.easyWords = nil
+        self.mediumWords = nil
+        self.hardWords = nil
+        
+        let path = Bundle.main.path(forResource: "TargetWords", ofType: "plist")!
+       
+        let wordsDict = NSDictionary(contentsOfFile: path)!
+   
+        let wordsArray = wordsDict[gameHelper.difficulty.rawValue] as! [String]
+        
+        switch self.gameHelper.difficulty {
+        case .Easy:
+            self.easyWords = wordsArray
+            break
+        case .Medium:
+            self.mediumWords = wordsArray
+            break
+        case .Hard:
+            self.hardWords = wordsArray
+            break
+        }
+        
+    }
+    
+    func configureDifficultyAdjustedWord(){
+        
+        var targetWord: String!
+        
+        if let easyWords = self.easyWords{
+            
+            targetWord = easyWords.getRandomElement() as! String
 
+            
+        } else if let hardWords = self.hardWords{
+            
+            targetWord = hardWords.getRandomElement() as! String
+      
+            
+        } else if let mediumWords = self.mediumWords{
+            
+            targetWord = mediumWords.getRandomElement() as! String
+
+        }
+        
+        setCurrentWord(with: targetWord)
     }
     
     func showGameLossMenu(withReason reasonText: String){
@@ -178,6 +243,7 @@ class PlaneViewController: UIViewController{
         worldNode.isPaused = true
         self.scnScene.isPaused = true
     }
+   
     
     func setupGamePauseMenu(){
         
@@ -257,7 +323,24 @@ class PlaneViewController: UIViewController{
     
     func loadEncounterSeries(){
         
-        self.currentEncounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 5, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 10, withMaxWaitTime: 3)
+        var encounterSeries: EncounterSeries!
+        
+        switch gameHelper.levelTrack{
+            case .FireBalls:
+                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
+                break
+            case .SpaceShips:
+                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
+                break
+            case .SpikeBalls:
+                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
+                break
+            case .Turrets:
+                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
+                break
+        }
+        
+        self.currentEncounterSeries = encounterSeries
     }
     
     func startEncounterSeries(){
@@ -342,10 +425,17 @@ class PlaneViewController: UIViewController{
         })
     }
     
+    
+    /** Helper functions for setting up the Preamble **/
+    
     func loadScene(){
+        let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.50)
+    
         scnScene = SCNScene(named: "art.scnassets/scenes/Level3.scn")
         
         scnScene.physicsWorld.contactDelegate = self
+        
+        scnView.present(self.scnScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
         
     }
     
@@ -375,25 +465,37 @@ class PlaneViewController: UIViewController{
 
         self.spaceShipsOption = self.levelTrackMenu.childNode(withName: "SpaceShips", recursively: true)!
         self.turretsOption = self.levelTrackMenu.childNode(withName: "Turrets", recursively: true)!
-        self.fireballsOption = self.levelTrackMenu.childNode(withName: "Fireballs", recursively: true)!
+        self.fireballsOption = self.levelTrackMenu.childNode(withName: "FireBalls", recursively: true)!
         self.spikeBallsOption = self.levelTrackMenu.childNode(withName: "SpikeBalls", recursively: true)!
+        
+        positionStartMenu(isShowing: true)
+
 
     }
     
     func setupPreambleScene(){
         
         preambleScene = SCNScene(named: "art.scnassets/scenes/SplashScene.scn")
+        
+        gameHelper.state = .TapToPlay
+
 
     }
+    
+    //MARK: ************** Position Functions for Positioning the Preamble Menus
     
     func positionGameOptionsMenu(isShowing: Bool){
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
-            
+            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            self.gameOptionsMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
+
         } else{
             
             /** Have individual buttons rotate out of view, move men out of position **/
+            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            self.gameOptionsMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         }
     }
@@ -402,10 +504,13 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
+            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            self.startMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
             /** Have individual buttons rotate out of view, move men out of position **/
-
+            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            self.startMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
         }
     }
     
@@ -413,9 +518,13 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
+            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            self.levelTrackMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
             /** Have individual buttons rotate out of view, move men out of position **/
+            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            self.levelTrackMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         }
     }
@@ -546,6 +655,32 @@ class PlaneViewController: UIViewController{
         
         if let node = hitResults.first?.node{
             
+            if(gameHelper.state == .GameOver){
+                
+                
+                if(node.name == nil){
+                    return
+                }
+                
+                
+                switch node.name!{
+                    case "Next Level":
+                        gameHelper.level += 1
+                        loadGame()
+                        break
+                    case "Back to Main Menu":
+                        let transition = SKTransition.crossFade(withDuration: 0.50)
+                        scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
+                        break
+                    case "Restart Level":
+                        loadGame()
+                        break
+                    default:
+                        break
+                }
+                
+            }
+            
             
             if(gameHelper.state == .TapToPlay){
                 
@@ -554,27 +689,52 @@ class PlaneViewController: UIViewController{
                 }
                 
                 switch node.name!{
-                    case "StartGameMenu":
+                    case "StartGame":
+                        positionStartMenu(isShowing: false)
+                        loadGame()
                         break
-                    case "GameOptionsMenu":
-                        break
-                    case "LevelTracksMenu":
-                        break
-                    case "Hard":
-                        break
-                    case "Medium":
-                        break
-                    case "Easy":
+                    case "GameOptions":
+                        positionGameOptionsMenu(isShowing: true)
+                        positionStartMenu(isShowing: false)
                         break
                     case "LevelTracks":
+                        positionLevelTracksMenu(isShowing: true)
+                        positionStartMenu(isShowing: false)
+                        break
+                    case "Hard":
+                        gameHelper.difficulty = .Hard
+                        positionGameOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
+                        break
+                    case "Medium":
+                        gameHelper.difficulty = .Medium
+                        positionGameOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
+                        break
+                    case "Easy":
+                        gameHelper.difficulty = .Easy
+                        positionGameOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                     case "SpaceShips":
+                        gameHelper.levelTrack = .SpaceShips
+                        positionLevelTracksMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                     case "SpikeBalls":
+                        gameHelper.levelTrack = .SpikeBalls
+                        positionLevelTracksMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                      case "FireBalls":
+                        gameHelper.levelTrack = .FireBalls
+                        positionLevelTracksMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                     case "Turrets":
+                        gameHelper.levelTrack = .Turrets
+                        positionLevelTracksMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                     default:
                         print("No logic implemented for this node")
@@ -597,6 +757,20 @@ class PlaneViewController: UIViewController{
                     
                     print("Game has been paused")
                     return
+                }
+                
+                
+                switch node.name!{
+                    case "Restart Level":
+                        loadGame()
+                        break
+                    case "Back To Main Menu":
+                        let transition = SKTransition.flipVertical(withDuration: 0.50)
+                        self.scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
+                        break
+                    default:
+                        break
+                    
                 }
                 
                 if(node.name == "biplane_blue"){
@@ -677,16 +851,18 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             lastUpdatedTime = 0
         }
         
-        if(player.health <= 0){
-            gameHelper.state == .GameOver
-            showGameLossMenu(withReason: "Out of Lives!")
-        }
+       
         
         
         if(gameHelper.state == .Playing){
             
             if(self.scnScene.isPaused || self.worldNode.isPaused){
                 return
+            }
+            
+            if(player.health <= 0){
+                gameHelper.state == .GameOver
+                showGameLossMenu(withReason: "Out of Lives!")
             }
             
             print("Total nodes (pre-cleanup)are: \(worldNode.childNodes.count)")

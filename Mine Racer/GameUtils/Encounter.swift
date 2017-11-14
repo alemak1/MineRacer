@@ -131,6 +131,76 @@ extension EncounterSeries{
         return EncounterSeries(planeViewController: planeViewController, firstEncounter: firstEncounter)
     }
     
+    
+    static func GenerateEncounterSeries(forPlaneViewController planeViewController: PlaneViewController, forLevelTrack levelTrack: GameHelper.LevelTrack, andforLevel level: Int) -> EncounterSeries{
+        
+        switch level {
+            
+            /** Get encounter series for fireball track  **/
+        case 1...3 where levelTrack == .FireBalls:
+            break
+        case 4...7 where levelTrack == .FireBalls:
+            break
+        case 8...11 where levelTrack == .FireBalls:
+            break
+        case 12...15 where levelTrack == .FireBalls:
+            break
+        case 16...30 where levelTrack == .FireBalls:
+            break
+        case 31...10000 where levelTrack == .FireBalls:
+            break
+            
+            /** Get encounter series for spaceship track  **/
+
+        case 1...3 where levelTrack == .SpaceShips:
+            break
+        case 4...7 where levelTrack == .SpaceShips:
+            break
+        case 8...11 where levelTrack == .SpaceShips:
+            break
+        case 12...15 where levelTrack == .SpaceShips:
+            break
+        case 16...30 where levelTrack == .SpaceShips:
+            break
+        case 31...10000 where levelTrack == .SpaceShips:
+            break
+            
+            /** Get encounter series for spikeball track  **/
+
+        case 1...3 where levelTrack == .SpikeBalls:
+            break
+        case 4...7 where levelTrack == .SpikeBalls:
+            break
+        case 8...11 where levelTrack == .SpikeBalls:
+            break
+        case 12...15 where levelTrack == .SpikeBalls:
+            break
+        case 16...30 where levelTrack == .SpikeBalls:
+            break
+        case 31...10000 where levelTrack == .SpikeBalls:
+            break
+        
+            /** Get encounter series for turret track  **/
+
+        case 1...3 where levelTrack == .Turrets:
+            break
+        case 4...7 where levelTrack == .Turrets:
+            break
+        case 8...11 where levelTrack == .Turrets:
+            break
+        case 12...15 where levelTrack == .Turrets:
+            break
+        case 16...30 where levelTrack == .Turrets:
+            break
+        case 31...10000 where levelTrack == .Turrets:
+            break
+        default:
+            break
+        }
+        
+        return GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 3, withNumberOfEncounters: 3, withMaxFireballs: 3, withMaxSpikeBalls: 3, withMaxSpaceCraft: 3, withMaxWaitTime: 3)
+    }
+    
     static func GenerateEncounterSeries(forPlaneViewController planeViewController: PlaneViewController,withMaxLetter maxLetters: Int, withNumberOfEncounters numberOfEncounters: Int, withMaxFireballs maxFireballs: Int, withMaxSpikeBalls maxSpikeBalls: Int, withMaxSpaceCraft maxSpaceCraft: Int, withMaxWaitTime maxWaitTime: Int) -> EncounterSeries{
         
         if(numberOfEncounters < 2){
