@@ -43,6 +43,7 @@
 		BD45D5E91FAEBEAE0045BCA3 /* RingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5E81FAEBEAE0045BCA3 /* RingGenerator.swift */; };
 		BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */; };
 		BD45D5F11FAEC6050045BCA3 /* LetterRings.scn in Resources */ = {isa = PBXBuildFile; fileRef = BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */; };
+		BD4633BC1FBC0DD90064A65E /* SCNNode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4633BB1FBC0DD90064A65E /* SCNNode+Extension.swift */; };
 		BD4650BB1FB695D6002B95F5 /* VelocityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4650BA1FB695D6002B95F5 /* VelocityType.swift */; };
 		BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */; };
 		BD4992B61FB84C75006297BF /* MenuPositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4992B51FB84C75006297BF /* MenuPositions.swift */; };
@@ -94,6 +95,7 @@
 		BD45D5E81FAEBEAE0045BCA3 /* RingGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingGenerator.swift; sourceTree = "<group>"; };
 		BD45D5EA1FAEBFA50045BCA3 /* LetterEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterEnum.swift; sourceTree = "<group>"; };
 		BD45D5F01FAEC6050045BCA3 /* LetterRings.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = LetterRings.scn; sourceTree = "<group>"; };
+		BD4633BB1FBC0DD90064A65E /* SCNNode+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extension.swift"; sourceTree = "<group>"; };
 		BD4650BA1FB695D6002B95F5 /* VelocityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityType.swift; sourceTree = "<group>"; };
 		BD47BCE21FAF19A800172B04 /* EnemyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
 		BD4992B51FB84C75006297BF /* MenuPositions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPositions.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				BD4992B51FB84C75006297BF /* MenuPositions.swift */,
 				BD64A83E1FBAF98A007BA2A3 /* Array+HelperFunctions.swift */,
 				BD64A8401FBAFA1A007BA2A3 /* TargetWords.plist */,
+				BD4633BB1FBC0DD90064A65E /* SCNNode+Extension.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				BD34F15D1FB1C36800750CDD /* RingCreator.swift in Sources */,
 				BD39E2DC1FB320D700FD031C /* GameObject.swift in Sources */,
 				BD64A83F1FBAF98A007BA2A3 /* Array+HelperFunctions.swift in Sources */,
+				BD4633BC1FBC0DD90064A65E /* SCNNode+Extension.swift in Sources */,
 				BD0201E71FB2E39F008E945D /* SpikeCorridor.swift in Sources */,
 				BD0201DE1FB2BB2C008E945D /* LetterRingManager.swift in Sources */,
 				BD47BCE31FAF19A800172B04 /* EnemyGenerator.swift in Sources */,

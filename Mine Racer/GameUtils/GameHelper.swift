@@ -24,7 +24,7 @@ class GameHelper{
     
     }
     
-    enum LevelTrack{
+    enum LevelTrack: String{
         case SpaceShips
         case SpikeBalls
         case FireBalls

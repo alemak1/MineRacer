@@ -111,22 +111,9 @@ class SpaceCraft{
         
         let sphere = SCNSphere(radius: 500.0)
         self.detectionNode = SCNNode(geometry: sphere)
-        self.detectionNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         
-        self.detectionNode.opacity = 0.00
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .short
-        let dateString = dateFormatter.string(from: Date())
-        
-        self.detectionNode.name = "SpaceCraft\(dateString)"
-        
-        self.detectionNode.physicsBody?.categoryBitMask = Int(CollisionMask.DetectionNode.rawValue)
-        self.detectionNode.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
-        self.detectionNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
+        self.detectionNode.configureWithDetectionNodePhysicsProperties(withName: "SpaceCraft")
 
-        
     }
     
   
@@ -149,11 +136,6 @@ class SpaceCraft{
         if let planeViewController = notification?.object as? PlaneViewController{
             self.targetNode = planeViewController.player.node.presentation
             
-//            let targetPos = self.targetNode!.presentation.position
-//            let (x,y,z) = (CGFloat(targetPos.x),CGFloat(targetPos.y),CGFloat(targetPos.z))
-//
-//            self.mainNode.runAction(SCNAction.rotateTo(x: x, y: y, z: z, duration: 0.10))
-//
             let constraint = SCNLookAtConstraint(target: planeViewController.player.node)
             self.mainNode.constraints = [constraint]
             
@@ -339,15 +321,7 @@ class SpaceCraft{
         
         /** Configure physics body for bullet **/
 
-        bulletNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        
-        bulletNode.physicsBody?.isAffectedByGravity = false
-        bulletNode.physicsBody?.damping = 0.0
-        bulletNode.physicsBody?.friction = 0.0
-        
-        bulletNode.physicsBody?.categoryBitMask = Int(CollisionMask.Bullet.rawValue)
-        bulletNode.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
-        bulletNode.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
+        bulletNode.configureWithBulletPhysicsProperties()
         
         
         return bulletNode

@@ -231,7 +231,7 @@ class SpaceCraftManager{
     
     func addSpaceCraftGroup(spaceCraft: [SpaceCraft]){
         
-        spaceCraftManager.forEach({
+        spaceCraft.forEach({
             spaceCraft in
             
             self.addSpaceCraft(spaceCraft: spaceCraft)
@@ -328,5 +328,164 @@ class SpaceCraftManager{
     
     
 }
+
+
+
+class TurretManager{
+    
+    var turretManager = [Turret]()
+    
+    var planeViewController: PlaneViewController!
+    
+    init(with planeViewController: PlaneViewController) {
+        self.planeViewController = planeViewController
+    }
+    
+    /** Adds a moving ring with a specified letter and letter style to the plane view controller scene; the velocity and spawn point are randomized based on a hard-coded configuration object  **/
+    
+    
+    
+    func addRandomSpaceCraft(number: Int){
+        
+        if(number <= 0){
+            return
+        }
+        
+        for _ in 1...number{
+            addRandomizedSpaceCraft()
+        }
+    }
+    
+    
+    func addRandomizedSpaceCraft(){
+        let randomTurretType = EnemyGenerator.TurretType.GetRandomTurretType()
+        
+        let randomVelocityType = VelocityType.getDefaultVelocityType()
+        
+        var turret: Turret!
+        
+        switch randomVelocityType {
+        case .HighVelocityLHLW:
+            turret = generateHighVelocityLHLWRandomTurretFor(turretType: randomTurretType)
+            break
+        case .HighVelocityNHNW:
+            turret = generateHighVelocityNHNWRandomTurretFor(turretType: randomTurretType)
+            break
+        case .LowVelocityLHLW:
+            turret = generateLowVelocityLHLWRandomTurretFor(turretType: randomTurretType)
+            break
+        case .LowVelocityNHNW:
+            turret = generateLowVelocityNHNWRandomTurretFor(turretType: randomTurretType)
+            break
+        }
+        
+        addTurret(turret: turret)
+        
+        
+    }
+    
+    
+    /** Helper functions for adding spacecraft individually and in bulk, without configuring the velocity or spawn point **/
+    
+    func addSpaceCraftGroup(turrets: [Turret]){
+        
+        turrets.forEach({
+            turret in
+            
+            self.addTurret(turret: turret)
+        })
+    }
+    
+    func addTurret(turret: Turret){
+        
+        turret.addTo(planeViewController: planeViewController)
+        
+        self.turretManager.append(turret)
+        
+    }
+    
+    
+    
+    
+    /** Generates a moving spacecraft whose spawn point and velocity are randomized based on a hard-coded default configuration object **/
+    
+    
+    func generateLowVelocityNHNWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+        
+        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        
+    }
+    
+    func generateLowVelocityLHLWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+        
+        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+        
+    }
+    
+    
+    func generateHighVelocityNHNWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+        
+        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        
+    }
+    
+    func generateHighVelocityLHLWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+        
+        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
+        
+    }
+    
+    /** Generates a moving spacecraft whose spawn point is randomized based on a configuration object whose parameters are user-defined **/
+    
+    
+    func generateRandomizedMovingTurretFor(turretType: EnemyGenerator.TurretType, withLBPConfiguration configuration: LBPConfiguration) -> Turret{
+        
+        
+        let (xTarget, yTarget, zTarget) = (Int(planeViewController.player.node.presentation.position.x),Int(planeViewController.player.node.presentation.position.y),Int(planeViewController.player.node.presentation.position.z))
+        
+        let (spawnPointX,spawnPointY,spawnPointZ) = configuration.getRandomSpawnPoint()
+        
+        let spawnPoint = SCNVector3(xTarget + spawnPointX, yTarget + spawnPointY, zTarget + spawnPointZ)
+        
+        
+        let velocity = configuration.getRandomVelocityVector()
+        
+        
+        let movingTurret = EnemyGenerator.sharedInstance.getMovingTurretOf(type: turretType, spawnPoint: spawnPoint, velocity: velocity)
+        
+        return movingTurret
+        
+    }
+    
+    
+    func update(with time: TimeInterval){
+        
+        turretManager.forEach({
+            
+            turret in
+            
+            turret.update(with: time)
+            
+            turret.synchronizeDetectionNodePosition()
+            
+            removeExcessNodes()
+        })
+    }
+    
+    func removeExcessNodes(){
+        
+        turretManager.forEach({
+            
+            turret in
+            
+            if(turret.mainNode.presentation.position.z > 0){
+                turret.remove()
+            }
+        })
+    }
+    
+    
+}
+
 
 

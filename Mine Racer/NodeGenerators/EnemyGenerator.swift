@@ -47,6 +47,16 @@ class EnemyGenerator{
     
     enum TurretType: Int{
         case Turret1, Turret2
+        
+        static let allTurretTypes: [TurretType] = [.Turret1,.Turret2]
+        
+        static func GetRandomTurretType() -> TurretType{
+            
+            let randomIdx = Int(arc4random_uniform(UInt32(TurretType.allTurretTypes.count)))
+            
+            return TurretType.allTurretTypes[randomIdx]
+            
+        }
     }
     
     static let sharedInstance = EnemyGenerator()

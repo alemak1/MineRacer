@@ -323,24 +323,14 @@ class PlaneViewController: UIViewController{
     
     func loadEncounterSeries(){
         
+        print("Loading encounter series of Level Track: \(gameHelper.levelTrack.rawValue), for Difficulty Level of: \(gameHelper.difficulty.rawValue), Level: \(gameHelper.level)")
+        
         var encounterSeries: EncounterSeries!
         
-        switch gameHelper.levelTrack{
-            case .FireBalls:
-                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
-                break
-            case .SpaceShips:
-                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
-                break
-            case .SpikeBalls:
-                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
-                break
-            case .Turrets:
-                encounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, withMaxLetter: 4, withNumberOfEncounters: 200, withMaxFireballs: 1, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxWaitTime: 4)
-                break
-        }
+        self.currentEncounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, forLevelTrack: gameHelper.levelTrack, andforLevel: gameHelper.level)
+
+        self.currentEncounterSeries!.showFirstEncounterInformation()
         
-        self.currentEncounterSeries = encounterSeries
     }
     
     func startEncounterSeries(){
@@ -942,7 +932,7 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
         case CollisionMask.DetectionNode.rawValue:
             print("Player has been detected by the space craft")
             print("The contactNode name is \(contactNode.name!)")
-            if(contactNode.name != nil && contactNode.name!.contains("SpaceCraft")){
+            if(contactNode.name != nil && (contactNode.name!.contains("SpaceCraft") || contactNode.name!.contains("Turret"))){
                 print("Sending notificaiton...")
                 NotificationCenter.default.post(name: Notification.WasDetectedBySpaceCraftNotification, object: self, userInfo: [
                     "nodeName":contactNode.name!
