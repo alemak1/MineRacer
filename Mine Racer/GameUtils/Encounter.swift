@@ -143,6 +143,10 @@ class EncounterSeries{
     
     func executeEncounter(){
         
+        if(GameHelper.sharedInstance.state != .Playing){
+            return
+        }
+        
         if(self.currentEncounter == nil){
             return
         }
@@ -153,6 +157,9 @@ class EncounterSeries{
         
         DispatchQueue.global().asyncAfter(deadline: .now() + waitTime, execute: {
             
+            if(GameHelper.sharedInstance.state != .Playing){
+                return
+            }
             
             print("Adding game objects for encounter....")
 
@@ -176,6 +183,11 @@ class EncounterSeries{
     }
     
     private func addGameObjects(){
+        
+        if(GameHelper.sharedInstance.state != .Playing){
+            return
+        }
+        
         if let numberOfSpikeBalls = self.currentEncounter!.numberOfSpikeBalls{
             planeViewController.spikeBallManager.addRandomSpikeBalls(number: numberOfSpikeBalls)
         }
@@ -191,6 +203,10 @@ class EncounterSeries{
         
         if let numberOfFireballs = self.currentEncounter!.numberOfFireballs{
             planeViewController.fireballManager.addRandomFireballs(number: numberOfFireballs)
+        }
+        
+        if let numberOfTurrets = self.currentEncounter!.numberOfTurrets{
+            planeViewController.turretManager.addRandomTurrets(number: numberOfTurrets)
         }
         
     }

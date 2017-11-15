@@ -75,6 +75,7 @@ class PlaneViewController: UIViewController{
     var spaceCraftManager: SpaceCraftManager!
     var spikeBallManager: SpikeBallManager!
     var fireballManager: FireballManager!
+    var turretManager: TurretManager!
     
     var currentWord: String?
     var wordInProgress: String?
@@ -129,6 +130,11 @@ class PlaneViewController: UIViewController{
         
         configureDifficultyAdjustedWord()
         
+        //TODO: combine in a single function and load/update managers dynamically based upon current level track
+        
+        
+        loadTurretManager()
+        
         loadFireballManager()
         
         loadSpikeBallManager()
@@ -137,6 +143,7 @@ class PlaneViewController: UIViewController{
         
         loadSpaceCraftManager()
         
+    
         loadScene()
         
         setupNodes()
@@ -157,6 +164,14 @@ class PlaneViewController: UIViewController{
         
         startEncounterSeries()
         
+    }
+    
+    func cleanUpEnemyManagers(){
+        self.fireballManager = nil
+        self.spikeBallManager = nil
+        self.spaceCraftManager = nil
+        self.turretManager = nil
+        self.letterRingManager = nil
     }
     
     func preloadTargetWordArray(){
@@ -524,6 +539,10 @@ class PlaneViewController: UIViewController{
     }
     
     
+    func loadTurretManager(){
+        turretManager = TurretManager(with: self)
+    }
+    
     func loadFireballManager(){
         fireballManager = FireballManager(with: self)
     }
@@ -647,6 +666,8 @@ class PlaneViewController: UIViewController{
                             self.currentWord = nil
                             self.currentEncounterSeries = nil
                             self.gameHelper.level = 1
+                            self.cleanUpEnemyManagers()
+
                         })
                         
                         break
@@ -755,6 +776,7 @@ class PlaneViewController: UIViewController{
                             self.currentWord = nil
                             self.currentEncounterSeries = nil
                             self.gameHelper.level = 1
+                            self.cleanUpEnemyManagers()
 
                         })
                         break
@@ -860,6 +882,8 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             letterRingManager.update(with: time)
             spaceCraftManager.update(with: time)
             fireballManager.update(with: time)
+            turretManager.update(with: time)
+            
             cleanExcessNodes()
             
             updateCameraPositions()

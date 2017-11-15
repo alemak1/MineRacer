@@ -343,21 +343,22 @@ class TurretManager{
     
     /** Adds a moving ring with a specified letter and letter style to the plane view controller scene; the velocity and spawn point are randomized based on a hard-coded configuration object  **/
     
+
     
     
-    func addRandomSpaceCraft(number: Int){
+    func addRandomTurrets(number: Int){
         
         if(number <= 0){
             return
         }
         
         for _ in 1...number{
-            addRandomizedSpaceCraft()
+            addRandomizedTurret()
         }
     }
     
     
-    func addRandomizedSpaceCraft(){
+    func addRandomizedTurret(){
         let randomTurretType = EnemyGenerator.TurretType.GetRandomTurretType()
         
         let randomVelocityType = VelocityType.getDefaultVelocityType()
@@ -387,7 +388,7 @@ class TurretManager{
     
     /** Helper functions for adding spacecraft individually and in bulk, without configuring the velocity or spawn point **/
     
-    func addSpaceCraftGroup(turrets: [Turret]){
+    func addTurretGroup(turrets: [Turret]){
         
         turrets.forEach({
             turret in
