@@ -125,6 +125,8 @@ class EnemyGenerator{
             spikeBallNode.addChildNode(childCopy)
         }
         
+        spikeBallNode.configureWithEnemyPhysicsProperties()
+        
         return spikeBallNode
     }
     

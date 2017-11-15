@@ -113,6 +113,7 @@ struct LBPConfiguration{
     
     static let HighVelocityLargeHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -50, rightBoundaryDistance: 50, topBoundaryDistance: 50, floorBoundaryDistance: -50, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 22, maxVelocity: 36)
     
+    static let HighVelocityNHNWFireBall = LBPConfiguration(leftBoundaryDistance: -30, rightBoundaryDistance: 30, topBoundaryDistance: 40, floorBoundaryDistance: -40, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 40, maxVelocity: 60)
     
     static func GetDefaultBoundaryDistance(flightBoundaryPoint: FlightBoundaryPoint) -> Int{
         

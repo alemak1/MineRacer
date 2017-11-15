@@ -27,6 +27,12 @@ class EncounterSeries{
         }
     }
     
+    /**
+    func showEncounterSeriesInformation(){
+        print("The total wait time for this encounter is: \(totalSeriesTime)")
+    }
+    **/
+    
     func showFirstEncounterInformation(){
     
             let (waitTime, fireballs,turrets,spaceCraft,spikeBalls,letters) = (
@@ -44,11 +50,51 @@ class EncounterSeries{
     var totalSeriesTime: Double{
         return getEncounterTime()
     }
+
+    var numberOfEncounters: Int{
+        return getNumberOfEncounters(runningTotal: &nil, currentEncounter: nil)
+    }
     **/
-    
+
     //MARK: ******* NOT YET IMPLEMENTED
     
     /**
+     func getNumberOfEncounters(runningTotal: inout Int?, currentEncounter: Encounter?) -> Int{
+        
+
+        if(runningTotal == nil){
+            runningTotal = 0
+        }
+        
+        if(currentEncounter == nil && self.firstEncounter == nil){
+            
+            runningTotal = 0
+            
+        } else if(currentEncounter == nil && self.firstEncounter != nil && self.firstEncounter.nextEncounter == nil) {
+            
+            runningTotal! += 1
+            
+        } else if(currentEncounter == nil && self.firstEncounter != nil && self.firstEncounter.nextEncounter != nil){
+            
+        }else if(currentEncounter != nil && self.currentEncounter?.nextEncounter == nil) {
+           
+            runningTotal! += 1
+         
+        } else if(currentEncounter != nil && self.currentEncounter?.nextEncounter != nil){
+            
+            runningTotal! += 1
+            getNumberOfEncounters(runningTotal: &runningTotal, currentEncounter: currentEncounter!.nextEncounter!)
+            
+        }
+        
+        return runningTotal!
+    }
+ 
+ **/
+    
+    
+    /**
+
     private func getEncounterTime(withEncounter encounter: Encounter? = nil) -> Double{
         
         let currentEncounter = encounter ?? self.firstEncounter
@@ -57,20 +103,21 @@ class EncounterSeries{
         
         if let nextEncounter = self.currentEncounter?.getNextEncounter(){
             
-            time += nextEncounter.waitTime
-            
-            return getEncounterTime(withEncounter: nextEncounter)
-            
+            time += getEncounterTime(withEncounter: nextEncounter)
             
         } else {
             return time
         }
         
+        /** Return statement will never be executed, only provided to satisfy compiler **/
+        return 0.00
     }
+    **/
     
+    /**
     private func getTotalLettersGenerated() -> Int{
         
-        var numberOfLetters = self.firstEncounter.numberOfLetters ?? 0.00
+        var numberOfLetters = self.firstEncounter.numberOfLetters ?? 0
         
         if let nextEncounter = self.firstEncounter.getNextEncounter(){
             numberOfLetters += nextEncounter.numberOfLetters ?? 0
@@ -81,7 +128,7 @@ class EncounterSeries{
         }
     }
  
-     **/
+    **/
     
     init(planeViewController: PlaneViewController, firstEncounter: Encounter) {
         self.firstEncounter = firstEncounter
@@ -173,10 +220,10 @@ extension EncounterSeries{
         switch level {
             
             /** Get encounter series for fireball track  **/
-        case 1...3 where levelTrack == .FireBalls:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 5, withNumberOfEncounters: 200, withMaxFireballs: level, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+        case 0...3 where levelTrack == .FireBalls:
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 5, withNumberOfEncounters: 200, withMaxFireballs: level+6, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
         case 4...7 where levelTrack == .FireBalls:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 150, withMaxFireballs: level, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxTurrets: 0, withMaxWaitTime: 4)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 150, withMaxFireballs: level+4, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0, withMaxTurrets: 0, withMaxWaitTime: 4)
         case 8...11 where levelTrack == .FireBalls:
             return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 3, withNumberOfEncounters: 120, withMaxFireballs: level, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 4)
         case 12...15 where levelTrack == .FireBalls:
@@ -189,10 +236,10 @@ extension EncounterSeries{
             
             /** Get encounter series for spaceship track  **/
 
-        case 1...3 where levelTrack == .SpaceShips:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 5, withNumberOfEncounters: 200, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: level,withMaxTurrets: 0, withMaxWaitTime: 5)
+        case 0...3 where levelTrack == .SpaceShips:
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 5, withNumberOfEncounters: 200, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: level+6,withMaxTurrets: 0, withMaxWaitTime: 5)
         case 4...7 where levelTrack == .SpaceShips:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 150, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: level,withMaxTurrets: 0, withMaxWaitTime: 4)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 150, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: level+5,withMaxTurrets: 0, withMaxWaitTime: 4)
         case 8...11 where levelTrack == .SpaceShips:
             return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 3, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: level,withMaxTurrets: 0, withMaxWaitTime: 3)
         case 12...15 where levelTrack == .SpaceShips:
@@ -205,10 +252,10 @@ extension EncounterSeries{
             
             /** Get encounter series for spikeball track  **/
 
-        case 1...3 where levelTrack == .SpikeBalls:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: level, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+        case 0...3 where levelTrack == .SpikeBalls:
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: level+6, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
         case 4...7 where levelTrack == .SpikeBalls:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: level, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: level+5, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
         case 8...11 where levelTrack == .SpikeBalls:
             return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: level, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
         case 12...15 where levelTrack == .SpikeBalls:
@@ -221,20 +268,20 @@ extension EncounterSeries{
         
             /** Get encounter series for turret track  **/
 
-        case 1...3 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+        case 0...3 where levelTrack == .Turrets:
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level+6, withMaxWaitTime: 5)
         case 4...7 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level+5, withMaxWaitTime: 5)
         case 8...11 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level, withMaxWaitTime: 5)
         case 12...15 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level, withMaxWaitTime: 5)
         case 16...30 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level, withMaxWaitTime: 5)
         case 31...10000 where levelTrack == .Turrets:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 4, withNumberOfEncounters: 100, withMaxFireballs: 0, withMaxSpikeBalls: 0, withMaxSpaceCraft: 0,withMaxTurrets: level, withMaxWaitTime: 5)
         default:
-            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 3, withNumberOfEncounters: 200, withMaxFireballs: 2, withMaxSpikeBalls: 2, withMaxSpaceCraft: 2,withMaxTurrets: 0, withMaxWaitTime: 5)
+            return EncounterSeries.GenerateEncounterSeries(forPlaneViewController: planeViewController, withMaxLetter: 3, withNumberOfEncounters: 200, withMaxFireballs: 2, withMaxSpikeBalls: 2, withMaxSpaceCraft: 2,withMaxTurrets: level, withMaxWaitTime: 5)
 
         }
         
@@ -253,21 +300,52 @@ extension EncounterSeries{
         }
         
         
-        let (getRandomNumberOfFireballs,getRandomNumberOfSpikeBalls,getRandomNumberOfSpaceCraft,getRandomNumberOfTurrets,getRandomNumberOfLetters) = (
-            EncounterSeries.generateRandomNumberFunction(withDefaultValue: 0, andWithMaxNumber: maxFireballs),
-            EncounterSeries.generateRandomNumberFunction(withDefaultValue: 0, andWithMaxNumber: maxSpikeBalls),
-            EncounterSeries.generateRandomNumberFunction(withDefaultValue: 0, andWithMaxNumber: maxSpaceCraft),
-            EncounterSeries.generateRandomNumberFunction(withDefaultValue: 0, andWithMaxNumber: maxTurrets),
-            EncounterSeries.generateRandomNumberFunction(withDefaultValue: 0, andWithMaxNumber: maxLetters)
-        )
+        let getRandomNumberOfSpikeBalls: ()->Int = {
             
-    
+            let maximumNum = maxSpikeBalls <= 0 ? 0: maxSpikeBalls
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+        }
+        
+        let getRandomNumberOfFireballs: ()->Int = {
+            
+            let maximumNum = maxFireballs <= 0 ? 0: maxFireballs
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+        }
+        
+        let getRandomNumberOfSpaceCraft: ()->Int = {
+            
+            let maximumNum = maxSpaceCraft <= 0 ? 0: maxSpaceCraft
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+        }
+        
+        let getRandomNumberOfTurrets: ()->Int = {
+            let maximumNum = maxTurrets <= 0 ? 0: maxTurrets
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+        }
+        
+        let getRandomNumberOfLetters: ()->Int = {
+            let maximumNum = maxLetters <= 0 ? 0: maxLetters
+            
+            return Int(arc4random_uniform(UInt32(maximumNum)))
+            
+        }
+       
         
         let (firstWaitTime,fireballNum1,spikeBallNum1,spaceCraftNum1,letterNum1,turretsNum1) = (getMaxWaitTime(),getRandomNumberOfFireballs(),getRandomNumberOfSpikeBalls(),getRandomNumberOfSpaceCraft(),getRandomNumberOfLetters(),getRandomNumberOfTurrets())
        
+     
+        showNumberOf(spikeballs: spikeBallNum1, spaceCraft: spaceCraftNum1, turrets: turretsNum1, fireballs: fireballNum1, letters: letterNum1, andWaitTime: firstWaitTime)
+        
         let firstEncounter = Encounter(waitTime: firstWaitTime, numberOfSpikeBalls: spikeBallNum1, numberOfSpaceCraft: spaceCraftNum1, numberOfLetters: letterNum1, numberOfTurrets: turretsNum1, numberOfFireballs: fireballNum1)
         
         let (secondWaitTime,fireballNum2,spikeBallNum2,spaceCraftNum2,letterNum2,turretNum2) = (getMaxWaitTime(),getRandomNumberOfFireballs(),getRandomNumberOfSpikeBalls(),getRandomNumberOfSpaceCraft(),getRandomNumberOfLetters(),getRandomNumberOfTurrets())
+        
+        showNumberOf(spikeballs: spikeBallNum2, spaceCraft: spaceCraftNum2, turrets: turretNum2, fireballs: fireballNum2, letters: letterNum2, andWaitTime: secondWaitTime)
+        
         
         var nextEncounter = firstEncounter.setNextEncounter(waitTime: secondWaitTime, numberOfSpikeBalls: spikeBallNum2, numberOfSpaceCraft: spaceCraftNum2, numberOfLetters: letterNum2, numberOfFireballs: fireballNum2, numberOfTurrets: turretNum2)
         
@@ -285,10 +363,15 @@ extension EncounterSeries{
     static func generateRandomNumberFunction(withDefaultValue defaultNum: Int, andWithMaxNumber max: Int) -> ()->Int{
         
         return {
-            let maximumNum = defaultNum <= 0 ? 0: max
+            let maximumNum = max <= defaultNum ? defaultNum: max
         
             return Int(arc4random_uniform(UInt32(maximumNum)))
         }
+    }
+    
+    static func showNumberOf(spikeballs: Int, spaceCraft: Int, turrets: Int, fireballs: Int, letters: Int, andWaitTime waitTime: Double){
+        
+        print("The generated wait time is: \(waitTime), generated spikeballs are: \(spikeballs), generated space craft are: \(spaceCraft), generated turrets are: \(turrets), generated fireballs: \(fireballs), letters: \(letters)")
     }
 }
 

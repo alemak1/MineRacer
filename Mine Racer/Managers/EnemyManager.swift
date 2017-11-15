@@ -151,10 +151,10 @@ class SpikeBallManager{
         
         let velocity = configuration.getRandomVelocityVector()
         
+        return  SpikeBall(spikeBallType: spikeBallType, spawnPoint: spawnPoint, velocity: velocity)
+       // let movingSpikeBall = EnemyGenerator.sharedInstance.getMovingSpikeBallOf(type: spikeBallType, spawnPoint: spawnPoint, velocity: velocity)
         
-        let movingSpikeBall = EnemyGenerator.sharedInstance.getMovingSpikeBallOf(type: spikeBallType, spawnPoint: spawnPoint, velocity: velocity)
-        
-        return movingSpikeBall
+       // return movingSpikeBall
         
     }
     

@@ -100,7 +100,10 @@ class FireballManager{
         
        planeViewController.worldNode.addChildNode(fireBall)
         
+        
         fireBall.runAction(SCNAction.fadeIn(duration: 0.50))
+        
+        fireBall.removeAfterTime(waitTime: 2.00)
         
         fireballManager.append(fireBall)
         
@@ -112,27 +115,27 @@ class FireballManager{
     
     func generateLowVelocityLHLWFireball() -> SCNNode{
         
-        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNHNWFireBall)
     }
     
     func generateLowVelocityNHNWFireball() -> SCNNode{
         
-        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.LowVelocityNarrowHeightAndWidthConfiguration)
+        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNHNWFireBall)
     }
     
     
     func generateHighVelocityLHLWFireball() -> SCNNode{
-        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
+        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNHNWFireBall)
 
     }
     
     func generateHighVelocityNHNWFireball() -> SCNNode{
-        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNHNWFireBall)
     }
     
     func generateDefaultRandomizedFireball() -> SCNNode{
         
-        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.DefaultLBPConfiguration)
+        return generateRandomizedFireballFor(withLBPConfiguration: LBPConfiguration.HighVelocityNHNWFireBall)
         
     }
     
@@ -154,6 +157,8 @@ class FireballManager{
         
         
         let fireball = EnemyGenerator.sharedInstance.getFireBall()
+        
+        fireball.configureWithEnemyPhysicsProperties()
         
         fireball.physicsBody?.velocity = velocity
         fireball.position = spawnPoint

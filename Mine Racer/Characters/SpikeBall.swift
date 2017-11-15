@@ -23,13 +23,18 @@ class SpikeBall{
         
         self.mainNode = EnemyGenerator.sharedInstance.getSpikeballNodeOf(type: spikeBallType)
         
+        self.mainNode.configureWithEnemyPhysicsProperties()
+        
         self.mainNode.position = spawnPoint
         
         self.mainNode.physicsBody?.velocity = velocity
         
         self.mainNode.opacity = 0.00
         
-        configureAuxiliaryGeometries()
+        self.detectionNode = SCNNode()
+        self.detectionNode.opacity = 0.00
+        
+        removeSpikeBall()
     }
     
     init(referenceNode: SCNNode) {
@@ -38,9 +43,9 @@ class SpikeBall{
         self.detectionNode = SCNNode()
         self.detectionNode.opacity = 0.00
         
-        /** Configure the Portal Geometry in the middle of the ring **/
+        self.mainNode.configureWithEnemyPhysicsProperties()
         
-        configureAuxiliaryGeometries()
+        removeSpikeBall()
     }
     
     func addTo(planeViewController: PlaneViewController){
@@ -52,7 +57,16 @@ class SpikeBall{
         
     }
     
-    func configureAuxiliaryGeometries(){
+    
+    func removeSpikeBall(){
+        
+        let removeAction = SCNAction.sequence([
+            SCNAction.wait(duration: 3.00),
+            SCNAction.removeFromParentNode()
+            ])
+        
+        self.mainNode.runAction(removeAction)
+        self.detectionNode.runAction(removeAction)
         
     }
     

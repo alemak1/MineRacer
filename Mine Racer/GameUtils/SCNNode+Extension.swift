@@ -11,6 +11,20 @@ import SceneKit
 
 extension SCNNode{
     
+    
+    func configureWithEnemyPhysicsProperties(){
+        
+        self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        
+        self.physicsBody?.isAffectedByGravity = false
+        self.physicsBody?.damping = 0.0
+        self.physicsBody?.friction = 0.0
+        
+        self.physicsBody?.categoryBitMask = Int(CollisionMask.Enemy.rawValue)
+        self.physicsBody?.collisionBitMask = Int(CollisionMask.Player.rawValue)
+        self.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
+    }
+    
     func configureWithBulletPhysicsProperties(){
         
         
@@ -43,6 +57,22 @@ extension SCNNode{
         self.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)
         self.physicsBody?.contactTestBitMask = Int(CollisionMask.Player.rawValue)
         
+        
+    }
+    
+    func removeAfterTime(waitTime: Double){
+        
+        let removeAction = SCNAction.sequence([
+            SCNAction.wait(duration: waitTime),
+            SCNAction.sequence([
+                SCNAction.fadeOut(duration: 1.00),
+                SCNAction.removeFromParentNode()
+
+                ])
+            ])
+        
+        self.runAction(removeAction)
+            
         
     }
     

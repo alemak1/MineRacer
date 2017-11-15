@@ -46,7 +46,10 @@ class PlaneViewController: UIViewController{
     
     var lastContactNode: SCNNode!
     
-    var gameHelper = GameHelper.sharedInstance
+    var gameHelper: GameHelper{
+        return GameHelper.sharedInstance
+    }
+    
     var hud: HUD!
     
     var mainHUDnode: SCNNode{
@@ -329,6 +332,7 @@ class PlaneViewController: UIViewController{
         
         self.currentEncounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, forLevelTrack: gameHelper.levelTrack, andforLevel: gameHelper.level)
 
+
         self.currentEncounterSeries!.showFirstEncounterInformation()
         
     }
@@ -478,13 +482,13 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
-            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            let movePos = SCNVector3(-25.0, -10.0, -42.0)
             self.gameOptionsMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
             
             /** Have individual buttons rotate out of view, move men out of position **/
-            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            let movePos = SCNVector3(-25.0, -200.0, -42.0)
             self.gameOptionsMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         }
@@ -494,12 +498,12 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
-            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            let movePos = SCNVector3(-25.0, -10.0, -42.0)
             self.startMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
             /** Have individual buttons rotate out of view, move men out of position **/
-            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            let movePos = SCNVector3(-25.0, -200.0, -42.0)
             self.startMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
         }
     }
@@ -508,12 +512,12 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
-            let movePos = SCNVector3(-42.0, 0.0, -42.0)
+            let movePos = SCNVector3(-25.0, -10.0, -42.0)
             self.levelTrackMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
             /** Have individual buttons rotate out of view, move men out of position **/
-            let movePos = SCNVector3(-42.0, -200.0, -42.0)
+            let movePos = SCNVector3(-25.0, -200.0, -42.0)
             self.levelTrackMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         }
@@ -594,20 +598,6 @@ class PlaneViewController: UIViewController{
         worldNode = SCNNode()
         scnScene.rootNode.addChildNode(worldNode)
         
-       // let cube = SCNBox(width: 5.0, height: 5.0, length: 5.0, chamferRadius: 0.0)
-       // let cubeNode = SCNNode(geometry: cube)
-       // cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-       // cubeNode.physicsBody?.isAffectedByGravity = false
-        /**
-        cubeNode.physicsBody?.friction = 0.00
-        cubeNode.physicsBody?.rollingFriction = 0.00
-        cubeNode.physicsBody?.damping = 0.00
-        cubeNode.physicsBody?.allowsResting = false
-        **/
-        
-       // worldNode.addChildNode(cubeNode)
-       // cubeNode.position  = SCNVector3(0.0, 3.0, -20.0)
-        //cubeNode.physicsBody?.velocity =  SCNVector3(0.0, 0.0, 1.0)
     
        
     }
@@ -621,17 +611,7 @@ class PlaneViewController: UIViewController{
         landscapeCamera = scnScene.rootNode.childNode(withName: "landscapeCamera", recursively: true)!
     
      
-        
-        /**
-         let lookAtCarConstraint = SCNLookAtConstraint(target: self.carNode)
-         lookAtCarConstraint.isGimbalLockEnabled = true
-         
-         birdsEyeCamera.constraints = [lookAtCarConstraint]
-         sideViewCamera.constraints = [lookAtCarConstraint]
-         portraitCamera.constraints = [lookAtCarConstraint]
-         landscapeCamera.constraints = [lookAtCarConstraint]
-         firstPersonCamera.constraints = [lookAtCarConstraint]
-         **/
+
     }
 
     
@@ -660,7 +640,15 @@ class PlaneViewController: UIViewController{
                         break
                     case "Back to Main Menu":
                         let transition = SKTransition.crossFade(withDuration: 0.50)
-                        scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
+                        scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: {
+                            
+                            self.positionStartMenu(isShowing: true)
+                            self.gameHelper.state = .TapToPlay
+                            self.currentWord = nil
+                            self.currentEncounterSeries = nil
+                            self.gameHelper.level = 1
+                        })
+                        
                         break
                     case "Restart Level":
                         loadGame()
@@ -736,6 +724,10 @@ class PlaneViewController: UIViewController{
             
             if(gameHelper.state == .Playing){
                 
+                if(node.name == nil){
+                    return
+                }
+                
                 if node.name == "pauseButton"{
                     
                     if(self.scnScene.isPaused){
@@ -756,7 +748,15 @@ class PlaneViewController: UIViewController{
                         break
                     case "Back To Main Menu":
                         let transition = SKTransition.flipVertical(withDuration: 0.50)
-                        self.scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
+                        self.scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: {
+                            
+                            self.positionStartMenu(isShowing: true)
+                            self.gameHelper.state = .TapToPlay
+                            self.currentWord = nil
+                            self.currentEncounterSeries = nil
+                            self.gameHelper.level = 1
+
+                        })
                         break
                     default:
                         break
