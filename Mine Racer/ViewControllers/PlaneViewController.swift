@@ -13,8 +13,10 @@ import SpriteKit
 
 class PlaneViewController: UIViewController{
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-
+    @IBOutlet weak var indicatorViewCenterXConstraint: NSLayoutConstraint!
+    
     //MARK: SCNView
     
     var scnView: SCNView!
@@ -107,6 +109,9 @@ class PlaneViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        indicatorViewCenterXConstraint.constant = -2000
+        activityIndicator.stopAnimating()
+        
         setupView()
         
         setupPreambleScene()
@@ -125,6 +130,9 @@ class PlaneViewController: UIViewController{
     }
     
     func loadGame(){
+        
+        
+        activityIndicator.startAnimating()
         
         preloadTargetWordArray()
         
@@ -164,6 +172,13 @@ class PlaneViewController: UIViewController{
         
         startEncounterSeries()
         
+        activityIndicator.stopAnimating()
+        indicatorViewCenterXConstraint.constant = -2000
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.view.layoutIfNeeded()
+        })
     }
     
     func cleanUpEnemyManagers(){
@@ -222,6 +237,11 @@ class PlaneViewController: UIViewController{
         
         setCurrentWord(with: targetWord)
     }
+    
+    
+    //MARK: ******************** Gameplay Menu Options
+    
+    /** Helper functions for setting up menu buttons that can be used during gameplay **/
     
     func showGameLossMenu(withReason reasonText: String){
         
@@ -283,8 +303,13 @@ class PlaneViewController: UIViewController{
     
     func getMenuButton(withName name: String, andPosition menuPosition: MenuPosition) -> SCNNode{
         
-        let text = SCNText(string: name, extrusionDepth: 0.10)
-        text.font = UIFont.init(name: "Avenir", size: 1.0)
+        let text = SCNText(string: name, extrusionDepth: 0.50)
+        text.font = UIFont.init(name: "Didot", size: 1.0)
+        
+        let diffuseMaterial = SCNMaterial()
+        diffuseMaterial.diffuse.contents = SKColor.red
+        text.materials = [diffuseMaterial]
+        
         let button = SCNNode(geometry: text)
         button.name = name
         button.position = menuPosition.getPosition()
@@ -336,7 +361,7 @@ class PlaneViewController: UIViewController{
         self.menuNode.addChildNode(pauseButton)
         
         self.portraitCamera.addChildNode(self.menuNode)
-        self.menuNode.position = SCNVector3.init(0.8, -7.5, -12)
+        self.menuNode.position = SCNVector3.init(-0.5, -7.0, -12)
     }
     
     func loadEncounterSeries(){
@@ -673,6 +698,8 @@ class PlaneViewController: UIViewController{
                         break
                     case "Restart Level":
                         loadGame()
+                        let restartNotificationName = Notification.Name("didRequestRestartNotification")
+                        NotificationCenter.default.post(name: restartNotificationName, object: self, userInfo: nil)
                         break
                     default:
                         break

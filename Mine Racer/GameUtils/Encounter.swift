@@ -16,6 +16,8 @@ class EncounterSeries{
     var firstEncounter: Encounter
     var planeViewController: PlaneViewController
     
+    var didRequestRestart: Bool = false
+    
     var currentEncounter: Encounter?{
         didSet{
             
@@ -44,6 +46,10 @@ class EncounterSeries{
                 firstEncounter.numberOfLetters ?? 0)
         
         print("The wait time for this encounter is \(waitTime) seconds, and the number of turrets is \(turrets), the number of spacecraft is \(spaceCraft), the number of spikeballs is \(spikeBalls), the number of fireballs is \(fireballs), the number of letters is \(letters)")
+    }
+    
+    @objc func activateRestartRequest(){
+        self.didRequestRestart = true
     }
     
     /**
@@ -133,6 +139,10 @@ class EncounterSeries{
     init(planeViewController: PlaneViewController, firstEncounter: Encounter) {
         self.firstEncounter = firstEncounter
         self.planeViewController = planeViewController
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(activateRestartRequest), name: Notification.Name("didRequestRestartNotification"), object: planeViewController)
+        
+        
     }
     
     func start(){
@@ -143,7 +153,7 @@ class EncounterSeries{
     
     func executeEncounter(){
         
-        if(GameHelper.sharedInstance.state != .Playing){
+        if(GameHelper.sharedInstance.state != .Playing || didRequestRestart){
             return
         }
         
@@ -157,7 +167,7 @@ class EncounterSeries{
         
         DispatchQueue.global().asyncAfter(deadline: .now() + waitTime, execute: {
             
-            if(GameHelper.sharedInstance.state != .Playing){
+            if(GameHelper.sharedInstance.state != .Playing || self.didRequestRestart){
                 return
             }
             
@@ -184,7 +194,8 @@ class EncounterSeries{
     
     private func addGameObjects(){
         
-        if(GameHelper.sharedInstance.state != .Playing){
+        
+        if(GameHelper.sharedInstance.state != .Playing || self.planeViewController.scnScene.isPaused || self.planeViewController.worldNode.isPaused){
             return
         }
         

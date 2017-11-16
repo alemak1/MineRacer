@@ -27,15 +27,15 @@ enum MenuPosition{
         case .center:
             return SCNVector3.init(-2.0, 0.0, 5.0)
         case .upper1:
-            return SCNVector3.init(-2.0, 2.0, 5.0)
-        case .upper2:
             return SCNVector3.init(-2.0, 4.0, 5.0)
-        case .upper3:
+        case .upper2:
             return SCNVector3.init(-2.0, 6.0, 5.0)
+        case .upper3:
+            return SCNVector3.init(-2.0, 8.0, 5.0)
         case .lower1:
-            return SCNVector3.init(-2.0, -2.0, 5.0)
+            return SCNVector3.init(-2.0, 2.0, 5.0)
         case .lower2:
-            return SCNVector3.init(-2.0, -4.0, 5.0)
+            return SCNVector3.init(-2.0, 0.0, 5.0)
         case .lower3:
             return SCNVector3.init(-2.0, -6.0, 5.0)
    
