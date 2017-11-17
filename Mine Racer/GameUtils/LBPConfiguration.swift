@@ -116,7 +116,7 @@ struct LBPConfiguration{
     
     /** High Velocity NHNW Fireball Configuration **/
     
-    static let HighVelocityNHNWFireBall = LBPConfiguration(leftBoundaryDistance: -30, rightBoundaryDistance: 30, topBoundaryDistance: 40, floorBoundaryDistance: -40, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: LBPConfiguration.HighVelocityNHNWFirebalMinVelocity, maxVelocity: LBPConfiguration.HighVelocityNHNWFirebalMaxVelocity)
+    static let HighVelocityNHNWFireBall = LBPConfiguration(leftBoundaryDistance: -30, rightBoundaryDistance: 30, topBoundaryDistance: 40, floorBoundaryDistance: -40, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 40, maxVelocity: 60)
     
     static var HighVelocityNHNWFirebalMaxVelocity: Int{
         get{
