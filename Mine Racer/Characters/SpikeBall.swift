@@ -60,7 +60,7 @@ class SpikeBall{
     func removeSpikeBall(){
         
         let removeAction = SCNAction.sequence([
-            SCNAction.wait(duration: 5.00),
+            SCNAction.wait(duration: 7.00),
             SCNAction.removeFromParentNode()
             ])
         

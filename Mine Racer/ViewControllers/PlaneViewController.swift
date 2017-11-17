@@ -402,7 +402,7 @@ class PlaneViewController: UIViewController{
         self.menuNode.addChildNode(pauseButton)
         
         self.portraitCamera.addChildNode(self.menuNode)
-        self.menuNode.position = SCNVector3.init(-0.5, -7.0, -12)
+        self.menuNode.position = SCNVector3.init(-0.7, -7.0, -12)
     }
     
     func loadEncounterSeries(){

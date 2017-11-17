@@ -3,7 +3,8 @@
 //Make the bullets more accurate
 //make sure bullets are removed after a predefined time
 //add sounds effects and music
-//make appicon, launch screen, and also app screen shots for appstore preview
+//make app screen shots for appstore preview
+//need to make sure pause button is reposition for switch to landscape
 
 //practice animating object properties - like torus outer ring radius, using SCN.commit(), etc.
 //use  linked list to add a series of objects one after another - chian multiple functions together
