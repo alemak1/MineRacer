@@ -25,7 +25,7 @@ class SpaceCraft{
     var shootingInterval: TimeInterval = 0.50
     
     var velocityFrameCount = 0.00
-    var velocityUpdateInterval = 0.30
+    var velocityUpdateInterval = 0.10
     
     /** Other configurable parameters **/
     

@@ -17,6 +17,8 @@ class PlaneViewController: UIViewController{
     
     @IBOutlet weak var indicatorViewCenterXConstraint: NSLayoutConstraint!
     
+    var queueManager: QueueManager?
+    
     //MARK: SCNView
     
     var scnView: SCNView!
@@ -81,7 +83,7 @@ class PlaneViewController: UIViewController{
     
     var currentWord: String?
     var wordInProgress: String?
-    
+    var tempWord: String?
     var spawnPoints: [[SCNVector3]]?
     
     var lastUpdatedTime: TimeInterval = 0.00
@@ -138,6 +140,8 @@ class PlaneViewController: UIViewController{
         
         configureDifficultyAdjustedWord()
         
+        resetWordInProgress()
+        
         //TODO: combine in a single function and load/update managers dynamically based upon current level track
         
         
@@ -168,6 +172,7 @@ class PlaneViewController: UIViewController{
         
         gameHelper.state = .Playing
         
+        
         loadEncounterSeries()
         
         startEncounterSeries()
@@ -187,6 +192,14 @@ class PlaneViewController: UIViewController{
         self.spaceCraftManager = nil
         self.turretManager = nil
         self.letterRingManager = nil
+    }
+    
+    
+    func resetWordInProgress(){
+        self.wordInProgress = nil
+        self.wordInProgress = String()
+        self.tempWord = nil
+        self.tempWord = self.currentWord!
     }
     
     func preloadTargetWordArray(){
@@ -247,13 +260,13 @@ class PlaneViewController: UIViewController{
         
         self.gameOverMenu = SCNNode()
         
-        let reasonButton = getMenuButton(withName: reasonText, andPosition: .upper2)
+        let reasonButton = getMenuButton(withName: reasonText, andPosition: .upper3)
         self.gameOverMenu.addChildNode(reasonButton)
 
-        let restartButton = getMenuButton(withName: "Restart Level", andPosition: .upper1)
+        let restartButton = getMenuButton(withName: "Restart Level", andPosition: .upper2)
         self.gameOverMenu.addChildNode(restartButton)
 
-        let backToMainMenu = getMenuButton(withName: "Back To Main Menu", andPosition: .lower1)
+        let backToMainMenu = getMenuButton(withName: "Back To Main Menu", andPosition: .upper1)
         self.gameOverMenu.addChildNode(backToMainMenu)
 
         self.menuNode.addChildNode(self.gameOverMenu)
@@ -268,10 +281,10 @@ class PlaneViewController: UIViewController{
         
         self.gameWinMenu = SCNNode()
         
-        let backToMenuButton = getMenuButton(withName: "Back to Main Menu", andPosition: .upper1)
+        let backToMenuButton = getMenuButton(withName: "Back to Main Menu", andPosition: .upper3)
         self.gameWinMenu.addChildNode(backToMenuButton)
         
-        let nextLevelButton = getMenuButton(withName: "Next Level", andPosition: .lower1)
+        let nextLevelButton = getMenuButton(withName: "Next Level", andPosition: .upper2)
         self.gameWinMenu.addChildNode(nextLevelButton)
         
         
@@ -368,7 +381,12 @@ class PlaneViewController: UIViewController{
         
         print("Loading encounter series of Level Track: \(gameHelper.levelTrack.rawValue), for Difficulty Level of: \(gameHelper.difficulty.rawValue), Level: \(gameHelper.level)")
         
-        var encounterSeries: EncounterSeries!
+        
+        if let currentEncounterSeries = self.currentEncounterSeries{
+            
+            currentEncounterSeries.activateRestartRequest()
+            self.currentEncounterSeries = nil
+        }
         
         self.currentEncounterSeries = EncounterSeries.GenerateEncounterSeries(forPlaneViewController: self, forLevelTrack: gameHelper.levelTrack, andforLevel: gameHelper.level)
 
@@ -679,7 +697,14 @@ class PlaneViewController: UIViewController{
                 
                 switch node.name!{
                     case "Next Level":
+
                         gameHelper.level += 1
+                        self.cleanUpEnemyManagers()
+                        self.currentWord = nil
+                        if let currentEncounter = self.currentEncounterSeries{
+                            currentEncounter.activateRestartRequest()
+                            self.currentEncounterSeries = nil
+                        }
                         loadGame()
                         break
                     case "Back to Main Menu":
@@ -689,7 +714,10 @@ class PlaneViewController: UIViewController{
                             self.positionStartMenu(isShowing: true)
                             self.gameHelper.state = .TapToPlay
                             self.currentWord = nil
-                            self.currentEncounterSeries = nil
+                            if let currentEncounterSeries = self.currentEncounterSeries{
+                                currentEncounterSeries.activateRestartRequest()
+                                self.currentEncounterSeries = nil
+                            }
                             self.gameHelper.level = 1
                             self.cleanUpEnemyManagers()
 
@@ -697,9 +725,14 @@ class PlaneViewController: UIViewController{
                         
                         break
                     case "Restart Level":
+                        
+                        self.cleanUpEnemyManagers()
+                        if let currentEncounterSeries = self.currentEncounterSeries{
+                            currentEncounterSeries.activateRestartRequest()
+                            self.currentEncounterSeries = nil
+                        }
                         loadGame()
-                        let restartNotificationName = Notification.Name("didRequestRestartNotification")
-                        NotificationCenter.default.post(name: restartNotificationName, object: self, userInfo: nil)
+
                         break
                     default:
                         break
@@ -792,6 +825,11 @@ class PlaneViewController: UIViewController{
                 
                 switch node.name!{
                     case "Restart Level":
+                        self.cleanUpEnemyManagers()
+                        if let currentEncounterSeries = self.currentEncounterSeries{
+                            currentEncounterSeries.activateRestartRequest()
+                            self.currentEncounterSeries = nil
+                        }
                         loadGame()
                         break
                     case "Back To Main Menu":
@@ -801,7 +839,10 @@ class PlaneViewController: UIViewController{
                             self.positionStartMenu(isShowing: true)
                             self.gameHelper.state = .TapToPlay
                             self.currentWord = nil
-                            self.currentEncounterSeries = nil
+                            if let currentEncounterSeries = self.currentEncounterSeries{
+                                currentEncounterSeries.activateRestartRequest()
+                                self.currentEncounterSeries = nil
+                            }
                             self.gameHelper.level = 1
                             self.cleanUpEnemyManagers()
 
@@ -890,8 +931,6 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             lastUpdatedTime = 0
         }
         
-       
-        
         
         if(gameHelper.state == .Playing){
             
@@ -904,7 +943,21 @@ extension PlaneViewController: SCNSceneRendererDelegate{
                 showGameLossMenu(withReason: "Out of Lives!")
             }
             
-            print("Total nodes (pre-cleanup)are: \(worldNode.childNodes.count)")
+            if let wordInProgress = self.wordInProgress, let currentWord = self.currentWord{
+        
+                if(wordInProgress == currentWord){
+                    self.worldNode.runAction(
+                        SCNAction.sequence([
+                            SCNAction.wait(duration: 1.00),
+                        
+                            SCNAction.run({_ in
+                                self.gameHelper.state = .GameOver
+                                self.showGameWinMenu()
+
+                            })]))
+                }
+            }
+            
 
             letterRingManager.update(with: time)
             spaceCraftManager.update(with: time)
@@ -915,7 +968,6 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             
             updateCameraPositions()
             
-            print("Total nodes (post-cleanup) are: \(worldNode.childNodes.count)")
         }
         
         lastUpdatedTime = time
@@ -977,8 +1029,21 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
         
         switch UInt32(contactNode.physicsBody!.categoryBitMask){
             case CollisionMask.PortalCenter.rawValue:
-                let letterName = contactNode.name
-                print("Player contacted a letter: \(letterName)...")
+                if let letterName = contactNode.name,let contactLetter = letterName.last, let nextLetter = self.tempWord?.first{
+                    if contactLetter == nextLetter{
+                        
+                        self.tempWord?.removeFirst()
+                        self.wordInProgress!.append(contactLetter)
+                        print("The current word is \(self.wordInProgress!)")
+                        self.hud.updateHUD()
+
+
+
+                    }
+                    
+                }
+               
+            
                 break
         case CollisionMask.DetectionNode.rawValue:
             print("Player has been detected by the space craft")

@@ -85,8 +85,8 @@ class HUD{
             label1.text!.append("❤️")
         }
         
-        label2.text = self.planeViewController.wordInProgress != nil ? "Word in Progress: \(self.planeViewController!.wordInProgress)" : "No Letters Acquired."
-        label3.text = self.planeViewController.currentWord != nil ? "Current Word: \(self.planeViewController.currentWord!)" : "Determining new word..."
+        label2.text = self.planeViewController.wordInProgress != nil && self.planeViewController.currentWord!.isEmpty ? "Word in Progress: \(self.planeViewController!.wordInProgress)" : "No Letters Acquired."
+        label3.text = self.planeViewController.currentWord != nil && !self.planeViewController.currentWord!.isEmpty ? "Current Word: \(self.planeViewController.currentWord!)" : "Determining new word..."
     }
     
 }

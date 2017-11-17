@@ -54,7 +54,7 @@ class Plane{
         
         node.physicsBody?.categoryBitMask = Int(CollisionMask.Player.rawValue)
         node.physicsBody?.collisionBitMask = Int(CollisionMask.Obstacle.rawValue | CollisionMask.Barrier.rawValue)
-        node.physicsBody?.contactTestBitMask = Int(CollisionMask.PortalCenter.rawValue | CollisionMask.DetectionNode.rawValue)
+        node.physicsBody?.contactTestBitMask = Int(CollisionMask.PortalCenter.rawValue | CollisionMask.DetectionNode.rawValue | CollisionMask.Enemy.rawValue | CollisionMask.Bullet.rawValue)
     }
     
     //MARK:  *********** Configure Character Actions

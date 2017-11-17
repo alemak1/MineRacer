@@ -34,7 +34,6 @@ class SpikeBall{
         self.detectionNode = SCNNode()
         self.detectionNode.opacity = 0.00
         
-        removeSpikeBall()
     }
     
     init(referenceNode: SCNNode) {
@@ -45,7 +44,6 @@ class SpikeBall{
         
         self.mainNode.configureWithEnemyPhysicsProperties()
         
-        removeSpikeBall()
     }
     
     func addTo(planeViewController: PlaneViewController){
@@ -54,14 +52,15 @@ class SpikeBall{
         planeViewController.worldNode.addChildNode(detectionNode)
        
         fadeIn()
-        
+        removeSpikeBall()
+
     }
     
     
     func removeSpikeBall(){
         
         let removeAction = SCNAction.sequence([
-            SCNAction.wait(duration: 3.00),
+            SCNAction.wait(duration: 5.00),
             SCNAction.removeFromParentNode()
             ])
         

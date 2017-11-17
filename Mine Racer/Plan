@@ -1,4 +1,7 @@
 
+//HUD still needs to update
+//Make the bullets more accurate
+
 //practice animating object properties - like torus outer ring radius, using SCN.commit(), etc.
 //use  linked list to add a series of objects one after another - chian multiple functions together
 //possibly use physics joints to connect the contact geometr with the outer ring geometry
@@ -6,6 +9,7 @@
 //set up predefined spawn points in the the scene, enemies can spawn randomly at these spawn points
 //practice animating field of view changes and point of view changes with the camera
 
+//make a double-linked list by which operations can be obtained from each node elemenet, and dependencies can be added in reverse direction as well foward direction - traversing the linked list for operations and then once all the dependencies are configured, the operations can be added to an operation queue - the operation queues can then be started and cancelled
 
 Level 1: Get through the letter rings, spell a word
 Level 2: expanding and contracting rings

@@ -59,6 +59,11 @@ class Turret{
         planeViewController.worldNode.addChildNode(mainNode)
         planeViewController.worldNode.addChildNode(detectionNode)
         
+        //let constraint = SCNLookAtConstraint(target: planeViewController.player.node)
+        //self.mainNode.constraints = [constraint]
+        
+       // NotificationCenter.default.addObserver(self, selector: #selector(setTarget(notification:)), name: Notification.WasDetectedBySpaceCraftNotification, object: planeViewController)
+        self.targetNode = planeViewController.player.node
         let constraint = SCNLookAtConstraint(target: planeViewController.player.node)
         self.mainNode.constraints = [constraint]
         
@@ -71,6 +76,7 @@ class Turret{
         let sphere = SCNSphere(radius: 500.0)
         self.detectionNode = SCNNode(geometry: sphere)
         self.detectionNode.configureWithDetectionNodePhysicsProperties(withName: "Turret")
+    
     
     }
     
@@ -100,7 +106,7 @@ class Turret{
     
     @objc func setTarget(notification: Notification?){
         
-        // print("Setting the target of the spacecraft to the player....")
+         print("Setting the target of the turret to the player....")
         
         guard let nodeName = notification?.userInfo?["nodeName"] as? String else {
             print("Error: No node name associated with the contact node for this notification")
@@ -190,7 +196,10 @@ class Turret{
             lastUpdateTime = 0.00
         }
         
+     
+
         frameCount += time - lastUpdateTime
+        
         
         if(frameCount > shootingInterval){
             //print("Shooting interval elapsed...time to shoot...checking for target node....")
