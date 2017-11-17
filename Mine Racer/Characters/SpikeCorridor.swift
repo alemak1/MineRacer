@@ -20,9 +20,9 @@ class SpikeCorridor{
     var ringExpansionInterval: TimeInterval = 4.00
     
     
-    init(turretType: EnemyGenerator.TurretType, spawnPoint: SCNVector3, velocity: SCNVector3){
+    init(spikeTunnelType: EnemyGenerator.SpikeTunnelType, spawnPoint: SCNVector3, velocity: SCNVector3){
         
-        self.mainNode = EnemyGenerator.sharedInstance.getTurretNodeOf(type: turretType)
+        self.mainNode = EnemyGenerator.sharedInstance.getSpikeTunnel(of: spikeTunnelType)
         
         self.mainNode.position = spawnPoint
         

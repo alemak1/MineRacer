@@ -17,7 +17,6 @@ class PlaneViewController: UIViewController{
     
     @IBOutlet weak var indicatorViewCenterXConstraint: NSLayoutConstraint!
     
-    var queueManager: QueueManager?
     
     //MARK: SCNView
     
@@ -50,7 +49,7 @@ class PlaneViewController: UIViewController{
     
     var spaceShipsOption: SCNNode!
     var fireballsOption: SCNNode!
-    var turretsOption: SCNNode!
+    var alienHeadsOption: SCNNode!
     var spikeBallsOption: SCNNode!
     
     
@@ -85,7 +84,7 @@ class PlaneViewController: UIViewController{
     var spaceCraftManager: SpaceCraftManager!
     var spikeBallManager: SpikeBallManager!
     var fireballManager: FireballManager!
-    var turretManager: TurretManager!
+    var alienHeadManager: AlienHeadManager!
     
     var currentWord: String?
     var wordInProgress: String?
@@ -160,7 +159,7 @@ class PlaneViewController: UIViewController{
         //TODO: combine in a single function and load/update managers dynamically based upon current level track
         
         
-        loadTurretManager()
+        loadAlienHeadManager()
         
         loadFireballManager()
         
@@ -205,7 +204,7 @@ class PlaneViewController: UIViewController{
         self.fireballManager = nil
         self.spikeBallManager = nil
         self.spaceCraftManager = nil
-        self.turretManager = nil
+        self.alienHeadManager = nil
         self.letterRingManager = nil
     }
     
@@ -556,7 +555,7 @@ class PlaneViewController: UIViewController{
         /** Game Level Track Options  **/
 
         self.spaceShipsOption = self.levelTrackMenu.childNode(withName: "SpaceShips", recursively: true)!
-        self.turretsOption = self.levelTrackMenu.childNode(withName: "Turrets", recursively: true)!
+        self.alienHeadsOption = self.levelTrackMenu.childNode(withName: "AlienHeads", recursively: true)!
         self.fireballsOption = self.levelTrackMenu.childNode(withName: "FireBalls", recursively: true)!
         self.spikeBallsOption = self.levelTrackMenu.childNode(withName: "SpikeBalls", recursively: true)!
         
@@ -638,8 +637,8 @@ class PlaneViewController: UIViewController{
     }
     
     
-    func loadTurretManager(){
-        turretManager = TurretManager(with: self)
+    func loadAlienHeadManager(){
+        alienHeadManager = AlienHeadManager(with: self)
     }
     
     func loadFireballManager(){
@@ -887,8 +886,8 @@ class PlaneViewController: UIViewController{
                         positionLevelTracksMenu(isShowing: false)
                         positionStartMenu(isShowing: true)
                         break
-                    case "Turrets":
-                        gameHelper.levelTrack = .Turrets
+                    case "AlienHeads":
+                        gameHelper.levelTrack = .AlienHeads
                         positionLevelTracksMenu(isShowing: false)
                         positionStartMenu(isShowing: true)
                         break
@@ -1041,7 +1040,7 @@ extension PlaneViewController: SCNSceneRendererDelegate{
             letterRingManager.update(with: time)
             spaceCraftManager.update(with: time)
             fireballManager.update(with: time)
-            turretManager.update(with: time)
+            alienHeadManager.update(with: time)
             
             cleanExcessNodes()
             

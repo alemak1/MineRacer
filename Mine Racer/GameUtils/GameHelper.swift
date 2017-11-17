@@ -28,7 +28,7 @@ class GameHelper{
         case SpaceShips
         case SpikeBalls
         case FireBalls
-        case Turrets
+        case AlienHeads
         
     }
     

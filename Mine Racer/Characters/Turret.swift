@@ -10,9 +10,9 @@ import Foundation
 import SceneKit
 
 
-class Turret{
+class AlienHeadNode{
     
-    var turretType: EnemyGenerator.TurretType = .Turret1
+    var alienHead: EnemyGenerator.AlienHead = .PinkAlien
     
     var detectionNode: SCNNode!
     var mainNode: SCNNode!
@@ -29,11 +29,13 @@ class Turret{
     
     
     
-    init(turretType: EnemyGenerator.TurretType, spawnPoint: SCNVector3, velocity: SCNVector3){
+    init(alienHead: EnemyGenerator.AlienHead, spawnPoint: SCNVector3, velocity: SCNVector3){
         
-        self.mainNode = EnemyGenerator.sharedInstance.getTurretNodeOf(type: turretType)
+        self.mainNode = EnemyGenerator.sharedInstance.getAlienHead(of: alienHead)
         
-        self.turretType = turretType
+        self.alienHead = alienHead
+        
+        self.mainNode.configureWithEnemyPhysicsProperties()
         
         self.mainNode.position = spawnPoint
         
@@ -46,6 +48,8 @@ class Turret{
     
     init(referenceNode: SCNNode) {
         self.mainNode = referenceNode
+        
+        self.mainNode.configureWithEnemyPhysicsProperties()
         
         self.detectionNode = SCNNode()
         self.detectionNode.opacity = 0.00
@@ -135,59 +139,16 @@ class Turret{
     }
     
     
-    func fireBulletAtTargetNode(){
+    func attackTargetNode(){
         if targetNode != nil{
             let targetPos = self.targetNode!.presentation.position
             
-            /** Fire two bullets **/
-            
-            switch self.turretType{
-            case .Turret1:
-                fireBullet(atTarget: targetPos, withVelocityFactor: 0.05, wtihXOffset: -5.00, withYOffset: 0.00, withZOffset: 0.00)
-                fireBullet(atTarget: targetPos, withVelocityFactor: 0.05, wtihXOffset: 5.00, withYOffset: 0.00, withZOffset: 0.00)
-                break
-            case .Turret2:
-                fireBullet(atTarget: targetPos, withVelocityFactor: 0.05, wtihXOffset: -5.00, withYOffset: 0.00, withZOffset: 0.00)
-                fireBullet(atTarget: targetPos, withVelocityFactor: 0.05, wtihXOffset: 5.00, withYOffset: 0.00, withZOffset: 0.00)
-                break
-            }
-          
+   
 
         }
     }
     
-    
-    func fireBullet(atTarget targetPos: SCNVector3, withVelocityFactor velocityFactor: Float, wtihXOffset xOffset: Double = 0.0, withYOffset yOffset: Double = 0.0, withZOffset zOffset: Double = 0.0){
-        
-        
-        let bulletNode = generateBullet()
-        
-        /** Spawn the bullet at the middle of the spacecraft **/
-        
-        self.mainNode.addChildNode(bulletNode)
-        bulletNode.position = SCNVector3.init(0.0 + xOffset, 0.0 + yOffset, 0.0 + zOffset)
-        
-        let getAdjustmentFactor = { return (Int(arc4random_uniform(UInt32(40))) - 20) }
-        
-        let xAdj = Float(getAdjustmentFactor())
-        let yAdj = Float(getAdjustmentFactor())
-        let zAdj = Float(getAdjustmentFactor())
-        
-        var bulletVector = targetPos.getDifference(withVector: self.mainNode.position)
-        bulletVector = SCNVector3.init(bulletVector.x + xAdj, bulletVector.y + yAdj, bulletVector.z + zAdj)
-        let bulletVelocity = bulletVector.multiplyByScalar(scalar: velocityFactor)
-        
-        
-        bulletNode.physicsBody?.applyForce(bulletVelocity, asImpulse: true)
-        
-        let removeBulletAction = SCNAction.sequence([ SCNAction.wait(duration: 0.50), SCNAction.run({_ in
-            
-            bulletNode.removeFromParentNode()
-        })])
-        
-        bulletNode.runAction(removeBulletAction)
-        
-    }
+   
     
     
     func update(with time: TimeInterval){
@@ -204,7 +165,6 @@ class Turret{
         if(frameCount > shootingInterval){
             //print("Shooting interval elapsed...time to shoot...checking for target node....")
             
-            fireBulletAtTargetNode()
             
             frameCount = 0
         }
@@ -239,35 +199,7 @@ class Turret{
     
     
     
-    /** Helper function for generating bullet nodes **/
-    
-    func generateBullet() -> SCNNode{
-        
-        /** Configure geometry and physics properties for the bullet **/
-        
-        let capsule = SCNCapsule(capRadius: 0.1, height: 0.5)
-
-        capsule.materials.first?.diffuse.contents = "art.scnassets/textures/TexturesCom_AluminiumSheetMaterial_S.png"
-    
-        let bulletNode = SCNNode(geometry: capsule)
-        
-        /** Add constraints so that the bullet is oriented towards the player **/
-        
-        if(self.targetNode != nil){
-            
-            let targetPos = self.targetNode!.position
-            
-            bulletNode.runAction(SCNAction.rotateTo(x:CGFloat(targetPos.x), y: CGFloat(targetPos.y), z: CGFloat(targetPos.z), duration: 0.10))
-
-        }
-        
-    
-        /** Configure physics body for bullet **/
-        
-        bulletNode.configureWithBulletPhysicsProperties()
-        
-        return bulletNode
-    }
+   
 
 
     

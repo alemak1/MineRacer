@@ -331,9 +331,9 @@ class SpaceCraftManager{
 
 
 
-class TurretManager{
+class AlienHeadManager{
     
-    var turretManager = [Turret]()
+    var alienHeadManager = [AlienHeadNode]()
     
     var planeViewController: PlaneViewController!
     
@@ -346,62 +346,54 @@ class TurretManager{
 
     
     
-    func addRandomTurrets(number: Int){
+    func addRandomAlienHeads(number: Int){
         
         if(number <= 0){
             return
         }
         
         for _ in 1...number{
-            addRandomizedTurret()
+            addRandomizedAlienHead()
         }
     }
     
     
-    func addRandomizedTurret(){
-        let randomTurretType = EnemyGenerator.TurretType.GetRandomTurretType()
+    func addRandomizedAlienHead(){
+        let randomAlienHead = EnemyGenerator.AlienHead.GetRandomAlienHead()
         
         let randomVelocityType = VelocityType.getDefaultVelocityType()
         
-        var turret: Turret!
+        var alienHeadNode: AlienHeadNode!
         
         switch randomVelocityType {
         case .HighVelocityLHLW:
-            turret = generateHighVelocityLHLWRandomTurretFor(turretType: randomTurretType)
+            alienHeadNode = generateHighVelocityLHLWRandomAlienHeadFor(alienHead: randomAlienHead)
             break
         case .HighVelocityNHNW:
-            turret = generateHighVelocityNHNWRandomTurretFor(turretType: randomTurretType)
+            alienHeadNode = generateHighVelocityNHNWRandomAlienHeadFor(alienHead: randomAlienHead)
             break
         case .LowVelocityLHLW:
-            turret = generateLowVelocityLHLWRandomTurretFor(turretType: randomTurretType)
+            alienHeadNode = generateLowVelocityLHLWRandomAlienHeadFor(alienHead: randomAlienHead)
             break
         case .LowVelocityNHNW:
-            turret = generateLowVelocityNHNWRandomTurretFor(turretType: randomTurretType)
+            alienHeadNode = generateLowVelocityNHNWRandomAlienHeadFor(alienHead: randomAlienHead)
             break
         }
         
-        addTurret(turret: turret)
+        addAlienHeadNode(alienHeadNode: alienHeadNode)
         
         
     }
     
     
     /** Helper functions for adding spacecraft individually and in bulk, without configuring the velocity or spawn point **/
+  
     
-    func addTurretGroup(turrets: [Turret]){
+    func addAlienHeadNode(alienHeadNode: AlienHeadNode){
         
-        turrets.forEach({
-            turret in
-            
-            self.addTurret(turret: turret)
-        })
-    }
-    
-    func addTurret(turret: Turret){
+        alienHeadNode.addTo(planeViewController: planeViewController)
         
-        turret.addTo(planeViewController: planeViewController)
-        
-        self.turretManager.append(turret)
+        self.alienHeadManager.append(alienHeadNode)
         
     }
     
@@ -411,35 +403,35 @@ class TurretManager{
     /** Generates a moving spacecraft whose spawn point and velocity are randomized based on a hard-coded default configuration object **/
     
     
-    func generateLowVelocityNHNWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+    func generateLowVelocityNHNWRandomAlienHeadFor(alienHead: EnemyGenerator.AlienHead) -> AlienHeadNode{
         
-        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
-        
-    }
-    
-    func generateLowVelocityLHLWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
-        
-        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
+        return generateRandomizedMovingAlienHeadFor(alienHead: alienHead, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
         
     }
     
-    
-    func generateHighVelocityNHNWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+    func generateLowVelocityLHLWRandomAlienHeadFor(alienHead: EnemyGenerator.AlienHead) -> AlienHeadNode{
         
-        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        return generateRandomizedMovingAlienHeadFor(alienHead: alienHead, withLBPConfiguration: LBPConfiguration.LowVelocityLargeHeightAndLargeWidthConfiguration)
         
     }
     
-    func generateHighVelocityLHLWRandomTurretFor(turretType: EnemyGenerator.TurretType) -> Turret{
+    
+    func generateHighVelocityNHNWRandomAlienHeadFor(alienHead: EnemyGenerator.AlienHead) -> AlienHeadNode{
         
-        return generateRandomizedMovingTurretFor(turretType: turretType, withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
+        return generateRandomizedMovingAlienHeadFor(alienHead: alienHead, withLBPConfiguration: LBPConfiguration.HighVelocityNarrowHeightAndWidthConfiguration)
+        
+    }
+    
+    func generateHighVelocityLHLWRandomAlienHeadFor(alienHead: EnemyGenerator.AlienHead) -> AlienHeadNode{
+        
+        return generateRandomizedMovingAlienHeadFor(alienHead: alienHead, withLBPConfiguration: LBPConfiguration.HighVelocityLargeHeightAndWidthConfiguration)
         
     }
     
     /** Generates a moving spacecraft whose spawn point is randomized based on a configuration object whose parameters are user-defined **/
     
     
-    func generateRandomizedMovingTurretFor(turretType: EnemyGenerator.TurretType, withLBPConfiguration configuration: LBPConfiguration) -> Turret{
+    func generateRandomizedMovingAlienHeadFor(alienHead: EnemyGenerator.AlienHead, withLBPConfiguration configuration: LBPConfiguration) -> AlienHeadNode{
         
         
         let (xTarget, yTarget, zTarget) = (Int(planeViewController.player.node.presentation.position.x),Int(planeViewController.player.node.presentation.position.y),Int(planeViewController.player.node.presentation.position.z))
@@ -452,7 +444,7 @@ class TurretManager{
         let velocity = configuration.getRandomVelocityVector()
         
         
-        let movingTurret = EnemyGenerator.sharedInstance.getMovingTurretOf(type: turretType, spawnPoint: spawnPoint, velocity: velocity)
+        let movingTurret = EnemyGenerator.sharedInstance.getMovingAlienHeadOf(type: alienHead, spawnPoint: spawnPoint, velocity: velocity)
         
         return movingTurret
         
@@ -461,13 +453,13 @@ class TurretManager{
     
     func update(with time: TimeInterval){
         
-        turretManager.forEach({
+        alienHeadManager.forEach({
             
-            turret in
+            alienHead in
             
-            turret.update(with: time)
+            alienHead.update(with: time)
             
-            turret.synchronizeDetectionNodePosition()
+            alienHead.synchronizeDetectionNodePosition()
             
             removeExcessNodes()
         })
@@ -475,12 +467,12 @@ class TurretManager{
     
     func removeExcessNodes(){
         
-        turretManager.forEach({
+        alienHeadManager.forEach({
             
-            turret in
+            alienHead in
             
-            if(turret.mainNode.presentation.position.z > 0){
-                turret.remove()
+            if(alienHead.mainNode.presentation.position.z > 0){
+                alienHead.remove()
             }
         })
     }

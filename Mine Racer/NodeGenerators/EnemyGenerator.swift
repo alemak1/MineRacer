@@ -45,16 +45,16 @@ class EnemyGenerator{
         }
     }
     
-    enum TurretType: Int{
-        case Turret1, Turret2
+    enum AlienHead: String{
+        case PinkAlien,YellowAlien,BlueAlien,BeigeAlien,GreenAlien
         
-        static let allTurretTypes: [TurretType] = [.Turret1,.Turret2]
+        static let allAlienHeads: [AlienHead] = [.PinkAlien,.YellowAlien,.BlueAlien,.BeigeAlien,.GreenAlien]
         
-        static func GetRandomTurretType() -> TurretType{
+        static func GetRandomAlienHead() -> AlienHead{
             
-            let randomIdx = Int(arc4random_uniform(UInt32(TurretType.allTurretTypes.count)))
+            let randomIdx = Int(arc4random_uniform(UInt32(AlienHead.allAlienHeads.count)))
             
-            return TurretType.allTurretTypes[randomIdx]
+            return AlienHead.allAlienHeads[randomIdx]
             
         }
     }
@@ -90,10 +90,13 @@ class EnemyGenerator{
     var spikeTunnel9: SCNNode!
 
     
-    /** Turrets **/
+    /** Alien Heads **/
     
-    var turret1: SCNNode!
-    var turret2: SCNNode!
+    var yellowAlien: SCNNode!
+    var pinkAlien: SCNNode!
+    var greenAlien: SCNNode!
+    var blueAlien: SCNNode!
+    var beigeAlien: SCNNode!
     
     /** Other Enemies **/
     var fireball: SCNParticleSystem!
@@ -141,14 +144,7 @@ class EnemyGenerator{
         return spaceCraftNode
     }
     
-    func getTurretNodeOf(type: TurretType) -> SCNNode{
-        
-        let originalNode = getTurretNode(of: type)
-        
-        let turretNode = originalNode.copy() as! SCNNode
-        
-        return turretNode
-    }
+  
     
     /** Convenience Functions for Generating Copies of the reference node with predefined velocity and position **/
     
@@ -160,6 +156,11 @@ class EnemyGenerator{
         let originalNode = getSpikeTunnelNodeOf(type: type)
         
         let spikeTunnelNode = originalNode.copy() as! SCNNode
+        
+        for child in originalNode.childNodes{
+            let childCopy = child.copy() as! SCNNode
+            spikeTunnelNode.addChildNode(childCopy)
+        }
         
         let spikeTunnel = SpikeCorridor(referenceNode: spikeTunnelNode)
         
@@ -196,20 +197,26 @@ class EnemyGenerator{
         
     }
     
-    func getMovingTurretOf(type: TurretType, spawnPoint: SCNVector3, velocity: SCNVector3) -> Turret{
+    func getMovingAlienHeadOf(type: AlienHead, spawnPoint: SCNVector3, velocity: SCNVector3) -> AlienHeadNode{
         
         
         
-        let originalNode = getTurretNodeOf(type: type)
+        let originalNode = getAlienHead(of: type)
         
-        let turretNode = originalNode.copy() as! SCNNode
+        let alienNode = originalNode.copy() as! SCNNode
         
-        let turret = Turret(referenceNode: turretNode)
+        for spike in originalNode.childNodes{
+            print("Copying the child nodes for the spikeball")
+            let spikeCopy = spike.copy() as! SCNNode
+            alienNode.addChildNode(spikeCopy)
+        }
+
+        let alienHead = AlienHeadNode(referenceNode: alienNode)
         
-        turret.setPosition(position: spawnPoint)
-        turret.setVelocity(velocity: velocity)
+        alienHead.setPosition(position: spawnPoint)
+        alienHead.setVelocity(velocity: velocity)
         
-        return turret
+        return alienHead
         
     }
     
@@ -270,13 +277,18 @@ class EnemyGenerator{
         }
     }
     
-    func getTurretNode(of turretType: TurretType) -> SCNNode{
-        switch turretType {
-        case .Turret1:
-            return self.turret1
-        case .Turret2:
-            return self.turret2
-            
+    func getAlienHead(of type: AlienHead) -> SCNNode{
+        switch type {
+        case .YellowAlien:
+            return self.yellowAlien
+        case .BeigeAlien:
+            return self.beigeAlien
+        case .PinkAlien:
+            return self.pinkAlien
+        case .BlueAlien:
+            return self.blueAlien
+        case .GreenAlien:
+            return self.greenAlien
         }
     }
     
@@ -361,7 +373,7 @@ class EnemyGenerator{
         
         
         
-        
+        /**
         spikeTunnel1 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle1", recursively: true)!
         
         spikeTunnel2 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle2", recursively: true)!
@@ -380,13 +392,28 @@ class EnemyGenerator{
         
         spikeTunnel9 = SCNScene(named: "art.scnassets/obstacles/Structures.scn")?.rootNode.childNode(withName: "Obstacle9", recursively: true)!
 
-
+         **/
 
         /** Load turrets **/
         
+        /**
         turret1 = SCNScene(named: "art.scnassets/turrets/turret_exclusive.scn")?.rootNode.childNode(withName: "turret", recursively: true)!
         
         turret2 = SCNScene(named: "art.scnassets/turrets/turretDouble_exclusive.scn")?.rootNode.childNode(withName: "turret", recursively: true)!
+         **/
+        
+        /** Load Alien Heads **/
+
+        pinkAlien = SCNScene(named: "art.scnassets/heads/AlienHeads.scn")?.rootNode.childNode(withName: "PinkAlien", recursively: true)!
+
+        blueAlien = SCNScene(named: "art.scnassets/heads/AlienHeads.scn")?.rootNode.childNode(withName: "BlueAlien", recursively: true)!
+
+        beigeAlien = SCNScene(named: "art.scnassets/heads/AlienHeads.scn")?.rootNode.childNode(withName: "BeigeAlien", recursively: true)!
+
+        yellowAlien = SCNScene(named: "art.scnassets/heads/AlienHeads.scn")?.rootNode.childNode(withName: "YellowAlien", recursively: true)!
+
+        
+        greenAlien = SCNScene(named: "art.scnassets/heads/AlienHeads.scn")?.rootNode.childNode(withName: "GreenAlien", recursively: true)!
 
 
         /** Load other enemies **/
