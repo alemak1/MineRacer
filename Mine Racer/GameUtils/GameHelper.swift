@@ -39,8 +39,33 @@ class GameHelper{
         
     }
 
+    enum PlaneType: String{
+        case yellow, red, blue
+        
+        func getPlaneReferenceNodeName() -> String{
+            switch self {
+            case .yellow:
+                return "biplane_yellow"
+            case .blue:
+                return "biplane_blue"
+            case .red:
+                return "biplane_red"
+                
+            }
+        }
+        
+        func getFullScenePath() -> String{
+            let sceneName = getSceneName()
+            
+            return "art.scnassets/scenes/\(sceneName)"
+        }
+        
+        func getSceneName() -> String{
+            return "\(self.rawValue)_scene.scn"
+        }
+    }
 
-    
+    var planeType: PlaneType = .blue
     var state: GameState = .TapToPlay
     var difficulty: Difficulty = .Medium
     var levelTrack: LevelTrack = .SpaceShips

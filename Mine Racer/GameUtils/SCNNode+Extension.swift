@@ -33,6 +33,9 @@ extension SCNNode{
         self.physicsBody?.isAffectedByGravity = false
         self.physicsBody?.damping = 0.0
         self.physicsBody?.friction = 0.0
+        self.physicsBody?.angularDamping = 0.0
+        self.physicsBody?.rollingFriction = 0.0
+        self.physicsBody?.mass = 2.00
         
         self.physicsBody?.categoryBitMask = Int(CollisionMask.Bullet.rawValue)
         self.physicsBody?.collisionBitMask = Int(CollisionMask.None.rawValue)

@@ -113,7 +113,22 @@ struct LBPConfiguration{
     
     static let HighVelocityLargeHeightAndWidthConfiguration = LBPConfiguration(leftBoundaryDistance: -50, rightBoundaryDistance: 50, topBoundaryDistance: 50, floorBoundaryDistance: -50, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 22, maxVelocity: 36)
     
-    static let HighVelocityNHNWFireBall = LBPConfiguration(leftBoundaryDistance: -30, rightBoundaryDistance: 30, topBoundaryDistance: 40, floorBoundaryDistance: -40, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: 40, maxVelocity: 60)
+    
+    /** High Velocity NHNW Fireball Configuration **/
+    
+    static let HighVelocityNHNWFireBall = LBPConfiguration(leftBoundaryDistance: -30, rightBoundaryDistance: 30, topBoundaryDistance: 40, floorBoundaryDistance: -40, nearZBoundaryDistance: -300, farZBoundaryDistance: -400, minVelocity: LBPConfiguration.HighVelocityNHNWFirebalMinVelocity, maxVelocity: LBPConfiguration.HighVelocityNHNWFirebalMaxVelocity)
+    
+    static var HighVelocityNHNWFirebalMaxVelocity: Int{
+        get{
+            return (GameHelper.sharedInstance.planeType == .yellow || GameHelper.sharedInstance.planeType == .red) ? 40 : 60
+        }
+    }
+    
+    static var HighVelocityNHNWFirebalMinVelocity: Int{
+        get{
+            return (GameHelper.sharedInstance.planeType == .yellow || GameHelper.sharedInstance.planeType == .red) ? 20 : 40
+        }
+    }
     
     static func GetDefaultBoundaryDistance(flightBoundaryPoint: FlightBoundaryPoint) -> Int{
         

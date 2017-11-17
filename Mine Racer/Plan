@@ -1,6 +1,7 @@
 
 //HUD still needs to update
 //Make the bullets more accurate
+//make sure bullets are removed after a predefined time
 
 //practice animating object properties - like torus outer ring radius, using SCN.commit(), etc.
 //use  linked list to add a series of objects one after another - chian multiple functions together

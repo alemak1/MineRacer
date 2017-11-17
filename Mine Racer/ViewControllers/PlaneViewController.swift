@@ -33,10 +33,16 @@ class PlaneViewController: UIViewController{
     var startMenu: SCNNode!
     var gameOptionsMenu: SCNNode!
     var levelTrackMenu: SCNNode!
+    var planeColorMenu: SCNNode!
     
     var startGameOption: SCNNode!
     var gameDifficultyOption: SCNNode!
     var levelTracksOption: SCNNode!
+    var planeColorOption: SCNNode!
+    
+    var redOption: SCNNode!
+    var yellowOption: SCNNode!
+    var blueOption: SCNNode!
     
     var hardOption: SCNNode!
     var mediumOption: SCNNode!
@@ -492,7 +498,8 @@ class PlaneViewController: UIViewController{
     func loadScene(){
         let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.50)
     
-        scnScene = SCNScene(named: "art.scnassets/scenes/Level3.scn")
+        
+        scnScene = SCNScene(named: "art.scnassets/scenes/blue_scene.scn")
         
         scnScene.physicsWorld.contactDelegate = self
         
@@ -510,13 +517,21 @@ class PlaneViewController: UIViewController{
         self.startMenu = preambleScene.rootNode.childNode(withName: "StartMenu", recursively: true)!
         self.gameOptionsMenu = preambleScene.rootNode.childNode(withName: "GameOptions", recursively: true)!
         self.levelTrackMenu = preambleScene.rootNode.childNode(withName: "LevelTracks", recursively: true)!
+        self.planeColorMenu = preambleScene.rootNode.childNode(withName: "PlaneColors", recursively: true)!
         
         /** Start Menu Options **/
         
         self.startGameOption = self.startMenu.childNode(withName: "StartGame", recursively: true)!
         self.gameDifficultyOption = self.startMenu.childNode(withName: "GameOptions", recursively: true)!
         self.levelTracksOption = self.startMenu.childNode(withName: "LevelTracks", recursively: true)!
+        self.planeColorOption = self.startMenu.childNode(withName: "PlaneColors", recursively: true)!
         
+        
+        /** Plane Color Options **/
+        
+        self.redOption = self.planeColorMenu.childNode(withName: "Red", recursively: true)!
+        self.blueOption = self.planeColorMenu.childNode(withName: "Blue", recursively: true)!
+        self.yellowOption = self.planeColorMenu.childNode(withName: "Yellow", recursively: true)!
         
         /** Game Difficulty Options **/
         
@@ -547,6 +562,22 @@ class PlaneViewController: UIViewController{
     
     //MARK: ************** Position Functions for Positioning the Preamble Menus
     
+    func positionPlaneColorOptionsMenu(isShowing: Bool){
+        
+        if(isShowing){
+            /** Move menu into position, have each button individually rotate into view **/
+            let movePos = SCNVector3(-25.0, -10.0, -42.0)
+            self.planeColorMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
+            
+        } else{
+            
+            /** Have individual buttons rotate out of view, move men out of position **/
+            let movePos = SCNVector3(-25.0, -200.0, -42.0)
+            self.planeColorMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
+            
+        }
+    }
+    
     func positionGameOptionsMenu(isShowing: Bool){
         
         if(isShowing){
@@ -567,7 +598,7 @@ class PlaneViewController: UIViewController{
         
         if(isShowing){
             /** Move menu into position, have each button individually rotate into view **/
-            let movePos = SCNVector3(-25.0, -10.0, -42.0)
+            let movePos = SCNVector3(-25.0, 0.0, -42.0)
             self.startMenu.runAction(SCNAction.move(to: movePos, duration: 0.50))
 
         } else{
@@ -661,9 +692,13 @@ class PlaneViewController: UIViewController{
         
         // carNode = scene.rootNode.childNode(withName: "carFormula", recursively: true)!
         
-        let planeReferenceNode = scnScene.rootNode.childNode(withName: "biplane_blue", recursively: true)!
+        let planeName = gameHelper.planeType.getPlaneReferenceNodeName()
+        
+        let planeReferenceNode = scnScene.rootNode.childNode(withName: planeName, recursively: true)!
         
         player = Plane(withReferenceNode: planeReferenceNode)
+        
+        player.node.position = SCNVector3.init(0.0, 0.0, 0.0)
         
         followPortraitCameraNode = scnScene.rootNode.childNode(withName: "followPortraitCamera", recursively: true)!
         followLandscapeCameraNode = scnScene.rootNode.childNode(withName: "followLandscapeCamera", recursively: true)!
@@ -788,6 +823,25 @@ class PlaneViewController: UIViewController{
                     case "LevelTracks":
                         positionLevelTracksMenu(isShowing: true)
                         positionStartMenu(isShowing: false)
+                        break
+                    case "PlaneColors":
+                        positionPlaneColorOptionsMenu(isShowing: true)
+                        positionStartMenu(isShowing: false)
+                        break
+                    case "Red":
+                        gameHelper.planeType = .red
+                        positionPlaneColorOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
+                        break
+                    case "Blue":
+                        gameHelper.planeType = .blue
+                        positionPlaneColorOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
+                        break
+                    case "Yellow":
+                        gameHelper.planeType = .yellow
+                        positionPlaneColorOptionsMenu(isShowing: false)
+                        positionStartMenu(isShowing: true)
                         break
                     case "Hard":
                         gameHelper.difficulty = .Hard

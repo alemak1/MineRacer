@@ -218,7 +218,7 @@ class SpaceCraft{
         self.mainNode.addChildNode(bulletNode)
         bulletNode.position = SCNVector3.init(0.0, 0.0, 0.0)
         
-        let getAdjustmentFactor = { return (Int(arc4random_uniform(UInt32(40))) - 20) }
+        let getAdjustmentFactor = { return (Int(arc4random_uniform(UInt32(4))) - 2) }
        
         let xAdj = Float(getAdjustmentFactor())
         let yAdj = Float(getAdjustmentFactor())
