@@ -83,6 +83,7 @@ class PlaneViewController: UIViewController{
     
     var currentWord: String?
     var wordInProgress: String?
+    var restartWord: String?
     var tempWord: String?
     var spawnPoints: [[SCNVector3]]?
     
@@ -230,25 +231,33 @@ class PlaneViewController: UIViewController{
     
     func configureDifficultyAdjustedWord(){
         
+        if let restartWord = self.restartWord{
+            
+            setCurrentWord(with: restartWord)
+            
+        } else {
+        
         var targetWord: String!
         
-        if let easyWords = self.easyWords{
+            if let easyWords = self.easyWords{
             
-            targetWord = easyWords.getRandomElement() as! String
+                targetWord = easyWords.getRandomElement() as! String
 
             
-        } else if let hardWords = self.hardWords{
+            } else if let hardWords = self.hardWords{
             
-            targetWord = hardWords.getRandomElement() as! String
+                targetWord = hardWords.getRandomElement() as! String
       
             
-        } else if let mediumWords = self.mediumWords{
+            } else if let mediumWords = self.mediumWords{
             
-            targetWord = mediumWords.getRandomElement() as! String
+                targetWord = mediumWords.getRandomElement() as! String
 
-        }
+            }
         
-        setCurrentWord(with: targetWord)
+        
+            setCurrentWord(with: targetWord)
+        }
     }
     
     
@@ -384,7 +393,7 @@ class PlaneViewController: UIViewController{
         
         if let currentEncounterSeries = self.currentEncounterSeries{
             
-            currentEncounterSeries.activateRestartRequest()
+            currentEncounterSeries.terminateEncounterSeries()
             self.currentEncounterSeries = nil
         }
         
@@ -486,6 +495,8 @@ class PlaneViewController: UIViewController{
         scnScene = SCNScene(named: "art.scnassets/scenes/Level3.scn")
         
         scnScene.physicsWorld.contactDelegate = self
+        
+        scnScene.background.contents = BackgroundManager.GetRandomSkyBoxPath()
         
         scnView.present(self.scnScene, with: transition, incomingPointOfView: nil, completionHandler: nil)
         
@@ -676,6 +687,53 @@ class PlaneViewController: UIViewController{
 
     }
 
+    func returnToMainMenu(){
+        let transition = SKTransition.flipVertical(withDuration: 0.50)
+        self.scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: {
+            
+            self.positionStartMenu(isShowing: true)
+            self.gameHelper.state = .TapToPlay
+            self.currentWord = nil
+            self.restartWord = nil
+            if let currentEncounterSeries = self.currentEncounterSeries{
+                currentEncounterSeries.terminateEncounterSeries()
+                self.currentEncounterSeries = nil
+            }
+            self.gameHelper.level = 1
+            self.cleanUpEnemyManagers()
+            
+        })
+    }
+    
+    func restartCurrentLevel(){
+        self.cleanUpEnemyManagers()
+        if let currentEncounterSeries = self.currentEncounterSeries{
+            currentEncounterSeries.terminateEncounterSeries()
+            self.currentEncounterSeries = nil
+        }
+        
+        self.restartWord = self.currentWord!
+        
+        loadGame()
+    }
+    
+    func loadNextLevel(){
+        
+        gameHelper.level += 1
+        self.cleanUpEnemyManagers()
+        
+      
+        
+        if let currentEncounter = self.currentEncounterSeries{
+            currentEncounter.terminateEncounterSeries()
+            self.currentEncounterSeries = nil
+        }
+        
+        self.currentWord = nil
+        self.restartWord = nil
+        
+        loadGame()
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -697,42 +755,13 @@ class PlaneViewController: UIViewController{
                 
                 switch node.name!{
                     case "Next Level":
-
-                        gameHelper.level += 1
-                        self.cleanUpEnemyManagers()
-                        self.currentWord = nil
-                        if let currentEncounter = self.currentEncounterSeries{
-                            currentEncounter.activateRestartRequest()
-                            self.currentEncounterSeries = nil
-                        }
-                        loadGame()
+                        loadNextLevel()
                         break
                     case "Back to Main Menu":
-                        let transition = SKTransition.crossFade(withDuration: 0.50)
-                        scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: {
-                            
-                            self.positionStartMenu(isShowing: true)
-                            self.gameHelper.state = .TapToPlay
-                            self.currentWord = nil
-                            if let currentEncounterSeries = self.currentEncounterSeries{
-                                currentEncounterSeries.activateRestartRequest()
-                                self.currentEncounterSeries = nil
-                            }
-                            self.gameHelper.level = 1
-                            self.cleanUpEnemyManagers()
-
-                        })
-                        
+                        returnToMainMenu()
                         break
                     case "Restart Level":
-                        
-                        self.cleanUpEnemyManagers()
-                        if let currentEncounterSeries = self.currentEncounterSeries{
-                            currentEncounterSeries.activateRestartRequest()
-                            self.currentEncounterSeries = nil
-                        }
-                        loadGame()
-
+                       restartCurrentLevel()
                         break
                     default:
                         break
@@ -825,28 +854,10 @@ class PlaneViewController: UIViewController{
                 
                 switch node.name!{
                     case "Restart Level":
-                        self.cleanUpEnemyManagers()
-                        if let currentEncounterSeries = self.currentEncounterSeries{
-                            currentEncounterSeries.activateRestartRequest()
-                            self.currentEncounterSeries = nil
-                        }
-                        loadGame()
+                        restartCurrentLevel()
                         break
                     case "Back To Main Menu":
-                        let transition = SKTransition.flipVertical(withDuration: 0.50)
-                        self.scnView.present(self.preambleScene, with: transition, incomingPointOfView: nil, completionHandler: {
-                            
-                            self.positionStartMenu(isShowing: true)
-                            self.gameHelper.state = .TapToPlay
-                            self.currentWord = nil
-                            if let currentEncounterSeries = self.currentEncounterSeries{
-                                currentEncounterSeries.activateRestartRequest()
-                                self.currentEncounterSeries = nil
-                            }
-                            self.gameHelper.level = 1
-                            self.cleanUpEnemyManagers()
-
-                        })
+                        returnToMainMenu()
                         break
                     default:
                         break

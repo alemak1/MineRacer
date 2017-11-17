@@ -16,7 +16,7 @@ class EncounterSeries{
     var firstEncounter: Encounter
     var planeViewController: PlaneViewController
     
-    var didRequestRestart: Bool = false
+    var hasTerminatedEncounterSeries: Bool = false
     
     var currentEncounter: Encounter?{
         didSet{
@@ -48,9 +48,9 @@ class EncounterSeries{
         print("The wait time for this encounter is \(waitTime) seconds, and the number of turrets is \(turrets), the number of spacecraft is \(spaceCraft), the number of spikeballs is \(spikeBalls), the number of fireballs is \(fireballs), the number of letters is \(letters)")
     }
     
-    @objc func activateRestartRequest(){
+    @objc func terminateEncounterSeries(){
         print("Notification received by EncounterSeries....requesting restart")
-        self.didRequestRestart = true
+        self.hasTerminatedEncounterSeries = true
     }
     
     /**
@@ -141,8 +141,7 @@ class EncounterSeries{
         self.firstEncounter = firstEncounter
         self.planeViewController = planeViewController
         
-        NotificationCenter.default.addObserver(self, selector: #selector(activateRestartRequest), name: Notification.Name("didRequestRestartNotification"), object: planeViewController)
-        
+   
         
     }
     
@@ -158,7 +157,7 @@ class EncounterSeries{
     
     func executeEncounter(){
     
-        if(GameHelper.sharedInstance.state != .Playing || didRequestRestart){
+        if(GameHelper.sharedInstance.state != .Playing || hasTerminatedEncounterSeries){
             return
         }
         
@@ -172,7 +171,7 @@ class EncounterSeries{
         
         DispatchQueue.global().asyncAfter(deadline: .now() + waitTime, execute: {
             
-            if(GameHelper.sharedInstance.state != .Playing || self.didRequestRestart){
+            if(GameHelper.sharedInstance.state != .Playing || self.hasTerminatedEncounterSeries){
                 return
             }
             

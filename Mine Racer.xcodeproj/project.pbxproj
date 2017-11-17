@@ -30,6 +30,7 @@
 		BD39E2DA1FB3199700FD031C /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD39E2D91FB3199700FD031C /* NotificationNames.swift */; };
 		BD39E2DC1FB320D700FD031C /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD39E2DB1FB320D700FD031C /* GameObject.swift */; };
 		BD3BD6301FB308FB00346B37 /* SCNVector3+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */; };
+		BD3E28A61FBEA5A30015420B /* BackgroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E28A51FBEA5A30015420B /* BackgroundManager.swift */; };
 		BD3EB87E1FBD9DB500373A9D /* OperationsStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3EB87D1FBD9DB500373A9D /* OperationsStack.swift */; };
 		BD3EB8801FBD9DCA00373A9D /* QueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3EB87F1FBD9DCA00373A9D /* QueueManager.swift */; };
 		BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4217241FAC2F8300DB3E0F /* AppDelegate.swift */; };
@@ -83,6 +84,7 @@
 		BD39E2D91FB3199700FD031C /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		BD39E2DB1FB320D700FD031C /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		BD3BD62F1FB308FB00346B37 /* SCNVector3+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extension.swift"; sourceTree = "<group>"; };
+		BD3E28A51FBEA5A30015420B /* BackgroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundManager.swift; sourceTree = "<group>"; };
 		BD3EB87D1FBD9DB500373A9D /* OperationsStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsStack.swift; sourceTree = "<group>"; };
 		BD3EB87F1FBD9DCA00373A9D /* QueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueManager.swift; sourceTree = "<group>"; };
 		BD4217211FAC2F8300DB3E0F /* Mine Racer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mine Racer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +221,7 @@
 				BD3EB87D1FBD9DB500373A9D /* OperationsStack.swift */,
 				BD3EB87F1FBD9DCA00373A9D /* QueueManager.swift */,
 				BD3903271FBDB0D100DBA6AC /* EncounterTimer.swift */,
+				BD3E28A51FBEA5A30015420B /* BackgroundManager.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				BD0201E31FB2DA6B008E945D /* Turret.swift in Sources */,
 				BD45D5E91FAEBEAE0045BCA3 /* RingGenerator.swift in Sources */,
 				BD4217251FAC2F8300DB3E0F /* AppDelegate.swift in Sources */,
+				BD3E28A61FBEA5A30015420B /* BackgroundManager.swift in Sources */,
 				BD45D5EB1FAEBFA50045BCA3 /* LetterEnum.swift in Sources */,
 				BD0201E51FB2E38A008E945D /* SpikeBall.swift in Sources */,
 				BD3BD6301FB308FB00346B37 /* SCNVector3+Extension.swift in Sources */,

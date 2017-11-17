@@ -46,7 +46,7 @@ class HUD{
         label2.text = "Getting current word..."
         scene.addChild(label2)
         label2.horizontalAlignmentMode = .center
-        label2.fontSize = 15.0
+        label2.fontSize = 14.0
         label2.fontColor = SKColor.red
         label2.position = CGPoint(x: 0.0, y: 0.0)
         
@@ -54,7 +54,7 @@ class HUD{
         label3.text = "Getting word in progres..."
         scene.addChild(label3)
         label3.horizontalAlignmentMode = .center
-        label3.fontSize = 15.0
+        label3.fontSize = 14.0
         label3.fontColor = SKColor.red
         label3.position = CGPoint(x: 0.0, y: -20.0)
         
@@ -85,7 +85,7 @@ class HUD{
             label1.text!.append("❤️")
         }
         
-        label2.text = self.planeViewController.wordInProgress != nil && self.planeViewController.currentWord!.isEmpty ? "Word in Progress: \(self.planeViewController!.wordInProgress)" : "No Letters Acquired."
+        label2.text = (self.planeViewController.wordInProgress == nil || self.planeViewController.currentWord!.isEmpty) ? "No Letters Acquired.":"Word in Progress: \(self.planeViewController!.wordInProgress!)"
         label3.text = self.planeViewController.currentWord != nil && !self.planeViewController.currentWord!.isEmpty ? "Current Word: \(self.planeViewController.currentWord!)" : "Determining new word..."
     }
     
