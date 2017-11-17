@@ -118,19 +118,27 @@ class PlaneViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
     
+    
         indicatorViewCenterXConstraint.constant = -2000
         activityIndicator.stopAnimating()
+ 
         
         setupView()
         
+        
+    
         setupPreambleScene()
         
         setupPreambleNodes()
         
         loadPreambleScene()
+         
     }
     
     
+    func loadAppIconScene(){
+        scnView.scene = SCNScene(named: "art.scnassets/scenes/AppIconScene.scn")
+    }
     
     func loadPreambleScene(){
         
@@ -383,7 +391,13 @@ class PlaneViewController: UIViewController{
         pauseText.isWrapped = true
         pauseText.alignmentMode = kCAAlignmentLeft
         pauseText.truncationMode = kCATruncationNone
+        
+        let redCoating = SCNMaterial()
+        redCoating.diffuse.contents = SKColor.red
+        pauseText.materials = [redCoating]
+        
         let pauseButton = SCNNode(geometry: pauseText)
+        
         pauseButton.name = "pauseButton"
         
         self.menuNode.addChildNode(pauseButton)
