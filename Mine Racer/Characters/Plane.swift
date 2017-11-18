@@ -19,6 +19,7 @@ class Plane{
     var health: Int = 6
     
     func takeDamage(by damageAmount: Int){
+        AudioManager.sharedInstance.addSound(ofType: .planeHit, toNode: self.node, removeAfter: 1.00)
         health -= damageAmount
     }
    

@@ -121,6 +121,7 @@ class PlaneViewController: UIViewController{
         indicatorViewCenterXConstraint.constant = -2000
         activityIndicator.stopAnimating()
  
+        registerNotifications()
         
         setupView()
         
@@ -131,7 +132,29 @@ class PlaneViewController: UIViewController{
         setupPreambleNodes()
         
         loadPreambleScene()
-         
+     
+    }
+    
+    
+    func registerNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseGame(notification:)), name: Notification.Name.GetPauseNotification(), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(unpauseGame(notification:)), name: Notification.Name.GetUnPauseNotification(), object: nil)
+
+    }
+    
+    @objc func pauseGame(notification: Notification?){
+        if(gameHelper.state == .Playing){
+            self.scnScene.isPaused = true
+            self.worldNode.isPaused = true
+        }
+    }
+    
+    @objc func unpauseGame(notification: Notification?){
+        if(gameHelper.state == .Playing){
+            self.scnScene.isPaused = false
+            self.worldNode.isPaused = false
+        }
     }
     
     
@@ -190,6 +213,8 @@ class PlaneViewController: UIViewController{
         loadEncounterSeries()
         
         startEncounterSeries()
+        
+        AudioManager.sharedInstance.addSound(ofType: .gameStart, toNode: self.player.node, removeAfter: 1.00)
         
         activityIndicator.stopAnimating()
         indicatorViewCenterXConstraint.constant = -2000
@@ -296,6 +321,9 @@ class PlaneViewController: UIViewController{
         
         worldNode.isPaused = true
         self.scnScene.isPaused = true
+        
+        AudioManager.sharedInstance.addSound(ofType: .gameLoss, toNode: gameOverMenu, removeAfter: 1.50)
+
 
     }
     
@@ -315,6 +343,8 @@ class PlaneViewController: UIViewController{
         
         worldNode.isPaused = true
         self.scnScene.isPaused = true
+        
+        AudioManager.sharedInstance.addSound(ofType: .gameWin, toNode: gameWinMenu, removeAfter: 1.50)
     }
    
     
@@ -1110,6 +1140,8 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
                 if let letterName = contactNode.name,let contactLetter = letterName.last, let nextLetter = self.tempWord?.first{
                     if contactLetter == nextLetter{
                         
+                        AudioManager.sharedInstance.addSound(ofType: .acquireLetter, toNode: self.player.node, removeAfter: 1.00)
+                        
                         self.tempWord?.removeFirst()
                         self.wordInProgress!.append(contactLetter)
                         print("The current word is \(self.wordInProgress!)")
@@ -1135,6 +1167,7 @@ extension PlaneViewController: SCNPhysicsContactDelegate{
             break
         case CollisionMask.Bullet.rawValue:
             print("Player has been hit by a bullet")
+
             player.takeDamage(by: 1)
             hud.updateHUD()
 
